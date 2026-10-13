@@ -19,6 +19,7 @@ def assets(release):
         page+=1
 
 def main():
+    if (ROOT/'resources/transfer-manifest.json').exists():return packed_mirror()
     entries=json.loads((ROOT/'resources/source-manifest.json').read_text())
     folder=ROOT/'mirror-cache';folder.mkdir(exist_ok=True)
     mirrors=[]
@@ -60,6 +61,49 @@ def main():
     (ROOT/'resources/mirror-manifest.json').write_text(json.dumps(mirrors,indent=2)+'\n')
     gh('api',f'repos/{REPO}/contents/resources/mirror-manifest.json','--method','PUT','--input',str(write_request(mirrors)))
     print('All 1226 archives publicly published with their original SHA-256.',flush=True)
+
+def packed_mirror():
+    import zipfile,urllib.parse
+    packs=json.loads((ROOT/'resources/transfer-manifest.json').read_text())
+    entries={e['file']:e for e in json.loads((ROOT/'resources/source-manifest.json').read_text())}
+    folder=ROOT/'mirror-cache';folder.mkdir(exist_ok=True)
+    tag='resources-v1-a';release=next(r for r in api('repos/'+REPO+'/releases?per_page=100') if r['tag_name']==tag)
+    existing=assets(release['id'])
+    def publish(pack):
+        previous=existing.get(pack['name'])
+        if previous:
+            if previous['size']!=pack['bytes'] or previous.get('digest')!='sha256:'+pack['sha256']:raise RuntimeError('Published pack checksum mismatch')
+            return
+        target=folder/pack['name'];url=pack['transferUrl']
+        if not url.startswith('https://files.catbox.moe/') or not url.endswith('.zip'):raise RuntimeError('Invalid transfer source')
+        digest=hashlib.sha256();size=0
+        with urllib.request.urlopen(url,timeout=180) as response,target.open('wb') as out:
+            while block:=response.read(1024*1024):
+                size+=len(block)
+                if size>pack['bytes']:raise RuntimeError('Transfer pack size mismatch')
+                digest.update(block);out.write(block)
+        if size!=pack['bytes'] or digest.hexdigest()!=pack['sha256']:raise RuntimeError('Transfer pack checksum mismatch')
+        with zipfile.ZipFile(target) as archive:
+            for record in pack['entries']:
+                original=entries[record['file']]
+                if record['sha256']!=original['sha256'] or record['bytes']!=original['bytes']:raise RuntimeError('Original resource identity mismatch')
+                info=archive.getinfo(record['file'])
+                if info.compress_type!=0 or info.file_size!=record['bytes'] or info.header_offset+30+len(info.filename.encode('utf8'))+len(info.extra)!=record['offset']:raise RuntimeError('Archive offsets mismatch')
+                with archive.open(info) as stream:
+                    if hashlib.file_digest(stream,'sha256').hexdigest()!=original['sha256']:raise RuntimeError('Original resource checksum mismatch')
+        gh('release','upload',tag,str(target),'--repo',REPO);target.unlink()
+        print('Verified and published '+pack['name'],flush=True)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:list(pool.map(publish,packs))
+    verified=assets(release['id']);mirrors=[]
+    for pack in packs:
+        remote=verified[pack['name']]
+        if remote['size']!=pack['bytes'] or remote.get('digest')!='sha256:'+pack['sha256']:raise RuntimeError('GitHub pack SHA-256 mismatch')
+        url='https://github.com/'+REPO+'/releases/download/'+tag+'/'+urllib.parse.quote(pack['name'])
+        for record in pack['entries']:mirrors.append({'file':record['file'],'bytes':record['bytes'],'sha256':record['sha256'],'mirrorUrl':url,'mirrorOffset':record['offset'],'mirrorBytes':pack['bytes'],'mirrorSha256':pack['sha256']})
+    if len(mirrors)!=len(entries) or len({e['file'] for e in mirrors})!=len(entries):raise RuntimeError('Incomplete resource mirror')
+    if release['draft']:gh('release','edit',tag,'--repo',REPO,'--draft=false','--latest=false')
+    gh('api',f'repos/{REPO}/contents/resources/mirror-manifest.json','--method','PUT','--input',str(write_request(mirrors)))
+    print('All original resources published and verified.',flush=True)
 
 def write_request(records):
     import base64
