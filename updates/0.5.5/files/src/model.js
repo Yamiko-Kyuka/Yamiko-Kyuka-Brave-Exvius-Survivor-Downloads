@@ -1,3 +1,4 @@
+import {weaponUpgradeOptions,upgradeBranches} from './weapon-upgrades.js';
 export const starters=['cloud','wol','lightning'];
 // Explicit roster: each unit keeps its own downloaded animation manifest.
 const roster=[
@@ -8,8 +9,8 @@ const roster=[
 export const heroes=roster.map(([id,name,series,weapon,kind,color,hp,speed,damage],i)=>({id,name,series,title:series==='BE'?'Brave Exvius':`Final Fantasy ${series}`,weapon,weaponId:`weapon-${id}`,kind,color,hp,speed,damage,range:kind==='slash'?145:kind==='burst'?120:360,price:starters.includes(id)?0:250+i*35,requirement:Math.max(10,(i-2)*15),unavailable:['caius','gaius'].includes(id)}));
 // Weapon tuning keeps long blades, heavy swings and fast daggers distinct.
 for(const h of heroes){if(h.id==='sephiroth')h.range=245;if(h.id==='asset-129583')h.range=450;if(h.id==='asset-87021')h.range=300;if(h.id==='asset-105336')h.range=175;}
-const weaponDescriptions={slash:'Arc de lame face aux ennemis',holy:'Onde de lumière sacrée',shot:'Tir précis vers une cible',arrow:'Projectile rapide dirigé',fire:'Boule de feu explosive',ice:'Éclat de glace qui ralentit',burst:'Onde de choc circulaire',wave:'Vague d’eau traversant la horde',thunder:'Éclairs en chaîne',orb:'Sphère qui poursuit sa cible',beam:'Rayon traversant les ennemis',meteor:'Météore avec explosion différée',boomerang:'Lame qui revient vers vous',orbit:'Lames tournant autour du héros'};
-export const weapons=Object.fromEntries(heroes.map(h=>[h.weaponId,{id:h.weaponId,name:h.weapon,kind:h.kind,description:weaponDescriptions[h.kind],color:h.color,damage:h.damage,range:h.range,cooldown:['meteor','beam'].includes(h.kind)?2.3:['orb','orbit'].includes(h.kind)?1.9:1.15,icon:`/assets/ui/weapons/${h.weaponId}.svg`}]));
+const weaponDescriptions={slash:'Arc de lame face aux ennemis',holy:'Onde de lumière sacrée',shot:'Tir précis vers une cible',arrow:'Projectile rapide dirigé',fire:'Boule de feu explosive',ice:'Éclat de glace qui ralentit',burst:'Onde de choc circulaire',wave:'Vague d’eau dirigée',thunder:'Éclairs en chaîne',orb:'Sphère qui poursuit sa cible',beam:'Rayon dirigé vers les ennemis',meteor:'Météore avec explosion différée',boomerang:'Lame qui revient vers vous',orbit:'Lames tournant autour du héros'};
+export const weapons=Object.fromEntries(heroes.map(h=>[h.weaponId,{id:h.weaponId,name:h.weapon,kind:h.kind,description:weaponDescriptions[h.kind],color:h.color,damage:h.damage,range:h.range,cooldown:['meteor','beam'].includes(h.kind)?2.3:['orb','orbit'].includes(h.kind)?1.9:1.15,upgrades:weaponUpgradeOptions(h.kind),icon:`/assets/ui/weapons/${h.weaponId}.svg`}]));
 export const stages=[
  {id:'midgar',name:'Midgar',subtitle:'Final Fantasy VII · sous les réacteurs',description:'Coursives métalliques, conduites mako et patrouilles de la Shinra.',duration:300,colors:['#13282d','#1c3840'],accent:'#65e8bc',background:'/assets/maps/previews/midgar.png',enemies:['1010010', '1050310', '1060020'],bosses:['4060810', '4060910'],superboss:'jenova',rate:1},
  {id:'zanarkand',musicFile:'zanarkand.mp3',name:'Zanarkand',subtitle:'Final Fantasy X · ruines des priants',description:'Mosaïques oubliées, canaux luminescents et monstres des ruines sacrées.',duration:300,colors:['#17313f','#2c4f60'],accent:'#88dce8',background:'/assets/maps/previews/zanarkand.png',enemies:['1050320', '1030130', '3010110', '1100170'],bosses:['3010110'],superboss:'jecht',rate:1.1},
@@ -38,10 +39,17 @@ export const powerups=Object.fromEntries([
 ].map(([id,name,detail,effect,color])=>[id,{id,name,detail,effect,color,icon:'/assets/ui/powerups/'+id+'.svg',maxLevel:5}]));
 export function equipmentEffects(s){const levels=Object.fromEntries((s.powerups||[]).map(p=>[p.id,p.level]));return {damage:1+.15*(levels.force||0),melee:1+.08*(levels.multishot||0),cooldown:Math.max(.6,1-.08*(levels.haste||0))*((s.hasteTimer||0)>0?.65:1),range:1+.12*(levels.reach||0),extraProjectiles:levels.multishot||0,pierce:levels.pierce||0,slow:Math.min(.7,.18*(levels.frost||0)),splash:.12*(levels.blast||0),leech:levels.leech||0};}
 export function levelChoices(s,random=Math.random){
- const owned=new Set(s.weapons.map(w=>w.id));
- const eligible=Object.values(weapons).filter(w=>owned.has(w.id)?s.weapons.find(x=>x.id===w.id).level<8:s.weapons.length<6);
- const shuffled=eligible.map(w=>({w,r:random()})).sort((a,b)=>a.r-b.r);
- const weaponChoices=shuffled.slice(0,2).map(({w})=>({type:'weapon',id:w.id,name:w.name,icon:w.icon,detail:owned.has(w.id)?`Arme niveau ${s.weapons.find(x=>x.id===w.id).level+1} · +25 % de puissance`:`Nouvelle arme · ${w.description}`}));
+ const improvements=[],newWeapons=[];
+ for(const w of Object.values(weapons)){
+  const equipped=s.weapons.find(x=>x.id===w.id);
+  if(equipped){for(const branch of upgradeBranches(w,equipped))improvements.push({type:'weapon',id:w.id,upgrade:branch.id,name:w.name+' · '+branch.name,icon:w.icon,detail:`Arme niveau ${equipped.level+1} · ${branch.detail}`});}
+  else if(s.weapons.length<6)newWeapons.push({type:'weapon',id:w.id,name:w.name,icon:w.icon,detail:'Nouvelle arme · '+w.description});
+ }
+ const shuffle=list=>list.map(choice=>({choice,r:random()})).sort((a,b)=>a.r-b.r).map(x=>x.choice);
+ const weaponChoices=[];
+ if(improvements.length)weaponChoices.push(shuffle(improvements)[0]);
+ const remaining=shuffle([...improvements,...newWeapons]).filter(c=>!weaponChoices.some(p=>p.id===c.id&&p.upgrade===c.upgrade));
+ weaponChoices.push(...remaining.slice(0,2-weaponChoices.length));
  const equipped=s.powerups||[],passives=Object.values(powerups).filter(p=>{const own=equipped.find(x=>x.id===p.id);return own?own.level<p.maxLevel:equipped.length<6;}).map(p=>({p,r:random()})).sort((a,b)=>a.r-b.r);
  const passiveChoices=passives.slice(0,weaponChoices.length?1:2).map(({p})=>{const level=(equipped.find(x=>x.id===p.id)?.level||0)+1;return {...p,type:'powerup',detail:`${level===1?'Nouveau power-up':'Power-up niveau '+level} · ${p.detail}`};});
  const choices=[...weaponChoices,...passiveChoices];
@@ -58,5 +66,12 @@ export function chooseUpgrade(s,choice){
   return;
  }
  if(choice.type!=='weapon')return;
- const existing=s.weapons.find(w=>w.id===choice.id);if(existing){if(existing.level<8)existing.level++;}else if(s.weapons.length<6&&weapons[choice.id])s.weapons.push({id:choice.id,level:1,timer:0});
+ const definition=weapons[choice.id];if(!definition)return;
+ const existing=s.weapons.find(w=>w.id===choice.id);
+ if(existing){
+  const branch=definition.upgrades.find(b=>b.id===(choice.upgrade||'damage'));
+  if(!branch||!upgradeBranches(definition,existing).some(b=>b.id===branch.id))return;
+  existing.upgrades??={damage:Math.max(0,existing.level-1)};
+  existing.upgrades[branch.id]=(existing.upgrades[branch.id]||0)+1;existing.level++;
+ }else if(s.weapons.length<6&&!choice.upgrade)s.weapons.push({id:choice.id,level:1,upgrades:{},timer:0});
 }

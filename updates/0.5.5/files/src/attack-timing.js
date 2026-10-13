@@ -1,7 +1,8 @@
 import {weapons,equipmentEffects} from './model.js';
+import {weaponTuning} from './weapon-upgrades.js';
 import {clipDuration} from './animation.js';
 /** One shared cadence for weapon cooldowns and the entire native attack sequence. */
-export function weaponInterval(s,equipped){return Math.max(.12,weapons[equipped.id].cooldown*(s.cooldown??1)*equipmentEffects(s).cooldown*(1-Math.min(7,(equipped.level||1)-1)*.03));}
+export function weaponInterval(s,equipped){return Math.max(.12,weapons[equipped.id].cooldown*(s.cooldown??1)*equipmentEffects(s).cooldown*weaponTuning(weapons[equipped.id],equipped).cooldown);}
 export function attackDuration(sequence){return sequence.reduce((time,clip)=>time+clipDuration(clip),0);}
 export function attackPlaybackRate(s,action=s.action){return action.nativeDuration/(weaponInterval(s,s.weapons[0])*.9);}
 export function advanceAttackAnimation(s,dt,ready,strike){

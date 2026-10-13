@@ -18,3 +18,5 @@ Les fichiers fournis `dark-world.mp3` et `crystal-tower.mp3` remplacent égaleme
 `victory.mp3` joue une seule fois après une victoire. Il ne boucle pas ; les menus reprennent leur thème au retour. Une défaite ne joue pas cette fanfare.
 
 `menu-click.mp3` et `level-up.mp3` sont les bruitages fournis pour les boutons du menu principal et chaque montée de niveau, y compris les niveaux offerts par les boss. Ils jouent sans boucle, sur un canal indépendant de la musique, et respectent l’option Effets sonores.
+
+Depuis 0.5.4, les bruitages sont préchargés et décodés avant l’utilisation du menu, puis joués à partir de leur première partie audible. Les silences initiaux sont sautés en mémoire : les MP3 et leurs empreintes restent intacts. Le lecteur de musique associe les zones à leurs pistes explicitement et les options affichent le titre courant.

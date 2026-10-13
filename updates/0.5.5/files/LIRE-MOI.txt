@@ -28,7 +28,7 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.5.3 — PROGRESSION NORMALE
+VERSION 0.5.5 — PROGRESSION NORMALE
 Accueil > menu > personnage > niveau et difficulté > expédition.
 Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
 Les succès débloquent l’achat des autres héros dans la boutique.
@@ -46,7 +46,11 @@ Bestiaire propre à chaque zone ; élites plus grandes avec attaques spéciales 
 Musiques de combat par zone, avec volume réglable.
 Zanarkand, Tour de Cristal et Monde des Ténèbres utilisent les MP3 fournis et les bouclent.
 Les MP3 fournis des menus et des trois zones sont inclus et tournent en boucle.
-La fanfare de victoire joue une fois ; les sons de boutons et de niveau sont sans boucle.
+La fanfare de victoire joue une fois ; les sons de boutons et de niveau sont préchargés,
+sans silence initial ni boucle. Les options indiquent le morceau de la zone.
+Les monstres touchés ont une aura rouge. Les projectiles et rayons ne traversent
+les ennemis qu’avec Transpercer. Chaque arme a ses choix de dégâts, amplitude,
+cadence et salves ou zones multiples, jusqu’au niveau 8.
 Ces compositions ne reproduisent pas les thèmes officiels de Final Fantasy.
 Chaque carte possède des arènes, des corridors et des obstacles solides.
 Consommables rares : Potion, Méga-bombe, Sablier de Shiva, Plume de célérité.
@@ -66,7 +70,16 @@ Trois difficultés, succès et bestiaire persistants.
 Les animations du personnage sont sélectionnées automatiquement.
 Caius et Gaius sont signalés indisponibles : leurs animations sont absentes du catalogue.
 
-MISE À JOUR D’UNE INSTALLATION EXISTANTE
+MISES À JOUR DEPUIS LE LANCEUR
+Le lanceur vérifie les versions publiées sur le site GitHub Pages. Cliquez sur
+METTRE À JOUR lorsqu’une nouvelle version est disponible. Seuls les fichiers
+modifiés sont téléchargés ; les coupures se reprennent. Le lanceur redémarre
+après installation. La sauvegarde, les sprites et le runtime sont conservés.
+Si l’installation échoue, les fichiers précédents sont restaurés. Si nécessaire,
+Brave-Exvius-Survivor-Updater.exe peut également restaurer une mise à jour
+interrompue puis relancer le jeu. Une partie en cours bloque la mise à jour.
+
+ANCIEN LANCEUR OU INSTALLATION MANUELLE
 Décompressez ce ZIP dans le dossier de votre précédente installation et remplacez
 les fichiers de l’application. Conservez assets/originals, assets/animation-tiles,
 runtime/win-x64 et userdata. Les ressources déjà téléchargées seront réutilisées.
