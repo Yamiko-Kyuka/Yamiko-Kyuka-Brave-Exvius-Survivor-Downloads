@@ -75,12 +75,25 @@ def packed_mirror():
             if previous['size']!=pack['bytes'] or previous.get('digest')!='sha256:'+pack['sha256']:raise RuntimeError('Published pack checksum mismatch')
             return
         target=folder/pack['name'];url=pack['transferUrl']
-        if not url.startswith('https://files.catbox.moe/') or not url.endswith('.zip'):raise RuntimeError('Invalid transfer source')
-        download=subprocess.run(['curl','--fail','--location','--show-error','--silent','--retry','4','--retry-all-errors','--connect-timeout','30','--max-time','600','--user-agent','BraveExviusSurvivor-Mirror/0.5.8','--output',str(target),url],text=True,capture_output=True)
-        if download.returncode:raise RuntimeError('Transfer download '+pack['name']+': '+download.stderr.strip())
+        def download_to(address,file):
+            download=subprocess.run(['curl','--fail','--location','--show-error','--silent','--retry','4','--retry-all-errors','--connect-timeout','30','--max-time','600','--user-agent','BraveExviusSurvivor-Mirror/0.5.8','--output',str(file),address],text=True,capture_output=True)
+            if download.returncode:raise RuntimeError('Transfer download '+pack['name']+': '+download.stderr.strip())
+        if pack.get('transferParts'):
+            with target.open('wb') as assembled:
+                for part in pack['transferParts']:
+                    if not part['url'].startswith('https://raw.githubusercontent.com/'+REPO+'/resource-transfer-0.5.8/'):raise RuntimeError('Invalid Git transfer source')
+                    temporary=target.with_suffix('.chunk');download_to(part['url'],temporary)
+                    with temporary.open('rb') as stream:
+                        if temporary.stat().st_size!=part['bytes'] or hashlib.file_digest(stream,'sha256').hexdigest()!=part['sha256']:raise RuntimeError('Git transfer chunk checksum mismatch')
+                        stream.seek(0)
+                        while block:=stream.read(1024*1024):assembled.write(block)
+                    temporary.unlink()
+        else:
+            if not url.startswith('https://files.catbox.moe/') or not url.endswith('.zip'):raise RuntimeError('Invalid transfer source')
+            download_to(url,target)
         size=target.stat().st_size
         with target.open('rb') as stream:digest=hashlib.file_digest(stream,'sha256')
-        if size!=pack['bytes'] or digest.hexdigest()!=pack['sha256']:raise RuntimeError('Transfer pack checksum mismatch')
+        if size!=pack['bytes'] or digest.hexdigest()!=pack['sha256']:raise RuntimeError('Transfer pack checksum mismatch: '+pack['name']+'; received '+str(size)+'/'+str(pack['bytes'])+' bytes; SHA-256 '+digest.hexdigest()+' expected '+pack['sha256'])
         with zipfile.ZipFile(target) as archive:
             for record in pack['entries']:
                 original=entries[record['file']]
