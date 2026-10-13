@@ -1,0 +1,1760 @@
+[
+  {
+    "name": "ffbe-pack-001.zip",
+    "bytes": 187978029,
+    "sha256": "c70164b1e4e2531a1f435d3e94a2d15af495166282d55add5dad9ae6fad70e8f",
+    "entries": [
+      {
+        "file": "assets/originals/93728-Cloud.zip",
+        "bytes": 17752936,
+        "sha256": "ab4eb7b9817fd47fab7746a1ab2093438239c14a8543bb61cbecfeb14aadd4fd",
+        "offset": 62
+      },
+      {
+        "file": "assets/originals/77518-Warrior-of-Light.zip",
+        "bytes": 2931085,
+        "sha256": "31595673d789e9ea4ee219492bb3d0c8f791163882f502b34920a82334f165c0",
+        "offset": 17753071
+      },
+      {
+        "file": "assets/originals/77509-Lightning.zip",
+        "bytes": 2443864,
+        "sha256": "4e3afc774078ee17b3e2d7581a0d3dd1136463b22298195388bdc22b5ba336a7",
+        "offset": 20684222
+      },
+      {
+        "file": "assets/originals/70470-Terra.zip",
+        "bytes": 4167190,
+        "sha256": "b8e9d504fbcceb8bc65652848f4bcb4efe83946a1c3b36c74b3efe1831b69e56",
+        "offset": 23128148
+      },
+      {
+        "file": "assets/originals/95474-Sephiroth.zip",
+        "bytes": 3166325,
+        "sha256": "a64ff4126ac492b7c4c2a3e42569c1eefcc4288a61eb297bba2a7ace6e67705f",
+        "offset": 27295404
+      },
+      {
+        "file": "assets/originals/93717-Yuna.zip",
+        "bytes": 2902847,
+        "sha256": "a6d25f6c8c20a4942791663460c51885f1ebcc9b7c3fcab4e7165a82032b7bfd",
+        "offset": 30461790
+      },
+      {
+        "file": "assets/originals/92349-Aileen.zip",
+        "bytes": 3282580,
+        "sha256": "8d6d98db8fccea17e32d4172d83891da0e77088dc5994c50ad788e6a61e8ced2",
+        "offset": 33364700
+      },
+      {
+        "file": "assets/originals/93255-Amelia.zip",
+        "bytes": 1379713,
+        "sha256": "f41422f52908b828e0bffae828863cab6476208776116efa54a2e2c96a1473cb",
+        "offset": 36647343
+      },
+      {
+        "file": "assets/originals/97449-Ayaka.zip",
+        "bytes": 2786539,
+        "sha256": "1403fde366761632ae387088cdd6bb5ff7559b1ee92be1a7c786be2bfebfae74",
+        "offset": 38027118
+      },
+      {
+        "file": "assets/originals/93907-Bran.zip",
+        "bytes": 2873716,
+        "sha256": "52d9545fe550f1cdcb4e0f96326d1a9ed2695465ea3491a59a03929a9618ce13",
+        "offset": 40813718
+      },
+      {
+        "file": "assets/originals/93257-Camille.zip",
+        "bytes": 2577780,
+        "sha256": "3564cc991731ddd325652a6bc8f492c548d9bda02018d55127d306f60925e544",
+        "offset": 43687498
+      },
+      {
+        "file": "assets/originals/88011-Charlotte.zip",
+        "bytes": 3784947,
+        "sha256": "49f5d699779f328bd3e04da0817924ad0851e3ea8284910c4bf414193c1b10fc",
+        "offset": 46265344
+      },
+      {
+        "file": "assets/originals/88181-Dark-Fina.zip",
+        "bytes": 4787344,
+        "sha256": "32d291212a937a16cea3fb1378da5389d1de47ebb0c50b4bc40aeb0c50f98db3",
+        "offset": 50050357
+      },
+      {
+        "file": "assets/originals/87455-Elle.zip",
+        "bytes": 1218414,
+        "sha256": "f6d594e0ef3b1b6976fac06cef43201b4520627628e1722b0f622e9ff1179237",
+        "offset": 54837762
+      },
+      {
+        "file": "assets/originals/87186-Fina.zip",
+        "bytes": 3681221,
+        "sha256": "8c3c7789c241953b7560b6f4d41659e0f8db743ffcbb40b29a37a4f4d2cb28f8",
+        "offset": 56056237
+      },
+      {
+        "file": "assets/originals/93258-Fohlen.zip",
+        "bytes": 4653894,
+        "sha256": "3f76fe7d9ec94751f3f7c78c8cadf302fdc454cadf7ddbbc3018448b73463e3c",
+        "offset": 59737521
+      },
+      {
+        "file": "assets/originals/93256-Ilias.zip",
+        "bytes": 3188869,
+        "sha256": "c5ce196ac54045a692402761cd4ace978bb6c2b6b02f7743784991dcc3abed40",
+        "offset": 64391477
+      },
+      {
+        "file": "assets/originals/91127-Jake.zip",
+        "bytes": 2456637,
+        "sha256": "b953ba0621d485e1c333733017ff8b9fb97034b421c1706825785bf62218d575",
+        "offset": 67580407
+      },
+      {
+        "file": "assets/originals/87187-Lasswell.zip",
+        "bytes": 7080453,
+        "sha256": "85901e5faf93a811c56c62aa4aa524588272ff71a07ac04db3944b8c5af285a5",
+        "offset": 70037109
+      },
+      {
+        "file": "assets/originals/87692-Lid.zip",
+        "bytes": 4472085,
+        "sha256": "361bcc7906b5f09ba0985dc81b71af2e7e734bda1c367008b9e87334ac32f311",
+        "offset": 77117622
+      },
+      {
+        "file": "assets/originals/87452-Luka.zip",
+        "bytes": 1403537,
+        "sha256": "f1f682aa981f1f728f94e3d393170e0877a31057ba2e203392d9fb022e38f8f2",
+        "offset": 81589768
+      },
+      {
+        "file": "assets/originals/93908-Lunera.zip",
+        "bytes": 2716057,
+        "sha256": "b29813dd0c66ea976ad503c02e562bd9c21f53be8d4e7c4597e533ede190aea5",
+        "offset": 82993368
+      },
+      {
+        "file": "assets/originals/88676-Marie.zip",
+        "bytes": 2134812,
+        "sha256": "3a797385c22669bfc00c611f1677460362f8596361b35886cc1b0139535d5ecd",
+        "offset": 85709487
+      },
+      {
+        "file": "assets/originals/87453-Mercedes.zip",
+        "bytes": 3101844,
+        "sha256": "b942b697824696a49e6690874fb5cf27ba1dc5d8ade18e668e6bf28e4d79c3bb",
+        "offset": 87844364
+      },
+      {
+        "file": "assets/originals/88183-Nichol.zip",
+        "bytes": 4259232,
+        "sha256": "37e418c5997d047647a27fd0af89748ad3fdae3a107b1500177e771ce0825f76",
+        "offset": 90946271
+      },
+      {
+        "file": "assets/originals/70472-Rain.zip",
+        "bytes": 3063495,
+        "sha256": "87ffdcae877a00d5869b5612347055092011387100d3c7aded7880feed6e008a",
+        "offset": 95205564
+      },
+      {
+        "file": "assets/originals/100735-Roy.zip",
+        "bytes": 2083572,
+        "sha256": "c8cfff011b6827cfbfb8597577e675c9a78c71087550d17dc566682564841ead",
+        "offset": 98269120
+      },
+      {
+        "file": "assets/originals/93905-Ruggles.zip",
+        "bytes": 4622590,
+        "sha256": "e28e25a805e4168ef4309d668836f3dcb5865958666a08b1b4ab774ab8b5c540",
+        "offset": 100352756
+      },
+      {
+        "file": "assets/originals/92746-Sakura.zip",
+        "bytes": 3505721,
+        "sha256": "bc51f6a4340c00aef7487b3fc95981920d1ec538e21097356d3975120ea6ed4b",
+        "offset": 104975409
+      },
+      {
+        "file": "assets/originals/89558-Shera.zip",
+        "bytes": 2244667,
+        "sha256": "7cac41315d05edb7a7fd9d3ac14e830a8d96c99856de86629af1a7d5954d87a8",
+        "offset": 108481192
+      },
+      {
+        "file": "assets/originals/116655-Sol.zip",
+        "bytes": 11968862,
+        "sha256": "af6d0a01a4671eb061200008c4282eba57fa72da252a18a43c1b93ae794957b1",
+        "offset": 110725920
+      },
+      {
+        "file": "assets/originals/94751-Veritas-of-the-Dark.zip",
+        "bytes": 5999222,
+        "sha256": "c4317258f70e7dbfe8524beb3fdcb01717bf7b1d62166b882cc9b3b982b3fe5c",
+        "offset": 122694858
+      },
+      {
+        "file": "assets/originals/94752-Veritas-of-the-Earth.zip",
+        "bytes": 4376209,
+        "sha256": "1c9561a005cbfa2d69db6c1b3edd1373363db0abc9dfea0476dfb9482bcd2f15",
+        "offset": 128694157
+      },
+      {
+        "file": "assets/originals/94753-Veritas-of-the-Flame.zip",
+        "bytes": 2891267,
+        "sha256": "4560b90f10bc8c9f54e12c9f274624a448955d68a9ea3e1ef8bf6bf476918457",
+        "offset": 133070443
+      },
+      {
+        "file": "assets/originals/94609-Veritas-of-the-Heavens.zip",
+        "bytes": 3443239,
+        "sha256": "d34c6868a639d1b9a557424691b1985cdab79e12a8752418db123c2c4aea3a43",
+        "offset": 135961789
+      },
+      {
+        "file": "assets/originals/94706-Veritas-of-the-Light.zip",
+        "bytes": 7027344,
+        "sha256": "f956d89bea8b2dde9ce8d214f5391c5141fccc138f91217d8c0b5faccd2d9338",
+        "offset": 139405105
+      },
+      {
+        "file": "assets/originals/94705-Veritas-of-the-Waters.zip",
+        "bytes": 4500953,
+        "sha256": "b12c7e82ccc02421d92f2c955e92f4f51d96f32ac5804c251f8c814b2561c508",
+        "offset": 146432527
+      },
+      {
+        "file": "assets/originals/100989-William.zip",
+        "bytes": 3595998,
+        "sha256": "fb1f623b9bc382345dd87a403becde46ef554be147b0a6cb2a86d9a81a68bfad",
+        "offset": 150933545
+      },
+      {
+        "file": "assets/originals/128465-Akstar.zip",
+        "bytes": 1971063,
+        "sha256": "a722696d6154c07c0c927edbddb68f20372200f235ceddd0b4536ac1651a1627",
+        "offset": 154529607
+      },
+      {
+        "file": "assets/originals/117472-Aldore-King-Rain.zip",
+        "bytes": 4814813,
+        "sha256": "f046d75d2e1c834cb09341e4f7ac1ab517887f268bf1d8d13ad622c9f77275c2",
+        "offset": 156500744
+      },
+      {
+        "file": "assets/originals/129902-Almaz.zip",
+        "bytes": 6838232,
+        "sha256": "27b9de52463653af6b0ecc656534fab676c94e0c49fb35eb558d1e864bd07a4b",
+        "offset": 161315620
+      },
+      {
+        "file": "assets/originals/116608-Amber.zip",
+        "bytes": 3258524,
+        "sha256": "4836ba8a1f77904ce2e53f93bd602b547ff0517721eee9493dee3d734056a0e4",
+        "offset": 168153915
+      },
+      {
+        "file": "assets/originals/98651-Awakened-Rain.zip",
+        "bytes": 16561993,
+        "sha256": "4ed4ee996b59618819a01a56952f3d16af37294a252bede540eacc892cd1d313",
+        "offset": 171412509
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/np19t7.zip"
+  },
+  {
+    "name": "ffbe-pack-002.zip",
+    "bytes": 186945008,
+    "sha256": "ae85643a8f4cd74b24ceb5d6492318f9f779d202f8e0cc749441afc9d3b904fa",
+    "entries": [
+      {
+        "file": "assets/originals/102950-Blossom-Sage-Sakura.zip",
+        "bytes": 2792387,
+        "sha256": "b538b3e14e3bd8199580fb71d1383b35db723f9003557a4a8f28ce18133959f3",
+        "offset": 77
+      },
+      {
+        "file": "assets/originals/100515-Charie.zip",
+        "bytes": 2042594,
+        "sha256": "2963d9923cfdd9effde180d5f227a4183d7516fef687041f281dd5886c5c0cb1",
+        "offset": 2792528
+      },
+      {
+        "file": "assets/originals/115301-Cid.zip",
+        "bytes": 5604303,
+        "sha256": "ded6656a13c0a4a6bb50bb9fc335d41703f07458cc909cbf320988d9d81737e6",
+        "offset": 4835183
+      },
+      {
+        "file": "assets/originals/109940-Citra.zip",
+        "bytes": 12524895,
+        "sha256": "34fcc74954a8ef05b346e16676adf3cbd38a6cea9a7cf8f4fa7f3e4b9f8d196b",
+        "offset": 10439549
+      },
+      {
+        "file": "assets/originals/116265-Crimson.zip",
+        "bytes": 4063591,
+        "sha256": "966835f00947d4a79306c2e0769befa2bd34989d41362017fab919d4b0233a47",
+        "offset": 22964509
+      },
+      {
+        "file": "assets/originals/109237-Domino.zip",
+        "bytes": 1496420,
+        "sha256": "12f0ad0dacd354eecb104d985123edfacb8a0cba2a998ccc077ffd78e48037ac",
+        "offset": 27028164
+      },
+      {
+        "file": "assets/originals/100516-Duke.zip",
+        "bytes": 2891913,
+        "sha256": "9cf508ec62595a9b97fd186cf9e0d693850a8883293e249fa3014e0aa5a55d0c",
+        "offset": 28524646
+      },
+      {
+        "file": "assets/originals/106425-Elbis.zip",
+        "bytes": 3476229,
+        "sha256": "cd104d25931b9c254d40e41b0ae027129e93d389037bc0c24a8fac29d1d2d722",
+        "offset": 31416622
+      },
+      {
+        "file": "assets/originals/194929-Emperor-Vlad.zip",
+        "bytes": 7078825,
+        "sha256": "f9d399e49bae8c31b346a825ff9a8e4d873ee18b23afad7fb6f9d7512a5f95a4",
+        "offset": 34892921
+      },
+      {
+        "file": "assets/originals/117476-Fina-Dark-Fina.zip",
+        "bytes": 15244113,
+        "sha256": "966c7e8f06c41942c7c439c146b740c6f07183dedbf029778434f23f39d8c4df",
+        "offset": 41971818
+      },
+      {
+        "file": "assets/originals/112800-Folka.zip",
+        "bytes": 6678151,
+        "sha256": "5cd3b27edc311bb1de976df9fdcd7aad8306201dee85af054f7b0e4420a7b424",
+        "offset": 57215994
+      },
+      {
+        "file": "assets/originals/116254-Franis.zip",
+        "bytes": 4764388,
+        "sha256": "0d1cd2aa456121d967d1c98b880098252f597053c95140ac4bcaf3f1668ea268",
+        "offset": 63894209
+      },
+      {
+        "file": "assets/originals/128474-Galas-of-the-Omnicron-Star.zip",
+        "bytes": 2802614,
+        "sha256": "267710b192ea406de7b734dc1687a43ff5078697ce77df42f50ae4d77ce2af16",
+        "offset": 68658681
+      },
+      {
+        "file": "assets/originals/128697-Gudon-of-the-Xi-Star.zip",
+        "bytes": 6808153,
+        "sha256": "501331944ada147811cf1e5a8229640ffe9c6dd622b73e1539e6901b1bccc627",
+        "offset": 71461373
+      },
+      {
+        "file": "assets/originals/105695-Heavenly-Technician-Lid.zip",
+        "bytes": 3318592,
+        "sha256": "f898a77b388fc5db71c71397f05622e7f84093191bcf21deb562f05a9978bd7f",
+        "offset": 78269607
+      },
+      {
+        "file": "assets/originals/117473-Hess-King-Lasswell.zip",
+        "bytes": 4234982,
+        "sha256": "4aa8b5167a57324b19305d172d7cc7f66462b286ff7ebe0247b2fda87401ced7",
+        "offset": 81588275
+      },
+      {
+        "file": "assets/originals/109236-Hyoh.zip",
+        "bytes": 14388864,
+        "sha256": "275b5e4bcbfe3207f70dc1fde48c2e973a5df572600f059b3a63d7e21ab7b4d4",
+        "offset": 85823319
+      },
+      {
+        "file": "assets/originals/114330-Ignacio.zip",
+        "bytes": 9616521,
+        "sha256": "6c3db4e6d3e157332dc2038de399047c1f940fe795a558ca0e3f4c83dde2d9b1",
+        "offset": 100212248
+      },
+      {
+        "file": "assets/originals/116257-Ishil.zip",
+        "bytes": 2136445,
+        "sha256": "58f04a9723240c78d8dfe35c1c81e65edc4cf68ee3dcaae2857ead291f3cfe23",
+        "offset": 109828832
+      },
+      {
+        "file": "assets/originals/128698-Juraga-of-the-Nu-Star.zip",
+        "bytes": 5569999,
+        "sha256": "6070caf8b509875d3fa84d0f8e415bfbe734c401548875db24d78e1f60abaa6f",
+        "offset": 111965356
+      },
+      {
+        "file": "assets/originals/128477-Krowa.zip",
+        "bytes": 4851943,
+        "sha256": "c9529abb82c5f072d87aeef2cb378c41296c7b711eef41ef62d134ecc5755ec1",
+        "offset": 117535418
+      },
+      {
+        "file": "assets/originals/104115-Kunshira.zip",
+        "bytes": 2222783,
+        "sha256": "7544d3b43e9ec2ef45d8b3f4e957588a2be114310fbed3a346b20affe4cbd11e",
+        "offset": 122387427
+      },
+      {
+        "file": "assets/originals/116266-Kyanos.zip",
+        "bytes": 1697905,
+        "sha256": "d6a83c4fca768f8c99507477a1023384c9f5a2bbbfbc7a30e45b8f3c4800e6fd",
+        "offset": 124610274
+      },
+      {
+        "file": "assets/originals/194935-Lasswell-Raegen.zip",
+        "bytes": 1666798,
+        "sha256": "07a99ac0a3df6f8b6f010acce5252931d1877fdd3894fd8f4910314bc6d183ca",
+        "offset": 126308252
+      },
+      {
+        "file": "assets/originals/106424-Lexa.zip",
+        "bytes": 3984713,
+        "sha256": "28726e745df7be9a1880c4e868e4cfa2b258d2256bead4447b8f81c8ec9166be",
+        "offset": 127975112
+      },
+      {
+        "file": "assets/originals/117477-Lid-Jake.zip",
+        "bytes": 11722988,
+        "sha256": "2012a01a7e88b33834cf255a016a2d3f8ee2fe7f48550d71d493ebf9fbfd61ba",
+        "offset": 131959891
+      },
+      {
+        "file": "assets/originals/94801-Lotus-Mage-Fina.zip",
+        "bytes": 3152448,
+        "sha256": "8a1aaea5db65d3373869da59b191798b18466b9f8cac02546e7fa57124b74f0f",
+        "offset": 143682951
+      },
+      {
+        "file": "assets/originals/129901-Madam-Edel.zip",
+        "bytes": 4692874,
+        "sha256": "e768511052f6074dfc5dc4ca0481fa60b9913743878e2d30f4d74b2ab36358b1",
+        "offset": 146835467
+      },
+      {
+        "file": "assets/originals/106426-Maritime-Strategist-Nichol.zip",
+        "bytes": 5619042,
+        "sha256": "3e0304a154d2fb7183f9490458710196c99d5d18b0107dd6da06237468d3391a",
+        "offset": 151528425
+      },
+      {
+        "file": "assets/originals/106423-Merald.zip",
+        "bytes": 2055077,
+        "sha256": "5f7ea64bd1462b41f98bc6ba61c17320c4580699201e8789b0b4995a4eb92e8c",
+        "offset": 157147531
+      },
+      {
+        "file": "assets/originals/116267-Mirfas.zip",
+        "bytes": 991345,
+        "sha256": "690393ad4769bea3915bec55b8587676b525fa9adad7dabf5a0b847cc931fd0a",
+        "offset": 159202672
+      },
+      {
+        "file": "assets/originals/100519-Mystea.zip",
+        "bytes": 5984259,
+        "sha256": "0f6c2a1e3e303a63cd7185ebb72b66263a6a8e8d120301c135bfae253cbac38f",
+        "offset": 160194081
+      },
+      {
+        "file": "assets/originals/128471-Nagi.zip",
+        "bytes": 3371477,
+        "sha256": "66976eb08cd61b3fa9128690f453c2eb1f4c6f758a394ea5f4036c58af8a1282",
+        "offset": 166178402
+      },
+      {
+        "file": "assets/originals/104732-Nameless-Gunner-Jake.zip",
+        "bytes": 1861458,
+        "sha256": "2a26f14064d33d5f16dc5873dc691502390526b0df35df10a3e8ea6abeeec560",
+        "offset": 169549957
+      },
+      {
+        "file": "assets/originals/129951-Nichol-of-the-Epsilon-Star.zip",
+        "bytes": 6909594,
+        "sha256": "d12e96d15f8f2bbd03b74885202bc1c355eaf5ae94cc30620e2150e08c069362",
+        "offset": 171411499
+      },
+      {
+        "file": "assets/originals/100517-Olif.zip",
+        "bytes": 3803978,
+        "sha256": "a33ac3080887a9cf0df33870a27a89c8a153bc19114d985bd9ad866c4e118e36",
+        "offset": 178321155
+      },
+      {
+        "file": "assets/originals/108023-Pecciotta.zip",
+        "bytes": 1612520,
+        "sha256": "537d4e87eee960055cb8b77e4d2452081e807be161174cc4356a3a264445c9a9",
+        "offset": 182125200
+      },
+      {
+        "file": "assets/originals/128700-Physalis.zip",
+        "bytes": 3203987,
+        "sha256": "096aa29d4c48606914ba4ba49a00bb89da34c7afb9017fe9a9574a90fcb4eaee",
+        "offset": 183737786
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/z8ll18.zip"
+  },
+  {
+    "name": "ffbe-pack-003.zip",
+    "bytes": 188563228,
+    "sha256": "0e711488ce93d5662b21fb52f82212125ccb4d1f3089eb8b2b52e72998496b96",
+    "entries": [
+      {
+        "file": "assets/originals/98135-Pyro-Glacial-Lasswell.zip",
+        "bytes": 3649368,
+        "sha256": "97042746d7e2bc0d77f961630db2f37ab951143b0ea83677aad505252b1d6c8c",
+        "offset": 78
+      },
+      {
+        "file": "assets/originals/98134-Raegen.zip",
+        "bytes": 1860195,
+        "sha256": "088646f15f841c270e7e2fb300339487f9530e8a32aeeecaa79f72c384c10602",
+        "offset": 3649509
+      },
+      {
+        "file": "assets/originals/128475-Regina.zip",
+        "bytes": 4014515,
+        "sha256": "0fa1c11a25185067af063d464fad529ff9ee9f7b854f6ed3d2ce31ea0db03da6",
+        "offset": 5509768
+      },
+      {
+        "file": "assets/originals/129950-Sakura-of-the-Delta-Star.zip",
+        "bytes": 10913945,
+        "sha256": "6a28c9880d313cb6a3c4a195d2e0b8f94738c6e9c24c45344f7b75af15d036c6",
+        "offset": 9524365
+      },
+      {
+        "file": "assets/originals/108025-Shinju.zip",
+        "bytes": 2050577,
+        "sha256": "1337323a35287d4970111ff158be06dd7193dc04c847dc0e8b7e9c46b70bb3b4",
+        "offset": 20438374
+      },
+      {
+        "file": "assets/originals/111081-Sieghard.zip",
+        "bytes": 11559682,
+        "sha256": "611fedda6dde0386955dc6415a4561f18ff3a8aba5c64741a713bc1bff825e82",
+        "offset": 22489017
+      },
+      {
+        "file": "assets/originals/194950-Sol--Neo-Vision.zip",
+        "bytes": 4819253,
+        "sha256": "d24e9fc5202a249725e3b72f0701b592eb99ff2ffe7829385ab733f83c9db315",
+        "offset": 34048772
+      },
+      {
+        "file": "assets/originals/98652-Vagrant-Knight-Rain.zip",
+        "bytes": 5871956,
+        "sha256": "e7de6e016cf31bc43cdd14ee82cbf56979c32f2c4f249a4fa71feb04d0d11860",
+        "offset": 38868101
+      },
+      {
+        "file": "assets/originals/128476-Vesvia.zip",
+        "bytes": 4001699,
+        "sha256": "4599ea44b494b6995911bfd80e70d5ceddb14391bbdd46d849b7d0e6d315a87f",
+        "offset": 44740121
+      },
+      {
+        "file": "assets/originals/117467-White-Lily-Dark-Fina.zip",
+        "bytes": 10799844,
+        "sha256": "84a13f24f8fc329ef653f00c194644df5719ac34b42867535af422811211dd7b",
+        "offset": 48741898
+      },
+      {
+        "file": "assets/originals/128472-Yego.zip",
+        "bytes": 6754261,
+        "sha256": "59e1ef4087fc0315e0e503e7d9734cba9e2ac27a1752d574e5edb21bc8aeeeee",
+        "offset": 59541804
+      },
+      {
+        "file": "assets/originals/116258-Yuraisha.zip",
+        "bytes": 2850617,
+        "sha256": "32b092abdd9ea76b6b1c8c28b9a90a6092571277d706b03986bc9b259fb9a18b",
+        "offset": 66296131
+      },
+      {
+        "file": "assets/originals/128468-Zeno-of-the-Beta-Star.zip",
+        "bytes": 2704752,
+        "sha256": "48729b533ae743ffc4ad55f2d985028a18605234fe5fd57c633bbe559e640a25",
+        "offset": 69146827
+      },
+      {
+        "file": "assets/originals/128473-Zolulu-Delulu.zip",
+        "bytes": 5194335,
+        "sha256": "72589a05b0494139908074af3e7c8c3853475ab1c2fd2a75c679b61eae771cd5",
+        "offset": 71851650
+      },
+      {
+        "file": "assets/originals/129796-Blue-Mage-Fina.zip",
+        "bytes": 3931017,
+        "sha256": "3626536266181824d79283fe0d590a3565c1b70c835cbe7a4e4675a17ce848dd",
+        "offset": 77046057
+      },
+      {
+        "file": "assets/originals/194921-Charlotte-Physalis.zip",
+        "bytes": 4041401,
+        "sha256": "0726f6407052576a4b7f056aeb0bb318a486a6fe431313b043043650e5e9102b",
+        "offset": 80977150
+      },
+      {
+        "file": "assets/originals/194920-Chorale.zip",
+        "bytes": 2291404,
+        "sha256": "24591b945512371b983ee7a3f4fdc0e3266db613b351c4d45dc9b8727cf01f6f",
+        "offset": 85018616
+      },
+      {
+        "file": "assets/originals/174395-Cleome.zip",
+        "bytes": 2286551,
+        "sha256": "2525df9fde49793f70bc045d0dddc2aa62c8ec84c9f7415590ff4ba45bc2f4d3",
+        "offset": 87310084
+      },
+      {
+        "file": "assets/originals/174393-Daisy.zip",
+        "bytes": 3190484,
+        "sha256": "0375e7fefb9a66dd12677ed080b6083b9e959e0d3dbb771b6e51872241792840",
+        "offset": 89596698
+      },
+      {
+        "file": "assets/originals/194927-Diverti.zip",
+        "bytes": 3750942,
+        "sha256": "7b6fd857f50d206f1df339120afd17e11dc0ee3537d3ae36ee4f486bd30dcff1",
+        "offset": 92787247
+      },
+      {
+        "file": "assets/originals/194939-Mazurka.zip",
+        "bytes": 2871653,
+        "sha256": "81a334c0390b54511e6ca5ed9e990a67a3c17a9b68003d08e00fe2f3a409bed3",
+        "offset": 96538254
+      },
+      {
+        "file": "assets/originals/194940-Melo.zip",
+        "bytes": 4698429,
+        "sha256": "c21d67992274ef0650b06535f99662277280952987706e171b4a6995414ff331",
+        "offset": 99409969
+      },
+      {
+        "file": "assets/originals/174239-Nerine.zip",
+        "bytes": 2517807,
+        "sha256": "15c3e5e4a54c04c8fd5fc1783c367d26aee7d156390f53cbbc0c20052b8205a6",
+        "offset": 104108462
+      },
+      {
+        "file": "assets/originals/174359-Paus.zip",
+        "bytes": 5771735,
+        "sha256": "64fea9cf56ee2e6bbc6c9128feef5fc35a2cfb1c928349f33cf65ab28486042a",
+        "offset": 106626331
+      },
+      {
+        "file": "assets/originals/194941-Physalis--Neo-Vision.zip",
+        "bytes": 4096974,
+        "sha256": "04bb78642ff55e2d9ab2f6a3ae49be3a35a687e92fb14d1363e564a6fcf8bb38",
+        "offset": 112398144
+      },
+      {
+        "file": "assets/originals/174181-Poppy.zip",
+        "bytes": 4048420,
+        "sha256": "7034869ea24968fd933ba496c5f40ca5cd8e3d459d3c891a91bba3f5c0fe65ae",
+        "offset": 116495181
+      },
+      {
+        "file": "assets/originals/174360-Roca.zip",
+        "bytes": 5810614,
+        "sha256": "7048e60997192b24c37ab1f0d79e732c48cd1c59921b8d12622e7e1cc9188de1",
+        "offset": 120543663
+      },
+      {
+        "file": "assets/originals/174192-Elmateil.zip",
+        "bytes": 4659836,
+        "sha256": "3c8ccdc757d69cce84c31ff3803b628a8fd24ed86de1d1888a89550d25719a92",
+        "offset": 126354343
+      },
+      {
+        "file": "assets/originals/174228-Haveh.zip",
+        "bytes": 1962139,
+        "sha256": "dd2428f6cb542f92dbabd7b1961ae90fa67021b448ef145994606465a7c3ae7a",
+        "offset": 131014242
+      },
+      {
+        "file": "assets/originals/175691-Ilhana.zip",
+        "bytes": 1682076,
+        "sha256": "17c3874222e251a2365c922cd146358fb4f856afdc5c2e607e7673c742741677",
+        "offset": 132976445
+      },
+      {
+        "file": "assets/originals/174193-Kall.zip",
+        "bytes": 1965600,
+        "sha256": "dd850fda47beec2eb98639283e6d38096db3ee27ddc94028f8932bb8b49c6254",
+        "offset": 134658583
+      },
+      {
+        "file": "assets/originals/177483-Lasswell--Neo-Vision.zip",
+        "bytes": 2443739,
+        "sha256": "d9f949cab3257a71aa05cd4fae0467812dec2fb3eeab33e7d331a8cf62f45e95",
+        "offset": 136624261
+      },
+      {
+        "file": "assets/originals/174230-Lehftia.zip",
+        "bytes": 5345448,
+        "sha256": "6c1d47993c778837bfc5c67355f7a7af0f867db28f4666f49302e4057de5ee53",
+        "offset": 139068065
+      },
+      {
+        "file": "assets/originals/193937-Mid.zip",
+        "bytes": 3864535,
+        "sha256": "13c8b47ef1c0a8280e73c8d38d9541642b3e891294e089140f49eff8b1e7db2f",
+        "offset": 144413574
+      },
+      {
+        "file": "assets/originals/174167-Neilikka.zip",
+        "bytes": 4263174,
+        "sha256": "b659c4d7fe3cd35965e04b397607d029adf7526a251a44428b5034f28394963c",
+        "offset": 148278175
+      },
+      {
+        "file": "assets/originals/177339-Rain--Neo-Vision.zip",
+        "bytes": 5888154,
+        "sha256": "78d461b3e903c44b2321f493c281025732f31db51f79e118441986bf0ee37f4d",
+        "offset": 152541423
+      },
+      {
+        "file": "assets/originals/174169-Rhus.zip",
+        "bytes": 3175851,
+        "sha256": "f86e86174a3ff538a02171992a807c49c6ef09966f8d86dc5dbf6b2f71f91408",
+        "offset": 158429639
+      },
+      {
+        "file": "assets/originals/174232-Runda.zip",
+        "bytes": 1525337,
+        "sha256": "95262301578cf5c5da439ec90f141d01c1d310cd94f70c77c3de1f19ba62ce30",
+        "offset": 161605553
+      },
+      {
+        "file": "assets/originals/174343-Taivas.zip",
+        "bytes": 3016821,
+        "sha256": "866e9046868503fa89c6fe555dab6a699cf231512dacdd51cede925b9484ffbc",
+        "offset": 163130954
+      },
+      {
+        "file": "assets/originals/193924-Taivas-Yshe.zip",
+        "bytes": 2249446,
+        "sha256": "f6cfe77d853ade88a52bc974000dc9bb34a76ddd0621d158e0668e4cfdcfdf69",
+        "offset": 166147844
+      },
+      {
+        "file": "assets/originals/174342-Tulien.zip",
+        "bytes": 2003727,
+        "sha256": "b1087b4615f3b5382c9065e0b31d24f24e53fd07c8a430300c2cfba15359fd62",
+        "offset": 168397354
+      },
+      {
+        "file": "assets/originals/175690-Vanharma.zip",
+        "bytes": 2304115,
+        "sha256": "4aa81604ee03360761aea59680f1588aed48241f92352d98d5a42f936d92ff3f",
+        "offset": 170401147
+      },
+      {
+        "file": "assets/originals/174194-Yshe.zip",
+        "bytes": 4377056,
+        "sha256": "b2e93b0bce35c9b4fa014e84d024512977ffa7ec95b2254dfa06076a62c3d274",
+        "offset": 172705324
+      },
+      {
+        "file": "assets/originals/92821-Abel.zip",
+        "bytes": 1419559,
+        "sha256": "980b19aca4e43a1801d0e3cd5756c764cd3fdd8be06d06b96de79fc4808f8ba5",
+        "offset": 177082441
+      },
+      {
+        "file": "assets/originals/128694-Agent-Olive.zip",
+        "bytes": 2997403,
+        "sha256": "db2f5def6e94c1b1cbc992a145705d7cd67e3c381cc928fc0101fe2439c027e6",
+        "offset": 178502069
+      },
+      {
+        "file": "assets/originals/91848-Aiden.zip",
+        "bytes": 1999370,
+        "sha256": "a8773a24eadeb8535079c73e9e72451278f34ef09c0110aa841103368ff9057f",
+        "offset": 181499534
+      },
+      {
+        "file": "assets/originals/194909-Akstar-Cleome.zip",
+        "bytes": 3482533,
+        "sha256": "374a723fadfc476317a897d8dddbe4423c4360fe3e58d1b33354923ac1407fb1",
+        "offset": 183498975
+      },
+      {
+        "file": "assets/originals/99346-Amy.zip",
+        "bytes": 1577651,
+        "sha256": "2b389c00757c23b373c0083db6674fa823cfadf4547801cc7ea451b6557fee7f",
+        "offset": 186981568
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/fsq2a2.zip"
+  },
+  {
+    "name": "ffbe-pack-004.zip",
+    "bytes": 187207150,
+    "sha256": "f46b12d4ce3d29e86e0c3619ddd7e2c778895d6c0cf5930ecec8df5531a67003",
+    "entries": [
+      {
+        "file": "assets/originals/87205-Anzelm.zip",
+        "bytes": 2087878,
+        "sha256": "da3fb8843d17c744bb9fbf3237c858559bd40ee9dd52bb9e9248850f3d3c953f",
+        "offset": 63
+      },
+      {
+        "file": "assets/originals/88012-Artemios.zip",
+        "bytes": 1915110,
+        "sha256": "93be656cd177e042649056ed75762f60478c63795b507dbc3941e4c3e5667938",
+        "offset": 2088006
+      },
+      {
+        "file": "assets/originals/128571-Atlie.zip",
+        "bytes": 2110166,
+        "sha256": "baa68b9671e253defbe6094b2eb0278a057f24cb8878daafb12d2fa448ce2946",
+        "offset": 4003179
+      },
+      {
+        "file": "assets/originals/100733-Aura.zip",
+        "bytes": 1573773,
+        "sha256": "7786b39ef32689269be7decb89a9db4d847387f2ca45852128305a74ee748089",
+        "offset": 6113407
+      },
+      {
+        "file": "assets/originals/111240-Aurora-Fryevia.zip",
+        "bytes": 2654927,
+        "sha256": "a3565b3af80d2da806de3c45435044c936585fc4a3eee87f2e9ce3fe0dc9bb5a",
+        "offset": 7687252
+      },
+      {
+        "file": "assets/originals/70509-Baurg.zip",
+        "bytes": 777952,
+        "sha256": "ae79f724a43b8773a1898268039d4e012e9bb89f47ff32d2ab82d15ccf31c704",
+        "offset": 10342241
+      },
+      {
+        "file": "assets/originals/193961-Beach-Blaster-Olive.zip",
+        "bytes": 2624003,
+        "sha256": "e27fb5b7273cc810f13f761a3d1452a242c79533fa613b9b70a98331e5418c33",
+        "offset": 11120270
+      },
+      {
+        "file": "assets/originals/87258-Bedile.zip",
+        "bytes": 2428616,
+        "sha256": "204bad2428974b8bc538ff36d36fd4c65cf0bc8943e6619506d3ef56db085651",
+        "offset": 13744336
+      },
+      {
+        "file": "assets/originals/110746-Beryl.zip",
+        "bytes": 1902706,
+        "sha256": "3ae3fbb2b648d296b4080da8385f28e3f187207d4ab9676b73e157c3851e478f",
+        "offset": 16173015
+      },
+      {
+        "file": "assets/originals/194911-Black-Phoenix-Blade-Hyoh.zip",
+        "bytes": 4573459,
+        "sha256": "96d10841b13d90809b4b1eb4db7a5a177a4c99a5cddab0bcc23725cc2dcf1517",
+        "offset": 18075803
+      },
+      {
+        "file": "assets/originals/193962-Bulwark-the-Melodic-Mascots.zip",
+        "bytes": 3675420,
+        "sha256": "eecdb010d3b0678520751835d619cc6114202a1ad81706d3fce4873ea55d9b5a",
+        "offset": 22649347
+      },
+      {
+        "file": "assets/originals/111083-Cannon.zip",
+        "bytes": 1911863,
+        "sha256": "3c5c1bdb9a5370a70edac5b28034c84e0937a5ab1ab62db05101c8516286e80a",
+        "offset": 26324831
+      },
+      {
+        "file": "assets/originals/129955-Caroline.zip",
+        "bytes": 1203131,
+        "sha256": "be91d428d33c84c07b634e1710832d2bfbd0355725fb3a170578d67ae0654d4d",
+        "offset": 28236760
+      },
+      {
+        "file": "assets/originals/86912-Carrie.zip",
+        "bytes": 867150,
+        "sha256": "b89fb3946fede13cdd5334f826611887abb0287b78d3d1fd09d9512381d95c12",
+        "offset": 29439954
+      },
+      {
+        "file": "assets/originals/102951-Cedona.zip",
+        "bytes": 2900284,
+        "sha256": "07c0b537c88dc0111732731000992b70ce530b2e394b569a319330dbade496a0",
+        "offset": 30307168
+      },
+      {
+        "file": "assets/originals/87347-Cerius.zip",
+        "bytes": 3602921,
+        "sha256": "ec516191e2c8caa854e34f985634306d52766b821397f90e28509533c8e86d31",
+        "offset": 33207515
+      },
+      {
+        "file": "assets/originals/88010-Chizuru.zip",
+        "bytes": 3202050,
+        "sha256": "49efc862e47802ad91713e867f12e7c8e36e5cf2dde3a952e3888589a89ec6d4",
+        "offset": 36810500
+      },
+      {
+        "file": "assets/originals/99347-Chloe.zip",
+        "bytes": 4449674,
+        "sha256": "b5d40ec755684d09b478a6290597c7f455e62e26653f2168181a97f06437dcc8",
+        "offset": 40012612
+      },
+      {
+        "file": "assets/originals/128626-Chocobo-Fina.zip",
+        "bytes": 3411197,
+        "sha256": "909d53d4c82be530a642ff82bb967847bf7888d9a690d9e38fde3163b9df95c3",
+        "offset": 44462356
+      },
+      {
+        "file": "assets/originals/128481-Chocobo-Rain.zip",
+        "bytes": 6909121,
+        "sha256": "bfa6e82266c4b557315bfa8b71e0030ea8bd09821d04c84e5a20d732a8fe842c",
+        "offset": 47873623
+      },
+      {
+        "file": "assets/originals/101288-Christine.zip",
+        "bytes": 1353929,
+        "sha256": "c8b6950c3647e8c7da664673cf6f6fc16d80470ba73ee12f8b561dc8212de6ca",
+        "offset": 54782811
+      },
+      {
+        "file": "assets/originals/194925-Christine-Neo-Vision.zip",
+        "bytes": 1855283,
+        "sha256": "a238dbd124a9c28621c4b1ce2e507478a0a50b1743f4f42a06d23562cf10015b",
+        "offset": 56136818
+      },
+      {
+        "file": "assets/originals/109477-Circe.zip",
+        "bytes": 3793169,
+        "sha256": "c570e8388d78e1bd9a70e2980c0fde3dd2f97c4268d525324c2a9d1dca191325",
+        "offset": 57992164
+      },
+      {
+        "file": "assets/originals/87185-Clyne.zip",
+        "bytes": 1082849,
+        "sha256": "ff50916535ada724958f2fcfbdf523d38e8e9470f1e6dab345d940a5de330409",
+        "offset": 61785395
+      },
+      {
+        "file": "assets/originals/129952-Colundo.zip",
+        "bytes": 3842725,
+        "sha256": "7f82bf0ba810eb0ca4c7592fdef3fff8f20190965c188a1c7c0c27c88605634e",
+        "offset": 62868309
+      },
+      {
+        "file": "assets/originals/100991-Conrad.zip",
+        "bytes": 2565538,
+        "sha256": "a7e311941b274acca03c6e9b917ac71ee8609e2252c3ff405b1eb2f451fd6f86",
+        "offset": 66711098
+      },
+      {
+        "file": "assets/originals/193959-Cressnik.zip",
+        "bytes": 2357990,
+        "sha256": "183a2615d5ed198ab0d950122698c83e53b25adf907592d88c17e6a654247d54",
+        "offset": 69276702
+      },
+      {
+        "file": "assets/originals/193963-Curse-of-Immunity-Melissa.zip",
+        "bytes": 840183,
+        "sha256": "634a220e3257cdd33c3894e4b9bacc1aac1d44338226504d0bede8029a82fe83",
+        "offset": 71634775
+      },
+      {
+        "file": "assets/originals/194643-Dark-Dragon-Buffon.zip",
+        "bytes": 12128762,
+        "sha256": "68a137ce8085c5008010f23d29342df6bfb2abba46b528c7217714d9524e2b12",
+        "offset": 72475034
+      },
+      {
+        "file": "assets/originals/194928-Dark-Fina-Sol.zip",
+        "bytes": 10971802,
+        "sha256": "b8b58acb7315e0e44dae9d51964efa78bd9bb4070d55f2bc38f7de99008d7f6b",
+        "offset": 84603867
+      },
+      {
+        "file": "assets/originals/122432-Dark-Spirit-Sol.zip",
+        "bytes": 17578296,
+        "sha256": "f82d432a3be33d343a9b0961fb87f6e672b460ba8aa50a8d667cd222ce27b082",
+        "offset": 95575742
+      },
+      {
+        "file": "assets/originals/111080-Dietlinde.zip",
+        "bytes": 3063174,
+        "sha256": "cd49933cdb6b1ae1705ea7d41409b2efd203e65cfcd2df64db4ae4126c181221",
+        "offset": 113154105
+      },
+      {
+        "file": "assets/originals/128689-Diezell.zip",
+        "bytes": 3453864,
+        "sha256": "62682bfbf6faea291d5775237001f171021633a1c7b788e5b5558ac67a2f597e",
+        "offset": 116217344
+      },
+      {
+        "file": "assets/originals/128693-Doctor-Aiden.zip",
+        "bytes": 2048005,
+        "sha256": "31136b439480b50a06af1f34be422e850986a59619b267423e133de69b6074fd",
+        "offset": 119671278
+      },
+      {
+        "file": "assets/originals/122437-Draconian-Princess-Fina.zip",
+        "bytes": 29788559,
+        "sha256": "fb8fe2f4df318368a4a757170966e6b2e601bb5d7702c9ea6c82ae6728f7cf38",
+        "offset": 121719364
+      },
+      {
+        "file": "assets/originals/128480-Dressy-Aileen.zip",
+        "bytes": 1604766,
+        "sha256": "ebf0dc4d95a3882be4aca48ace239e388dbe4e512a1e0c3a91746ffe64f5f24f",
+        "offset": 151507994
+      },
+      {
+        "file": "assets/originals/70487-Duane.zip",
+        "bytes": 3268429,
+        "sha256": "72f8ec2e237d3c0ad8415a39c0142d1d6a8eec400ec2187066277403e794f503",
+        "offset": 153112822
+      },
+      {
+        "file": "assets/originals/128574-Eclipsa.zip",
+        "bytes": 4078206,
+        "sha256": "34c19dfdc87b5930eba767f4fdef5e5776df2d2477c06e131985b9fb87b4f216",
+        "offset": 156381316
+      },
+      {
+        "file": "assets/originals/70510-Eldin.zip",
+        "bytes": 1423200,
+        "sha256": "53d97d8078d4f7b2966fe4b53f00a21a85f4727afeab0977a827bd7863a7d4cf",
+        "offset": 160459584
+      },
+      {
+        "file": "assets/originals/110581-Elephim.zip",
+        "bytes": 2727097,
+        "sha256": "a26080d6ed162b601d92505b874be22d47a47caa5e09bde524c26b93efd3d2fb",
+        "offset": 161882849
+      },
+      {
+        "file": "assets/originals/100990-Elfreeda.zip",
+        "bytes": 4018145,
+        "sha256": "bdfab1866c5030b3f3ef29d896b426eca4bf741159de0880b1e68178b9dbdb08",
+        "offset": 164610012
+      },
+      {
+        "file": "assets/originals/110747-Ellesperis.zip",
+        "bytes": 1502504,
+        "sha256": "0e3a57a25b5e5d5ee2d0e17e7b7e14cf6c6ac0c8a05112ad231cd9d0735dd5c9",
+        "offset": 168628225
+      },
+      {
+        "file": "assets/originals/105084-Emilia.zip",
+        "bytes": 1219370,
+        "sha256": "75b984bbc5c5bdc1b6efd046ec9ca7b9f81b476546753ede934978bcbf55973b",
+        "offset": 170130793
+      },
+      {
+        "file": "assets/originals/104731-Emperor-Shera.zip",
+        "bytes": 4622619,
+        "sha256": "02138fae0435da459991662916242c6ff29ba337413492672f6273accf4bed19",
+        "offset": 171350234
+      },
+      {
+        "file": "assets/originals/94800-Erwin.zip",
+        "bytes": 3542596,
+        "sha256": "87ed9af23f20fae7f41bfd9baa37c18e98d1ffef7553d738d8ba803451404bfd",
+        "offset": 175972915
+      },
+      {
+        "file": "assets/originals/116268-Esther.zip",
+        "bytes": 4566571,
+        "sha256": "bc6ff32cef25a460d4fe70fcf08e70a5d67946341e7ceb20f7528ba790bea8be",
+        "offset": 179515575
+      },
+      {
+        "file": "assets/originals/115300-Falma.zip",
+        "bytes": 3120990,
+        "sha256": "70b930c825c58da687a0c437c002feae106c4f69c67616b201db375330092793",
+        "offset": 184082209
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/udh6xr.zip"
+  },
+  {
+    "name": "ffbe-pack-005.zip",
+    "bytes": 182988550,
+    "sha256": "4b196b49702ccc6811c8db2948cead53257f064f548e3ada1f14ca14d64d467a",
+    "entries": [
+      {
+        "file": "assets/originals/129574-Flame-of-Rebirth-Jake.zip",
+        "bytes": 6636218,
+        "sha256": "f51bca931b65cedbce47df921554dd997fd81667846c581378064bdda376bdd0",
+        "offset": 79
+      },
+      {
+        "file": "assets/originals/110582-Forelsket.zip",
+        "bytes": 2518344,
+        "sha256": "8f9f00245ff9229d56cfb7ced1d1eb7df0eb5551ee8bee9c83659f1a5702488f",
+        "offset": 6636364
+      },
+      {
+        "file": "assets/originals/128497-Friese.zip",
+        "bytes": 1248128,
+        "sha256": "ef726ad2ff49d440a45c419653d69219e2c840e1cbab4dc308fa31e8ead92792",
+        "offset": 9154772
+      },
+      {
+        "file": "assets/originals/193966-Frostblade-Fryevia.zip",
+        "bytes": 3284117,
+        "sha256": "4f952c6abe75bfd339c4cf08d02fdda411ca7df3530d2e7925dd9e909119ebbc",
+        "offset": 10402976
+      },
+      {
+        "file": "assets/originals/91846-Fryevia.zip",
+        "bytes": 2385812,
+        "sha256": "d4f3fa92d580f1c1b1cf7c8aaea16c193d6afacedab0907ca5475c715091d9f3",
+        "offset": 13687157
+      },
+      {
+        "file": "assets/originals/193965-Full-Moon-Karten.zip",
+        "bytes": 3618395,
+        "sha256": "e074dd720d474612b8a582fedd2e3667cf1cd8bfd826781fee2a334a0a5e9c1e",
+        "offset": 16073043
+      },
+      {
+        "file": "assets/originals/87356-Gilbert.zip",
+        "bytes": 3206070,
+        "sha256": "650c60cefa7889f453f20ba77aaaacc4baf7cd4715b6b4dd7ac6cbacb320fc32",
+        "offset": 19691502
+      },
+      {
+        "file": "assets/originals/70508-Gimlee.zip",
+        "bytes": 661870,
+        "sha256": "6f031db07c40bf9e17f4c488334f76003e2f9f236f5bb7b26d90347249899a5a",
+        "offset": 22897635
+      },
+      {
+        "file": "assets/originals/128628-Godrea.zip",
+        "bytes": 2187541,
+        "sha256": "a329869249eb5deba646976c4ebe4a00b17cec18d7d0227f91965a2992702b2e",
+        "offset": 23559569
+      },
+      {
+        "file": "assets/originals/97448-Goken.zip",
+        "bytes": 3066168,
+        "sha256": "a2c031b7a036d48695be719e1ddbe4d051826faaa21707109e328a7f145529ea",
+        "offset": 25747172
+      },
+      {
+        "file": "assets/originals/174220-Golden-Rizer.zip",
+        "bytes": 3973498,
+        "sha256": "821ca504d319a90336e9b2ca438869063261db31b4417a188e931b527749a24e",
+        "offset": 28813410
+      },
+      {
+        "file": "assets/originals/92824-Grace.zip",
+        "bytes": 8026270,
+        "sha256": "340613caa5b25430ee994818df904ebd62cf3c5b3f7a9f35f254dce0182b847c",
+        "offset": 32786970
+      },
+      {
+        "file": "assets/originals/128466-Gravey.zip",
+        "bytes": 1713286,
+        "sha256": "af131fe9bf884d3c46277db6b459050a5ae44a88b26a4d20e5dc67dbaf3ee0c0",
+        "offset": 40813304
+      },
+      {
+        "file": "assets/originals/100874-Grinfield.zip",
+        "bytes": 2035428,
+        "sha256": "d13dc02e7c3be7511e8aa1a5a2e3562c32dad788f607503195a77f499395cd96",
+        "offset": 42526657
+      },
+      {
+        "file": "assets/originals/194933-Guardian-Blade-Charlotte.zip",
+        "bytes": 2961976,
+        "sha256": "b43173282a2384fdf5eb3f40949a11375c4fd7f465dd714ed90da0924df95649",
+        "offset": 44562167
+      },
+      {
+        "file": "assets/originals/100734-Guromu.zip",
+        "bytes": 1456005,
+        "sha256": "9adac2c56802388be71dbf748607afb8e2b53771456c35f4e4425736a40e9828",
+        "offset": 47524207
+      },
+      {
+        "file": "assets/originals/88013-Hayate.zip",
+        "bytes": 6337816,
+        "sha256": "8912e755f9f657491a7429e33eed48329162b729cdd8f517dc4a6ec6c811ee08",
+        "offset": 48980275
+      },
+      {
+        "file": "assets/originals/129572-Healing-Avatar-Lid.zip",
+        "bytes": 6048698,
+        "sha256": "05246b60a405dc84f4ccc3d843b7aa48a68e28d152daf7060840470f929db097",
+        "offset": 55318167
+      },
+      {
+        "file": "assets/originals/93906-Helena.zip",
+        "bytes": 2313240,
+        "sha256": "c816d9548c8f1770bb1c305a5987f5d072a1685de8aae208d63c64d00ab45c14",
+        "offset": 61366928
+      },
+      {
+        "file": "assets/originals/128573-Heliarc.zip",
+        "bytes": 6420050,
+        "sha256": "d6ba6e7b9fc6d2e5bb79971560b7e1f137ae471aef7f518e3fdfee92ec9e5629",
+        "offset": 63680233
+      },
+      {
+        "file": "assets/originals/92350-Heltich.zip",
+        "bytes": 3434234,
+        "sha256": "7cb0b38413779aaf3a6a6dea0496105495141ae985fe258e26732c80f1eb7b89",
+        "offset": 70100347
+      },
+      {
+        "file": "assets/originals/117475-Holy-Knight-Charlotte.zip",
+        "bytes": 4753025,
+        "sha256": "d07c199f00eddaebf0b8ce9bcf8b5473002da07766a4b022b95b98db0560214d",
+        "offset": 73534660
+      },
+      {
+        "file": "assets/originals/112799-Ichor.zip",
+        "bytes": 2345148,
+        "sha256": "966421c50184e0083afcc834e39713959d3f72d1c28105cb4179280ed2db4722",
+        "offset": 78287748
+      },
+      {
+        "file": "assets/originals/122446-Infernal-Fire-Rain.zip",
+        "bytes": 12859383,
+        "sha256": "add41b0e6560365facacb58bf1ee77ee84c712f5e02e728d8aa92a5da278b855",
+        "offset": 80632972
+      },
+      {
+        "file": "assets/originals/175769-Itachi.zip",
+        "bytes": 2120572,
+        "sha256": "148791a1946bf021cf46c2a1cd225f772d6c6ad7f21b490b8d8d8bdf3f359d1c",
+        "offset": 93492419
+      },
+      {
+        "file": "assets/originals/92823-Jean.zip",
+        "bytes": 1412552,
+        "sha256": "9cbb62e130df2cb04910a4fcf6d004f8aeafd8d3488b1c81622e364c062509e6",
+        "offset": 95613052
+      },
+      {
+        "file": "assets/originals/122439-Jean-Pignon.zip",
+        "bytes": 3015542,
+        "sha256": "f9c0b6fff7fb6ae6b12b314af1ccdf0bc8b5b6880d2cf9c4f410f456780b587a",
+        "offset": 97025673
+      },
+      {
+        "file": "assets/originals/102224-Jiraiya.zip",
+        "bytes": 3163421,
+        "sha256": "bbbae194d047afec7fb35c32633f259911f01ad6d2ee60dd6906c4414069571e",
+        "offset": 100041280
+      },
+      {
+        "file": "assets/originals/102222-Kaede.zip",
+        "bytes": 4899586,
+        "sha256": "47f76201cfc22d486bb84a0f6fe026068692b2fd2a8e075e35501264988dc643",
+        "offset": 103204764
+      },
+      {
+        "file": "assets/originals/128503-Kaito.zip",
+        "bytes": 4331278,
+        "sha256": "3d759091d6060acdf4dba38bc3071349a4c07a76a5d0120f2ab50a61aac7146b",
+        "offset": 108104413
+      },
+      {
+        "file": "assets/originals/97447-Kamui.zip",
+        "bytes": 1932202,
+        "sha256": "cd99b2cecb08d790318e433dc947aabe625cf162b0510ea84e98bcd3efd4f49c",
+        "offset": 112435753
+      },
+      {
+        "file": "assets/originals/116260-Karlette.zip",
+        "bytes": 5593869,
+        "sha256": "700daf583dbac11aba0a4e4fecac3335136215fd3141f51da0e2e04451a1dc8e",
+        "offset": 114368021
+      },
+      {
+        "file": "assets/originals/93060-Kelsus.zip",
+        "bytes": 2445156,
+        "sha256": "e5cdf35720d5ba83b3bb8a65f683633698e133e01697c9ccb7dd7353b51f53b6",
+        "offset": 119961953
+      },
+      {
+        "file": "assets/originals/86913-Kenyu.zip",
+        "bytes": 998888,
+        "sha256": "db17ea32c2b268055190ed3634c6e0468cb3e0d297b17eeeda6280736cfec33b",
+        "offset": 122407171
+      },
+      {
+        "file": "assets/originals/112797-Kihana.zip",
+        "bytes": 4350307,
+        "sha256": "df0051805560b461a9457f4f6bc0d3a1011efd64682eaee4f822c7b71b0edced",
+        "offset": 123406123
+      },
+      {
+        "file": "assets/originals/105694-Killian.zip",
+        "bytes": 3411536,
+        "sha256": "a01b69585c3aed15f45c07370f989a961e8f513bb155ca1dfcc1931e06fd66cb",
+        "offset": 127756495
+      },
+      {
+        "file": "assets/originals/175761-King-Behemy-Brave-Shift.zip",
+        "bytes": 2352975,
+        "sha256": "b1f742abf17d0f4169fce1a18ae8ddf53b4f3c8600ded7dbfd143f9631c5e084",
+        "offset": 131168112
+      },
+      {
+        "file": "assets/originals/174184-Lasswell--FFIV-Form.zip",
+        "bytes": 2807231,
+        "sha256": "8f581bd232ce5f3079f779274d8a9af1c5586c41b64e6cf0b6e5a6aeffdfedb1",
+        "offset": 133521164
+      },
+      {
+        "file": "assets/originals/128692-Latyl.zip",
+        "bytes": 3310291,
+        "sha256": "7a8faf38193358fe9983ac5c6ae355a34145310efc70ac07ed90f54666f3d6f9",
+        "offset": 136328458
+      },
+      {
+        "file": "assets/originals/90959-Lawrence.zip",
+        "bytes": 1499718,
+        "sha256": "4644bd7752d9084718ee3db392aa3d6a34a1f849a14161bdbf2bb8127934870e",
+        "offset": 139638814
+      },
+      {
+        "file": "assets/originals/70512-Leah.zip",
+        "bytes": 677377,
+        "sha256": "5c5adbed480d984797f82f99362b448500906035882c800ee2a5a412704b4e83",
+        "offset": 141138593
+      },
+      {
+        "file": "assets/originals/110583-Leopold.zip",
+        "bytes": 2589839,
+        "sha256": "75af070ecad0d08fc08f1dcdb9531f1810a680c1b5186d49164411183fa086be",
+        "offset": 141816035
+      },
+      {
+        "file": "assets/originals/105450-Lila.zip",
+        "bytes": 1969066,
+        "sha256": "6bf46989c92e8059eef178813669cd8dc685c5cabb3ea4d308106fe3e27dd7b0",
+        "offset": 144405936
+      },
+      {
+        "file": "assets/originals/70506-Liza.zip",
+        "bytes": 795697,
+        "sha256": "f3ba7dc4d6cdcd2fb62f6aedb229af4bf121a42594fbb0c7f7c4547a882883c5",
+        "offset": 146375063
+      },
+      {
+        "file": "assets/originals/174380-Lord-of-the-Seas-Nichol.zip",
+        "bytes": 4638425,
+        "sha256": "19cdeeedc7aa4c8ac836e8eeb770d31f724ee6064588920c63c8f55b2bdec46b",
+        "offset": 147170841
+      },
+      {
+        "file": "assets/originals/99348-Loren.zip",
+        "bytes": 3772765,
+        "sha256": "1533e2d1cb7fd0d5aaf5517786478e478f0f5e13360c5f3e8e8aa5c4056c10b3",
+        "offset": 151809328
+      },
+      {
+        "file": "assets/originals/109941-Lotti.zip",
+        "bytes": 1701714,
+        "sha256": "4cbfb1f4f68a98d0db20f057eea148b513bfa7e96cdd4508005dc59409ebf169",
+        "offset": 155582156
+      },
+      {
+        "file": "assets/originals/174160-Louise.zip",
+        "bytes": 3200778,
+        "sha256": "0ae2c4a684565c8976063be927061d921d7fbc1ab54a59a9d1f84ca03fbf534f",
+        "offset": 157283934
+      },
+      {
+        "file": "assets/originals/128939-Lucas.zip",
+        "bytes": 3549787,
+        "sha256": "e5653e560899e4c0cfa4a791e5e0710f3ab199b489801151ad89f0edb51aea98",
+        "offset": 160484775
+      },
+      {
+        "file": "assets/originals/107303-Lucille.zip",
+        "bytes": 2654365,
+        "sha256": "a93063a0182eac1134c0ab48046c89c12d5a62f6861867f4e96e61acc34101bd",
+        "offset": 164034627
+      },
+      {
+        "file": "assets/originals/88014-Ludmille.zip",
+        "bytes": 2980812,
+        "sha256": "acb95ee4c710389302315c0eae6de1e4107c351d4ce5e1d1337c420239786593",
+        "offset": 166689057
+      },
+      {
+        "file": "assets/originals/87257-Luna.zip",
+        "bytes": 1674538,
+        "sha256": "f57e1b43dee528d8c26a12a004e654c6655d23f2cf74f5f549ab875a089fdd32",
+        "offset": 169669930
+      },
+      {
+        "file": "assets/originals/109942-Macmedi.zip",
+        "bytes": 2093445,
+        "sha256": "2c5776e4fec77bcf9f1dff6b800316eafbd26f2d96cb7a2aa15fe65ffd5833f6",
+        "offset": 171344533
+      },
+      {
+        "file": "assets/originals/194936-Madam-Edel--Neo-Vision.zip",
+        "bytes": 2619779,
+        "sha256": "b8ea5f77f328f6391f77034d35e214526de38757ab5f08d9fbf423116b2bc416",
+        "offset": 173438058
+      },
+      {
+        "file": "assets/originals/177481-Maeve.zip",
+        "bytes": 2303815,
+        "sha256": "6777c6ef827e1d6d11b028f110bb26ac7d61ac5e099c5f1e59682583c189a806",
+        "offset": 176057900
+      },
+      {
+        "file": "assets/originals/174345-Magic-Mermaid-Freesia.zip",
+        "bytes": 4622090,
+        "sha256": "a4dcbb8de370056dad5fe24f88285367d4176ac020ac0aa13018a90c5a98282d",
+        "offset": 178361794
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/rmrmsi.zip"
+  },
+  {
+    "name": "ffbe-pack-006.zip",
+    "bytes": 188549925,
+    "sha256": "bb9900128bbff7ba93d42c412e41b84ba219be068becfebd90e3f33df948b2bb",
+    "entries": [
+      {
+        "file": "assets/originals/110584-Magna.zip",
+        "bytes": 11214639,
+        "sha256": "6e929ebe2c43df1e2e20667bdfc810be10552682ea87d4e380fca33be7e881c1",
+        "offset": 63
+      },
+      {
+        "file": "assets/originals/128690-Maisie.zip",
+        "bytes": 3469289,
+        "sha256": "04e1cdcacbda5c9624eb1324646be0150f21c0f1f9fc6a6ba1c6b5d237ac3e55",
+        "offset": 11214766
+      },
+      {
+        "file": "assets/originals/116599-Majora.zip",
+        "bytes": 4338135,
+        "sha256": "d40b0ca04aec8967ebce79b5554c546e161f0e54fcdffb945d88a4ae74c7384b",
+        "offset": 14684119
+      },
+      {
+        "file": "assets/originals/109478-Malphasie.zip",
+        "bytes": 5153298,
+        "sha256": "127e4b7459d1764524eae76df51548ca1ff5deec5a1e3532798f604b69f18683",
+        "offset": 19022321
+      },
+      {
+        "file": "assets/originals/193926-Marine-Type-Runda.zip",
+        "bytes": 1330630,
+        "sha256": "30f65ad973f00dcccf32ec088fd7d0dc76dcdf828baf94a7e0b88dbe5b5804a0",
+        "offset": 24175694
+      },
+      {
+        "file": "assets/originals/193969-Master-Machinist-Abigail.zip",
+        "bytes": 1962240,
+        "sha256": "fb56382a3c06c2b21c50531a925015c92777c473d6960ec59670a5bf7130bc52",
+        "offset": 25506406
+      },
+      {
+        "file": "assets/originals/128695-Mastermind-Xon.zip",
+        "bytes": 1577866,
+        "sha256": "72c2daa9f67fca953ad4bb9f635df46ad9c4a6fa580ab2fedd7475a124cf373a",
+        "offset": 27468718
+      },
+      {
+        "file": "assets/originals/70507-Maxell.zip",
+        "bytes": 751039,
+        "sha256": "e4f688c81ab5f883d2a9d915d0ba32da222d57137bcd7f321350fb3c3e67b729",
+        "offset": 29046647
+      },
+      {
+        "file": "assets/originals/107445-Mediena.zip",
+        "bytes": 13221325,
+        "sha256": "677610f19b2b796c64481d90ba9c34f07ee920931efcb4f7ca150b4cb10d8a88",
+        "offset": 29797751
+      },
+      {
+        "file": "assets/originals/87359-Medius.zip",
+        "bytes": 4990857,
+        "sha256": "26ba3c2920e7a79a1a44895e4ac0c2052ca2ee39723946f6111b26c2837eff70",
+        "offset": 43019139
+      },
+      {
+        "file": "assets/originals/70505-Mel.zip",
+        "bytes": 1013145,
+        "sha256": "82899f883398fbd8bad0d29ed963a3d89ad8ffb5d55cfe0378d6c5f2b310d57b",
+        "offset": 48010056
+      },
+      {
+        "file": "assets/originals/115299-Melete.zip",
+        "bytes": 6415951,
+        "sha256": "221e17b3f66fb0ada026a61bb156973d8469acf0934002462cd2f1267ae94be8",
+        "offset": 49023265
+      },
+      {
+        "file": "assets/originals/105448-Mim.zip",
+        "bytes": 1340384,
+        "sha256": "7629496f5441932307886eb1ffe9285786764f0c05188d7e60406d25f464bc09",
+        "offset": 55439277
+      },
+      {
+        "file": "assets/originals/87358-Miyuki.zip",
+        "bytes": 2050047,
+        "sha256": "35fc765eecdcb2a21d71272ef12423c3ec7bef0bcdf67a3777498a76aa15bccd",
+        "offset": 56779724
+      },
+      {
+        "file": "assets/originals/86841-Mizell.zip",
+        "bytes": 935298,
+        "sha256": "4fff9ab723faa68de63819ade0fd81a4b57fe9096fe57318ffb5b656cbea70b3",
+        "offset": 58829834
+      },
+      {
+        "file": "assets/originals/86914-Montana.zip",
+        "bytes": 885913,
+        "sha256": "7f927df7f40184471eeb65f15f90e08c24c86e4bce3011bf7103cb036a486054",
+        "offset": 59765196
+      },
+      {
+        "file": "assets/originals/93685-Moogle.zip",
+        "bytes": 1106073,
+        "sha256": "1d0052be729a983b3b87b0084cc2d5009bd0fbba79ee45edaea4e307b4def823",
+        "offset": 60651172
+      },
+      {
+        "file": "assets/originals/128499-Morgana.zip",
+        "bytes": 4270939,
+        "sha256": "6d79f43dac6bdd95b1f5dd539b34ecaf9bcf958ef7409eb17abdce5d512e09d8",
+        "offset": 61757310
+      },
+      {
+        "file": "assets/originals/115083-Myra.zip",
+        "bytes": 2149207,
+        "sha256": "e76363f14dbd89f9725efbec5b4bee5f89731febc3c41758f75d0ea9ea88da35",
+        "offset": 66028311
+      },
+      {
+        "file": "assets/originals/129594-Mystical-Ice-Lasswell.zip",
+        "bytes": 9919514,
+        "sha256": "92efc83363e6bd0dc5f23d4569f35e529ae94cdb471bdd2cce24f1f837709824",
+        "offset": 68177597
+      },
+      {
+        "file": "assets/originals/115298-Nagflar.zip",
+        "bytes": 2439485,
+        "sha256": "f7c41001df8aa35b536ec11290b1fc81f8a3173d83639e557994274d6a80e5d9",
+        "offset": 78097176
+      },
+      {
+        "file": "assets/originals/108022-Nalu.zip",
+        "bytes": 7015876,
+        "sha256": "36dbbd032823ca4802b2bd6440d2c5c9368284592913020418e69adba5009cc3",
+        "offset": 80536723
+      },
+      {
+        "file": "assets/originals/111982-Neisha.zip",
+        "bytes": 2395547,
+        "sha256": "876deab728def7124b8fb1d61b7cef84248d7748d96611e7b1da4ee9d925d72b",
+        "offset": 87552663
+      },
+      {
+        "file": "assets/originals/175759-Noppy.zip",
+        "bytes": 1964264,
+        "sha256": "05bdc1d574786f9c8b8772b92e5b3f2c1858f99b510ba1a49043fbb423d42f30",
+        "offset": 89948273
+      },
+      {
+        "file": "assets/originals/100873-Nyalu.zip",
+        "bytes": 3190158,
+        "sha256": "ae06507079a77c11f57426a6df57607ceff1b6b5140fc9ed240b5a66a4423073",
+        "offset": 91912600
+      },
+      {
+        "file": "assets/originals/102221-Ohga.zip",
+        "bytes": 4136494,
+        "sha256": "6cac1e095d80b82238c28f060b6a6e9e30271838dded9a0a3b5cb89e8ade52fa",
+        "offset": 95102820
+      },
+      {
+        "file": "assets/originals/89559-Olive.zip",
+        "bytes": 3943265,
+        "sha256": "b28446ded56ae5159a40033c018668fbfbc872225494c30c45d665969361c91b",
+        "offset": 99239376
+      },
+      {
+        "file": "assets/originals/177343-Olivera.zip",
+        "bytes": 8878416,
+        "sha256": "dfc4a5b6fc20c78077ab33af15eaf24e543acbcdd5b9e26d98fb103f0301c246",
+        "offset": 103182706
+      },
+      {
+        "file": "assets/originals/86915-Ollie.zip",
+        "bytes": 1139155,
+        "sha256": "f53c088a69e86e28a070eb124529fdddbaeb52d782c2c6eef5899ddcce264f24",
+        "offset": 112061184
+      },
+      {
+        "file": "assets/originals/128696-Operative-Zyrus.zip",
+        "bytes": 3161134,
+        "sha256": "a655be9d362a5dc86aba9263036a08cfa571340ba4d3b40c763a5e2bbb784adb",
+        "offset": 113200412
+      },
+      {
+        "file": "assets/originals/102220-Otogiri.zip",
+        "bytes": 2357338,
+        "sha256": "83e3a00b9832fa6f7d1487a711bd3c3d8e9dc10d029ed4f9fec1cd6949c16bba",
+        "offset": 116361611
+      },
+      {
+        "file": "assets/originals/104730-Ozetta.zip",
+        "bytes": 1945564,
+        "sha256": "8d11b649d9e554f84977289321980521e3332193fe95f6a034e02d50e128abea",
+        "offset": 118719013
+      },
+      {
+        "file": "assets/originals/193955-Paladin-Sylvie.zip",
+        "bytes": 2677570,
+        "sha256": "61a502095f90809c5038de8923811ea32ab7a811313b495cefde8531d7612013",
+        "offset": 120664649
+      },
+      {
+        "file": "assets/originals/86845-Paula.zip",
+        "bytes": 1455596,
+        "sha256": "66db273b4c1879ec241ea3d032aa704c82ebb6d1c67f30cd328dbffc252f3993",
+        "offset": 123342281
+      },
+      {
+        "file": "assets/originals/128575-Pertira.zip",
+        "bytes": 2514301,
+        "sha256": "5f3239aa6e940bde49baad905fc4da6a44e58d558ae932fe1751c275e6916a9a",
+        "offset": 124797942
+      },
+      {
+        "file": "assets/originals/114331-PNK-2.zip",
+        "bytes": 2925165,
+        "sha256": "af777d717989d1e48d56dd5770f3d1c34fa43e298e4576a0918dffea2d8dadda",
+        "offset": 127312306
+      },
+      {
+        "file": "assets/originals/174186-Rain--FFI-Form.zip",
+        "bytes": 6991717,
+        "sha256": "cb9f78e011fe5385ba763dab6bfa1562a1d9b8c52781033e6daa344457aa7fcc",
+        "offset": 130237543
+      },
+      {
+        "file": "assets/originals/194944-Rain-Fina.zip",
+        "bytes": 5618088,
+        "sha256": "e7ca770eda19467a2da837d3d8393f5819994b153d10bbf824d86a7b13988b9b",
+        "offset": 137229327
+      },
+      {
+        "file": "assets/originals/88015-Rakshasa.zip",
+        "bytes": 976341,
+        "sha256": "bb9b99a1ed8b9789a5d31c307c12d6bb162f857a2d8fabbb0ba22a9b80e8bc2a",
+        "offset": 142847480
+      },
+      {
+        "file": "assets/originals/107787-Ramira.zip",
+        "bytes": 1610770,
+        "sha256": "29f9b4d94b217c5b3d4658e75df20fcf041d1b5cb2f8fdedb1ae45d015f95d2e",
+        "offset": 143823885
+      },
+      {
+        "file": "assets/originals/92558-Reberta.zip",
+        "bytes": 4865982,
+        "sha256": "736ef92d0063cd9e7219c8491d40803ba3d0f465fe92eaeaa56afc4b39752a75",
+        "offset": 145434719
+      },
+      {
+        "file": "assets/originals/193973-Reberta-Ignitos.zip",
+        "bytes": 5569363,
+        "sha256": "eeb482d4983865c1ef7eab0667f51e8b4dfeaa3e90438de3c035cff4cbdb3f78",
+        "offset": 150300774
+      },
+      {
+        "file": "assets/originals/116437-Riko.zip",
+        "bytes": 5301444,
+        "sha256": "7ef22d74db97a3cbde6669ac88ff8a4d89a3c0e391a84b66a6c64e5845d6e948",
+        "offset": 155870199
+      },
+      {
+        "file": "assets/originals/104729-Riley.zip",
+        "bytes": 3951849,
+        "sha256": "f6f1a72b8b6337b3e0eb3a2bce0175ce6427df36bc672d0b07db021a31af0e02",
+        "offset": 161171706
+      },
+      {
+        "file": "assets/originals/128501-Rivera.zip",
+        "bytes": 3224418,
+        "sha256": "6bef2b238e10d5c7d13056edc2a0c5a687f3a0455dfb3afd5b70b0b7261be096",
+        "offset": 165123619
+      },
+      {
+        "file": "assets/originals/70488-Rizer.zip",
+        "bytes": 655664,
+        "sha256": "171190160c197b07665e8fc3e5df1f2472fcc92fe9e027acde89fa3eafb06ebf",
+        "offset": 168348099
+      },
+      {
+        "file": "assets/originals/86842-Ronaldo.zip",
+        "bytes": 1304963,
+        "sha256": "9f6f218e1210545a7a22683f7e03843239d4bc517a35fa3dea896a6651d60b2e",
+        "offset": 169003827
+      },
+      {
+        "file": "assets/originals/70486-Roselia.zip",
+        "bytes": 5162667,
+        "sha256": "bc82d60aae75a86e99ce13c238e6c0fc3bcd63af9e40bd1030d62b492957b2ca",
+        "offset": 170308854
+      },
+      {
+        "file": "assets/originals/87357-Russell.zip",
+        "bytes": 1496917,
+        "sha256": "718f56e2238bad37684be84697ddac19a8235a1b5f6d72f57895e410d81693f0",
+        "offset": 175471585
+      },
+      {
+        "file": "assets/originals/108024-Ryuka.zip",
+        "bytes": 4893469,
+        "sha256": "b7cfbb911699f72afc93708efa0e8a9822604276e056f65c5050f34fcc95df17",
+        "offset": 176968565
+      },
+      {
+        "file": "assets/originals/107304-Ryumynui.zip",
+        "bytes": 1169967,
+        "sha256": "b2bce6f31227f7327592e0da3a46770a25bfd32fedbb3c7ff64d49bcc826422f",
+        "offset": 181862100
+      },
+      {
+        "file": "assets/originals/100518-Ryunan.zip",
+        "bytes": 2936798,
+        "sha256": "49b31a53d4b9cd61f89ddaed2b8f6ddf47f7b118df37306aabd7528d22122bb6",
+        "offset": 183032131
+      },
+      {
+        "file": "assets/originals/194948-Sacred-Shield-Charlotte.zip",
+        "bytes": 2576569,
+        "sha256": "47ba9f4bb7c162ff45a41f76c2dbf692f11db23aca3001088eb385ef5958adaf",
+        "offset": 185969010
+      }
+    ],
+    "transferUrl": "https://files.catbox.moe/3xfh4r.zip"
+  }
+]
