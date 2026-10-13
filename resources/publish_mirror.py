@@ -100,7 +100,11 @@ def packed_mirror():
         if remote['size']!=pack['bytes'] or remote.get('digest')!='sha256:'+pack['sha256']:raise RuntimeError('GitHub pack SHA-256 mismatch')
         url='https://github.com/'+REPO+'/releases/download/'+tag+'/'+urllib.parse.quote(pack['name'])
         for record in pack['entries']:mirrors.append({'file':record['file'],'bytes':record['bytes'],'sha256':record['sha256'],'mirrorUrl':url,'mirrorOffset':record['offset'],'mirrorBytes':pack['bytes'],'mirrorSha256':pack['sha256']})
-    if len(mirrors)!=len(entries) or len({e['file'] for e in mirrors})!=len(entries):raise RuntimeError('Incomplete resource mirror')
+    if len({e['file'] for e in mirrors})!=len(mirrors):raise RuntimeError('Duplicate resource mirror entries')
+    if len(mirrors)<len(entries):
+        print(f'Upload batch verified: {len(mirrors)}/{len(entries)} originals staged. Release remains unpublished until all originals are present.',flush=True)
+        return
+    if len(mirrors)!=len(entries):raise RuntimeError('Incomplete resource mirror')
     if release['draft']:gh('release','edit',tag,'--repo',REPO,'--draft=false','--latest=false')
     gh('api',f'repos/{REPO}/contents/resources/mirror-manifest.json','--method','PUT','--input',str(write_request(mirrors)))
     print('All original resources published and verified.',flush=True)
