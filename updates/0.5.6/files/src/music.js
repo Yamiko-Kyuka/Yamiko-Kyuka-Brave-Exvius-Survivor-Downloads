@@ -1,7 +1,7 @@
-const AUDIO_REVISION='0.5.4';
+const AUDIO_REVISION='0.5.6';
 export const musicTracks={
  menu:{file:'menu.mp3',title:'Menu theme'},
- midgar:{file:'midgar.ogg',title:'Midgar · Mako — alerte réacteur'},
+ midgar:{file:'midgar.mp3',title:'Final Fantasy VII OST — Battle Theme'},
  zanarkand:{file:'zanarkand.mp3',title:'Zanarkand map'},
  'dark-world':{file:'dark-world.mp3',title:'Dark world'},
  'crystal-tower':{file:'crystal-tower.mp3',title:'cristal tower'},

@@ -1,6 +1,8 @@
-# Musiques originales de combat
+# Musiques de combat et thèmes fournis
 
-Quatre compositions originales de JRPG en OGG stéréo, environ une minute chacune, lues en boucle. Elles sont produites par `tools/build_music.py` avec NumPy et FFmpeg, sans enregistrement ni mélodie extraite des jeux Final Fantasy.
+Les quatre zones jouent les MP3 fournis par l’utilisateur en boucle : Midgar (`midgar.mp3`, Final Fantasy VII OST — Battle Theme), Zanarkand, la Tour de Cristal et le Monde des Ténèbres. Les fichiers sont copiés sans réencodage ; leur SHA-256 est conservé dans `manifest.json`. Les anciens OGG restent des références locales.
+
+Les quatre anciennes compositions originales de JRPG sont conservées en OGG stéréo comme références ; elles ne sont plus sélectionnées pour les zones. Elles sont produites par `tools/build_music.py` avec NumPy et FFmpeg, sans enregistrement ni mélodie extraite des jeux Final Fantasy.
 
 - Midgar : **Mako — alerte réacteur**, 136 BPM ; ostinato de basse et tension industrielle.
 - Zanarkand : **Échos des priants — combat**, 124 BPM ; cloches, nappes et ligne mélodique lumineuse.

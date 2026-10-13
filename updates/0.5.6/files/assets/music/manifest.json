@@ -1,11 +1,11 @@
 [
   {
     "stage": "midgar",
-    "title": "Mako — alerte réacteur",
-    "bpm": 136,
-    "duration": 56.470588235294116,
-    "file": "assets/music/midgar.ogg",
-    "original": true
+    "title": "Final Fantasy VII OST — Battle Theme",
+    "file": "assets/music/midgar.mp3",
+    "userProvided": true,
+    "loop": true,
+    "sha256": "9d9fa276df9da3d470223c42f640018d075ad54f184c1ac1fa44b4d51225f37a"
   },
   {
     "stage": "menu",
