@@ -1,3 +1,4 @@
+import {playerRadius} from './hitboxes.js';
 /** Telegraphs lock their target before impact, giving the player time to aim a dash. */
 const specs={
  'jenova-radiance':{name:'Rayonnement de Jenova',windup:1.1,cooldown:4,color:'#85e4e9',kind:'beam'},
@@ -40,15 +41,15 @@ export function tickEnemyAttacks(s,dt){
   p.age+=dt;p.life-=dt;
   if(p.kind==='beam'){
    if(s.terrain){const end=s.terrain.trace(p.x,p.y,p.x+Math.cos(p.angle)*p.length,p.y+Math.sin(p.angle)*p.length);p.length=Math.hypot(end.x-p.x,end.y-p.y);}const dx=s.x-p.x,dy=s.y-p.y,along=dx*Math.cos(p.angle)+dy*Math.sin(p.angle),across=Math.abs(-dx*Math.sin(p.angle)+dy*Math.cos(p.angle));
-   if(!p.hit&&along>0&&along<p.length&&across<24&&hurt(s,p.damage))p.hit=true;
+   if(!p.hit&&along>0&&along<p.length&&across<18+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
   }else if(p.kind==='meteor'){
-   if(!p.hit&&Math.hypot(s.x-p.x,s.y-p.y)<p.radius+12&&hurt(s,p.damage))p.hit=true;
+   if(!p.hit&&Math.hypot(s.x-p.x,s.y-p.y)<p.radius+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
   }else if(p.kind==='quake'){
    p.radius=Math.min(p.maxRadius,p.age/.6*p.maxRadius);
-   if(!p.hit&&Math.abs(Math.hypot(s.x-p.x,s.y-p.y)-p.radius)<20&&hurt(s,p.damage))p.hit=true;
+   if(!p.hit&&Math.abs(Math.hypot(s.x-p.x,s.y-p.y)-p.radius)<7+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
   }else{
    const end=s.terrain?.trace(p.x,p.y,p.x+p.vx*dt,p.y+p.vy*dt,2);if(end){p.x=end.x;p.y=end.y;if(end.blocked){p.life=0;continue;}}else{p.x+=p.vx*dt;p.y+=p.vy*dt;}
-   if(Math.hypot(s.x-p.x,s.y-p.y)<p.radius+14&&hurt(s,p.damage))p.life=0;
+   if(Math.hypot(s.x-p.x,s.y-p.y)<p.radius+playerRadius(s)&&hurt(s,p.damage))p.life=0;
   }
  }
  s.hostileProjectiles=s.hostileProjectiles.filter(p=>p.life>0);

@@ -39,7 +39,7 @@ export function fireWeapon(s,equipped){
    const a=angle+(i-(count-1)/2)*1.1,x=s.x+(w.kind==='burst'&&i?Math.cos(a)*radius*.8:0),y=s.y+(w.kind==='burst'&&i?Math.sin(a)*radius*.8:0);
    s.effects.push({...base,x,y,angle:a,radius,life:.32,maxLife:.32});
    for(const enemy of s.enemies){const ea=Math.atan2(enemy.y-y,enemy.x-x),diff=Math.abs(Math.atan2(Math.sin(ea-a),Math.cos(ea-a)));
-    if(!hitEnemies.has(enemy)&&(!s.terrain||s.terrain.lineClear(x,y,enemy.x,enemy.y))&&distance(enemy,{x,y})<radius&&(w.kind==='burst'||diff<(w.kind==='holy'?.85:1.1))){hit(s,enemy,damage,w.color);hitEnemies.add(enemy);}
+    if(!hitEnemies.has(enemy)&&(!s.terrain||s.terrain.lineClear(x,y,enemy.x,enemy.y))&&distance(enemy,{x,y})<radius+(enemy.radius||0)&&(w.kind==='burst'||diff<(w.kind==='holy'?.85:1.1))){hit(s,enemy,damage,w.color);hitEnemies.add(enemy);}
    }
   }return true;
  }
@@ -92,7 +92,7 @@ export function tickProjectiles(s,dt){
  for(const p of s.projectiles){
   const moveDt=Math.min(dt,Math.max(0,p.life));p.life-=dt;p.age+=moveDt;
   if(p.kind==='meteor'){
-   if(p.life<=0){for(const e of s.enemies)if(distance(e,p)<p.radius)hit(s,e,p.damage,p.color);s.effects.push({...p,kind:'explosion',life:.45,maxLife:.45});}continue;
+   if(p.life<=0){for(const e of s.enemies)if(distance(e,p)<p.radius+(e.radius||0))hit(s,e,p.damage,p.color);s.effects.push({...p,kind:'explosion',life:.45,maxLife:.45});}continue;
   }
   const x=p.x,y=p.y;
   if(p.kind==='orbit'){

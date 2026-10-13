@@ -2,19 +2,22 @@ import {Terrain,moveEntity,TILE,ORIGIN} from './terrain.js';
 import {AnimationPlayer,clipFor} from './animation.js';
 import {superbossHealth} from './bosses.js';
 import {dealDamage} from './combat.js';
+import {playerRadius} from './hitboxes.js';
 import {equipmentEffects} from './model.js';
 
 // Seal an existing authored room rather than creating disconnected random obstacles.
 export const reliquary={passage:'Reliquaire scellé',areas:[{name:'Reliquaire du Dragon Zombie',shape:'rect',x:11,y:8,w:12,h:12,style:1}],paths:[],props:[]};
 export async function loadCrystalEncounter(stage,manifest,cache){
  if(stage.id!=='crystal-tower')return null;
- const dragon=(await manifest('asset-89673')).variants.find(v=>v.unitId==='2120010');
+ const response=await fetch('/assets/bosses/dracozombie/variant.json');
+ if(!response.ok)throw Error('Animations du Dragon Zombie indisponibles');
+ const dragon=await response.json();
  const skeleton=(await manifest('asset-89643')).variants.find(v=>v.unitId==='1120010');
  if(!dragon||!skeleton)throw Error('Animations du reliquaire indisponibles');
  await cache.preload([dragon,skeleton].flatMap(v=>['idle','atk'].map(k=>clipFor(v,k))));
  return {dragon,skeleton};
 }
-function body(variant,x,y,size,hp){return {variant,x,y,id:variant.unitId,anim:new AnimationPlayer(variant),size,hp,maxHp:hp,radius:size===180?48:12,speed:50,baseSpeed:50,hit:0,attack:0,dying:0,nativeFacing:'right'};}
+function body(variant,x,y,size,hp){return {variant,x,y,id:variant.unitId,anim:new AnimationPlayer(variant),size,hp,maxHp:hp,radius:size===180?64:12,speed:25,baseSpeed:25,hit:0,attack:0,dying:0,nativeFacing:'right'};}
 export function beginCrystalEncounter(s){
  if(s.stage.id!=='crystal-tower'||s.crystalCompleted||s.crystalEncounter||s.phase!=='survival'||s.time+1e-6<120||!s.crystalAssets)return false;
  const terrain=new Terrain(s.stage,reliquary),center={x:ORIGIN+17*TILE,y:ORIGIN+14*TILE},returnPoint={x:s.x,y:s.y};
@@ -71,11 +74,11 @@ export function tickCrystalEncounter(s,dt){
  if(c.clock+1e-6>=c.beamAt){c.beamAt+=2;c.beams.push({angle:Math.atan2(s.y-c.boss.y,s.x-c.boss.x),age:0,born:c.clock,hit:false});if(!c.boss.fakeDeath)c.boss.anim.play('attack');}
  for(const beam of c.beams){beam.age=c.clock-beam.born;if(beam.age<1||beam.age>1.35||beam.hit)continue;
   const dx=s.x-c.boss.x,dy=s.y-c.boss.y,along=dx*Math.cos(beam.angle)+dy*Math.sin(beam.angle),across=Math.abs(-dx*Math.sin(beam.angle)+dy*Math.cos(beam.angle));
-  if(along>=0&&along<=780&&across<26){hurt(s,18);beam.hit=true;}
+  if(along>=0&&along<=780&&across<12+playerRadius(s)){hurt(s,18);beam.hit=true;}
  }
  c.beams=c.beams.filter(b=>b.age<1.35);
  if(c.clock+1e-6>=c.poolAt){c.poolAt+=5;c.pools.push({x:s.x,y:s.y,radius:26,age:0});}
- for(const pool of c.pools){pool.age+=dt;if(pool.age>=.5&&Math.hypot(s.x-pool.x,s.y-pool.y)<pool.radius+12)hurt(s,7);}
+ for(const pool of c.pools){pool.age+=dt;if(pool.age>=.5&&Math.hypot(s.x-pool.x,s.y-pool.y)<pool.radius+playerRadius(s))hurt(s,7);}
  return false;
 }
 export function endCrystalEncounter(s){

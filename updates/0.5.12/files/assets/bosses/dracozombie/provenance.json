@@ -1,0 +1,29 @@
+{
+  "name": "Dracozombie",
+  "japaneseName": "ドラゴンゾンビ",
+  "spriteId": "3120810",
+  "identitySource": "https://github.com/aEnigmatic/ffbe/blob/95727376e82d27acc1290b6dc8ad27ce3c89ea71/monster_skillsets.json",
+  "identityEntry": "312081000",
+  "spriteRepositoryCommit": "f82d603c90ec799f539280267d3af7589c79f117",
+  "sources": [
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated/monster_anime_3120810.png",
+      "path": "assets/bosses/dracozombie/monster_anime_3120810.png",
+      "bytes": 32142,
+      "sha256": "b9ace5b0b29069571c72869a01bbb8e96a67f37c46fd2cc9bec9fa6cd9a1080f"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated_csv/monster_cgg_3120810.csv",
+      "path": "assets/bosses/dracozombie/monster_cgg_3120810.csv",
+      "bytes": 385,
+      "sha256": "d7c84a4d37fc2aaa513420808d8f116bc08c809e4fb4b75a2979cd2d903a2269"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated_csv/monster_atk_cgs_3120810.csv",
+      "path": "assets/bosses/dracozombie/monster_atk_cgs_3120810.csv",
+      "bytes": 18,
+      "sha256": "dafee5f6facc836fed4671d0473129516225905d98184de31d5fb6d3aa043525"
+    }
+  ],
+  "import": "Original PNG unchanged; body atlas cells and native attack durations taken from original CGG/CGS. Four idle poses; original shadow mask omitted in favor of the game ground marker."
+}

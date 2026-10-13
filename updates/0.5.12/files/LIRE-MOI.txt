@@ -28,7 +28,12 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.5.11 — LE RELIQUAIRE DU DRAGON ZOMBIE
+VERSION 0.5.12 — VAGUES ET HITBOX
+Sprite exact FFBE du Dragon Zombie (Dracozombie 3120810) et animations natives.
+Squelettes du Dragon Zombie ralentis de 50 %.
+Cadence des vagues augmentée progressivement jusqu’à x2 à 1 minute.
+Hitbox visibles au sol : petit cercle turquoise pour le joueur, grands anneaux rouges pour les boss.
+Le joueur ne peut plus traverser les corps des boss, même en dash.
 Tour de Cristal : rencontre du Dragon Zombie à 2 minutes, timer suspendu.
 Deux segments de PV progressifs, fausse mort et 12 squelettes à intercepter.
 Rayon et zones de poison ; limite niv. 1 débloquée après victoire (touche R, recharge 60 s).

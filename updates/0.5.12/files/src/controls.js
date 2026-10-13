@@ -1,4 +1,4 @@
-import {moveEntity} from './terrain.js';
+import {movePlayer} from './hitboxes.js';
 export function screenAim(s,point,width,height){
  if(!point?.active)return null;
  return {x:s.x+(point.x-width/2)/s.zoom,y:s.y+(point.y-height/2)/s.zoom,active:true};
@@ -14,7 +14,7 @@ export function startDash(s){
 }
 export function tickDash(s,dt){
  if(!s.dash)return false;const t=Math.min(dt,s.dash.remaining);
- const from={x:s.x,y:s.y};moveEntity(s.terrain,s,s.dash.dx*(110/.16)*t,s.dash.dy*(110/.16)*t);s.dash.remaining-=t;
+ const from={x:s.x,y:s.y};movePlayer(s,s.dash.dx*(110/.16)*t,s.dash.dy*(110/.16)*t);s.dash.remaining-=t;
  s.effects.push({kind:'dash',...from,tx:s.x,ty:s.y,color:'#b5edff',life:.16,maxLife:.16});
  if(s.dash.remaining<=1e-8){s.dash=null;if(s.anim.event==='dodge'){s.anim.sequence=[];s.anim.elapsed=0;s.anim.event=s.anim.base;}}return true;
 }

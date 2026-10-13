@@ -1,8 +1,8 @@
 // Sprite identities checked against the FFBE monster AI data (see assets/maps/README.md).
 // Generic families remain named after their actual FFBE art rather than a missing FF monster.
 export const monsters={
- // Scripted reliquary encounter: skeletal FFBE dragon art, not an official FFIII sprite identification.
- '2120010':{name:'Dragon Zombie',size:180,hp:1,speed:0},
+ // Scripted reliquary encounter: Dracozombie (ドラゴンゾンビ), verified FFBE sprite 3120810.
+ '3120810':{name:'Dragon Zombie',size:180,hp:1,speed:0},
  '1120010':{name:'Squelette du reliquaire',size:44,hp:1,speed:1},
  '1010010':{name:'Rat géant',size:32,hp:.6,speed:1.25},
  '1050310':{name:'Fantassin',size:42,hp:1,speed:1},

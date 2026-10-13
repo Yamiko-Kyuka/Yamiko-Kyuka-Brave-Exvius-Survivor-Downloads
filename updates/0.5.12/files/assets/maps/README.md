@@ -28,3 +28,5 @@ Le guide `guide/cartes-obstacles.png` montre le rendu des quatre plans avec un v
 ### Reliquaire du Dragon Zombie (0.5.11)
 
 Le reliquaire ouest existant de la Tour de Cristal est temporairement scellé pendant la rencontre. Son plan de collision est aussi celui du rendu. Le boss utilise le dragon squelettique FFBE `2120010` du pack `asset-89673`, et les invocations le squelette `1120010` du pack `asset-89643`, avec leurs animations originales `idle` et `atk`. « Dragon Zombie » désigne ici le boss scénarisé du jeu ; ce sprite ne constitue pas une identification officielle d’une variante FFIII.
+
+Correction 0.5.12 : le Bone Dragon `2120010` de la première version est remplacé par le **Dracozombie / ドラゴンゾンビ `3120810`**. Identité confirmée dans `monster_skillsets.json`, entrée `312081000`. L’atlas original est conservé sans modification ; les quatre poses natives d’attente et la séquence d’attaque CGS sont utilisées. Les sources GitHub épinglées, tailles et SHA-256 sont dans `assets/bosses/dracozombie/provenance.json`. Le masque d’ombre de l’atlas n’est pas une animation de corps et laisse place à l’anneau au sol du moteur.

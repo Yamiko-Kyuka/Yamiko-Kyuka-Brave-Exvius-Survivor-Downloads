@@ -1,7 +1,7 @@
 import {moveEntity} from './terrain.js';
 
 /** Ground footprints: a monster's weapon or animation does not enlarge its body. */
-export function enemyRadius(size=40,superboss=false){return Math.max(10,Math.min(superboss?72:32,size*.27));}
+export function enemyRadius(size=40,boss=false){return Math.max(10,Math.min(boss?90:32,size*(boss ? .34 : .27)));}
 
 /** Resolve only nearby circles. Large creatures yield less; corpses have no collision. */
 export function separateEnemies(state,passes=4){
