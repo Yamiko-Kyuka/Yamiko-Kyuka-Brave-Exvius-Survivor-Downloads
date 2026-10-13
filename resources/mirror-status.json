@@ -1,1 +1,1 @@
-{"status": "failed", "error": "Remote end closed connection without response"}
+{"status": "failed", "error": "Transfer pack checksum mismatch"}
