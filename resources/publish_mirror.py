@@ -70,4 +70,14 @@ def write_request(records):
         if '404' not in str(error):raise
     file=ROOT/'mirror-manifest-request.json';file.write_text(json.dumps(request));return file
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    try:main()
+    except Exception as error:
+        import base64
+        data=json.dumps({'status':'failed','error':str(error)})+'\n'
+        request={'message':'Record resource mirror diagnostic','branch':'gh-pages','content':base64.b64encode(data.encode()).decode()}
+        try:request['sha']=api(f'repos/{REPO}/contents/resources/mirror-status.json?ref=gh-pages')['sha']
+        except RuntimeError:pass
+        file=ROOT/'mirror-status-request.json';file.write_text(json.dumps(request))
+        gh('api',f'repos/{REPO}/contents/resources/mirror-status.json','--method','PUT','--input',str(file))
+        raise
