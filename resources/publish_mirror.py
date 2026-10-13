@@ -76,12 +76,10 @@ def packed_mirror():
             return
         target=folder/pack['name'];url=pack['transferUrl']
         if not url.startswith('https://files.catbox.moe/') or not url.endswith('.zip'):raise RuntimeError('Invalid transfer source')
-        digest=hashlib.sha256();size=0
-        with urllib.request.urlopen(url,timeout=180) as response,target.open('wb') as out:
-            while block:=response.read(1024*1024):
-                size+=len(block)
-                if size>pack['bytes']:raise RuntimeError('Transfer pack size mismatch')
-                digest.update(block);out.write(block)
+        download=subprocess.run(['curl','--fail','--location','--show-error','--silent','--retry','4','--retry-all-errors','--connect-timeout','30','--max-time','600','--user-agent','BraveExviusSurvivor-Mirror/0.5.8','--output',str(target),url],text=True,capture_output=True)
+        if download.returncode:raise RuntimeError('Transfer download '+pack['name']+': '+download.stderr.strip())
+        size=target.stat().st_size
+        with target.open('rb') as stream:digest=hashlib.file_digest(stream,'sha256')
         if size!=pack['bytes'] or digest.hexdigest()!=pack['sha256']:raise RuntimeError('Transfer pack checksum mismatch')
         with zipfile.ZipFile(target) as archive:
             for record in pack['entries']:
@@ -91,7 +89,9 @@ def packed_mirror():
                 if info.compress_type!=0 or info.file_size!=record['bytes'] or info.header_offset+30+len(info.filename.encode('utf8'))+len(info.extra)!=record['offset']:raise RuntimeError('Archive offsets mismatch')
                 with archive.open(info) as stream:
                     if hashlib.file_digest(stream,'sha256').hexdigest()!=original['sha256']:raise RuntimeError('Original resource checksum mismatch')
-        gh('release','upload',tag,str(target),'--repo',REPO);target.unlink()
+        try:gh('release','upload',tag,str(target),'--repo',REPO)
+        except RuntimeError as error:raise RuntimeError('GitHub upload '+pack['name']+': '+str(error)) from error
+        target.unlink()
         print('Verified and published '+pack['name'],flush=True)
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:list(pool.map(publish,packs))
     verified=assets(release['id']);mirrors=[]
