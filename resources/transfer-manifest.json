@@ -7547,7 +7547,24 @@
         "offset": 98392436
       }
     ],
-    "transferUrl": "https://files.catbox.moe/ax5r8n.zip"
+    "transferUrl": "https://files.catbox.moe/ax5r8n.zip",
+    "transferParts": [
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-025.zip.part01.bin",
+        "bytes": 48000000,
+        "sha256": "c0c5595bab7d37ba06ad12f64e85f4d32fe1946f0d0b2ee3eb62a7adf8af0b69"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-025.zip.part02.bin",
+        "bytes": 48000000,
+        "sha256": "6ff2d896100f5c587a85e0fdd57c9ab4813bf43377a93999312157c8f4a4051b"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-025.zip.part03.bin",
+        "bytes": 5686643,
+        "sha256": "38bc9b46ec2259c6b65047ffc6bfe4152c2d34f160bf3c59723cee43e5a8d8c2"
+      }
+    ]
   },
   {
     "name": "ffbe-pack-026.zip",
@@ -7561,6 +7578,28 @@
         "offset": 68
       }
     ],
-    "transferUrl": "https://files.catbox.moe/nl8r3j.zip"
+    "transferUrl": "https://files.catbox.moe/nl8r3j.zip",
+    "transferParts": [
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-026.zip.part01.bin",
+        "bytes": 48000000,
+        "sha256": "a2c3b46d7a453085a16b476f2a8aa876ac68fb3506c21ab03ee692b5fbb1d5d0"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-026.zip.part02.bin",
+        "bytes": 48000000,
+        "sha256": "33e9edcf284960d8a9ee6b1ffe9f291ef16c4fd6373569863ae8124904cb12b3"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-026.zip.part03.bin",
+        "bytes": 48000000,
+        "sha256": "1fa6ee17a63d80a07ecdc2418cd16378f99b6709f08d56fcf2d20345e1c79bdb"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/resource-transfer-0.5.8/ffbe-pack-026.zip.part04.bin",
+        "bytes": 35896281,
+        "sha256": "197316b3ad1fa1695b88b8b4c714185f2e68f3da7e16c86448f456f67cde045c"
+      }
+    ]
   }
 ]
