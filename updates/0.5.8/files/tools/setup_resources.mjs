@@ -13,6 +13,16 @@ function problem(message,code,retryable=true){return Object.assign(new Error(mes
 export function describeError(error){const cause=error.cause||error;const code=error.code||cause.code||cause.errors?.[0]?.code||'';const messages={ENOSPC:'Espace disque insuffisant.',EACCES:'Accès au dossier refusé par Windows.',EPERM:'Le fichier est bloqué ou le dossier est protégé.',ENOTFOUND:'Le serveur ne peut pas être trouvé. Vérifiez la connexion.',EAI_AGAIN:'Le serveur ne peut pas être trouvé pour le moment.',ECONNRESET:'La connexion a été coupée.',ETIMEDOUT:'La connexion ne répond plus.',UND_ERR_CONNECT_TIMEOUT:'Le serveur ne répond pas.',UND_ERR_SOCKET:'La connexion a été coupée.',CERT_HAS_EXPIRED:'Le certificat du serveur est expiré.',UNABLE_TO_VERIFY_LEAF_SIGNATURE:'Le certificat du serveur ne peut pas être vérifié.',DEPTH_ZERO_SELF_SIGNED_CERT:'Le certificat du serveur ne peut pas être vérifié.'};const text=messages[code]||[error.message,cause!==error?cause.message:''].filter(Boolean).join(' — ');return (code?code+' : ':'')+text.replace(/(https?:\/\/)[^/\s@]+@/g,'$1[identifiants]@');}
 function canRetry(error){const code=error.code||error.cause?.code;return error.retryable!==false&&!['ENOSPC','EACCES','EPERM','CERT_HAS_EXPIRED','UNABLE_TO_VERIFY_LEAF_SIGNATURE','DEPTH_ZERO_SELF_SIGNED_CERT'].includes(code);}
 function retryAfter(response){const value=response.headers.get('retry-after');if(!value)return 0;const seconds=Number(value);return Math.min(30000,Math.max(0,Number.isFinite(seconds)?seconds*1000:Date.parse(value)-Date.now()));}
+const mirrorRoot='https://github.com/Yamiko-Kyuka/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/releases/download/';
+export function resourceSources(entry){
+ const original=new URL(entry.url,'https://www.spriters-resource.com');
+ if(original.protocol!=='https:'||original.hostname!=='www.spriters-resource.com')throw problem('Source de ressource invalide.','INVALID_URL',false);
+ if(!entry.mirrorUrl)return [original];
+ const mirror=new URL(entry.mirrorUrl);
+ if(!mirror.href.startsWith(mirrorRoot)||mirror.username||mirror.password||mirror.search||mirror.hash||!/^resources-v1-[ab]\/[^/]+\.zip$/.test(mirror.href.slice(mirrorRoot.length)))throw problem('Miroir de ressource invalide.','INVALID_URL',false);
+ if(entry.mirrorOffset!==undefined||entry.mirrorBytes!==undefined){if(!Number.isSafeInteger(entry.mirrorOffset)||entry.mirrorOffset<0||!Number.isSafeInteger(entry.mirrorBytes)||entry.mirrorBytes<entry.mirrorOffset+entry.bytes)throw problem('Position de ressource invalide dans le miroir.','INVALID_URL',false);}
+ return [mirror,original];
+}
 
 export async function installResources(root,{entries=null,fetchResource=fetch,concurrency=1,maxAttempts=4,idleTimeoutMs=120000,retryDelayMs=2000,sleep=delay,log=console.log,onProgress=()=>{}}={}){
  root=path.resolve(root);entries??=JSON.parse(await readFile(path.join(root,'assets/download-report.json'),'utf8'));concurrency=Math.max(1,Math.min(3,Math.floor(concurrency)||1));maxAttempts=Math.max(1,Math.floor(maxAttempts)||1);
@@ -28,23 +38,24 @@ export async function installResources(root,{entries=null,fetchResource=fetch,co
   if(size>=entry.bytes&&size>0){await unlink(temporary);received.delete(entry.file);}else if(size>0)received.set(entry.file,size);
   pending.push(entry);progress('checking');
  }
- async function transfer(entry,destination,temporary){
+ async function transfer(entry,destination,temporary,url){
+  const packed=url.href===entry.mirrorUrl&&entry.mirrorOffset!==undefined,base=packed?entry.mirrorOffset:0;
   let offset=await fileSize(temporary);if(offset>=entry.bytes){if(offset===entry.bytes&&await verifyFile(temporary,entry)){await promote(entry,destination,temporary);return;}await unlink(temporary);offset=0;received.delete(entry.file);}
-  const url=new URL(entry.url,'https://www.spriters-resource.com');if(url.protocol!=='https:'||url.hostname!=='www.spriters-resource.com')throw problem('Source de ressource invalide.','INVALID_URL',false);
   const controller=new AbortController();let timer,response;const arm=()=>{clearTimeout(timer);timer=setTimeout(()=>controller.abort(problem('La connexion ne répond plus.','ETIMEDOUT')),idleTimeoutMs);};
   try{
-   arm();const headers={'User-Agent':'BraveExviusSurvivor-AssetImport/0.3.4','Accept-Encoding':'identity'};if(offset)headers.Range=`bytes=${offset}-`;
+   arm();const headers={'User-Agent':'BraveExviusSurvivor-AssetImport/0.5.8','Accept-Encoding':'identity'};if(packed)headers.Range=`bytes=${base+offset}-${base+entry.bytes-1}`;else if(offset)headers.Range=`bytes=${offset}-`;
    response=await fetchResource(url,{headers,signal:controller.signal});arm();
    if(response.status===416){await unlink(temporary).catch(()=>{});received.delete(entry.file);throw problem('Le serveur a refusé la reprise ; le fichier sera retéléchargé.','INVALID_RANGE');}
-   if(!response.ok){const code='HTTP_'+response.status;const error=problem(`Le serveur a répondu HTTP ${response.status}.`,code,[408,425,429,500,502,503,504].includes(response.status));error.retryAfterMs=retryAfter(response);throw error;}
+   if(!response.ok){const code='HTTP_'+response.status;const explanation=response.status===403?'Le serveur refuse le téléchargement (HTTP 403). Réessayer la même source ne débloque pas ce refus.':`Le serveur a répondu HTTP ${response.status}.`;const error=problem(explanation,code,[408,425,429,500,502,503,504].includes(response.status));error.retryAfterMs=retryAfter(response);throw error;}
    let range;
-   if(response.status===206){range=/^bytes (\d+)-(\d+)\/(\d+)$/.exec(response.headers.get('content-range')||'');if(!range||Number(range[1])!==offset||Number(range[3])!==entry.bytes||Number(range[2])<offset||Number(range[2])>=entry.bytes)throw problem('Réponse de reprise invalide.','INVALID_RANGE');}
+   if(response.status===206){range=/^bytes (\d+)-(\d+)\/(\d+)$/.exec(response.headers.get('content-range')||'');if(!range||Number(range[1])!==base+offset||Number(range[3])!==(packed?entry.mirrorBytes:entry.bytes)||Number(range[2])<base+offset||Number(range[2])>=base+entry.bytes||(packed&&Number(range[2])!==base+entry.bytes-1))throw problem('Réponse de reprise invalide.','INVALID_RANGE');}
+   else if(packed)throw problem('Le miroir n’a pas respecté la portion demandée.','INVALID_RANGE');
    else if(offset){offset=0;received.delete(entry.file);}
    if(!response.body)throw problem('Le serveur n’a pas transmis le fichier.','EMPTY_RESPONSE');
    let size=offset;
    const checker=new Transform({transform(chunk,encoding,callback){arm();size+=chunk.length;if(size>entry.bytes){callback(problem('La taille du fichier reçu est incorrecte.','INVALID_SIZE'));return;}received.set(entry.file,size);progress('downloading');callback(null,chunk);}});
    await pipeline(Readable.fromWeb(response.body),checker,createWriteStream(temporary,{flags:offset?'a':'w'}),{signal:controller.signal});
-   if(range&&size!==Number(range[2])+1)throw problem('Le transfert a été coupé avant la fin.','INCOMPLETE_DOWNLOAD');
+   if(range&&size!==Number(range[2])+1-base)throw problem('Le transfert a été coupé avant la fin.','INCOMPLETE_DOWNLOAD');
    if(size!==entry.bytes)throw problem('Le transfert a été coupé avant la fin.','INCOMPLETE_DOWNLOAD');
    clearTimeout(timer);progress('verifying');if(!await verifyFile(temporary,entry))throw problem('L’intégrité du fichier téléchargé est incorrecte ; il sera retéléchargé.','CHECKSUM_MISMATCH');
    downloaded++;await promote(entry,destination,temporary);
@@ -54,8 +65,10 @@ export async function installResources(root,{entries=null,fetchResource=fetch,co
    throw reason;
   }finally{clearTimeout(timer);controller.abort();if(response?.body)await response.body.cancel().catch(()=>{});}
  }
- async function one(entry){const {destination,temporary}=paths(entry);await mkdir(path.dirname(destination),{recursive:true});for(let attempt=1;attempt<=maxAttempts;attempt++){
-  try{await transfer(entry,destination,temporary);return;}catch(error){if(attempt===maxAttempts||!canRetry(error))throw error;const wait=Math.max(Math.min(30000,retryDelayMs*2**(attempt-1)),error.retryAfterMs||0);log(`Reprise ${attempt+1}/${maxAttempts} : ${entry.name} — ${describeError(error)}`);progress('retrying',{attempt:attempt+1,maxAttempts,retryIn:wait/1000,message:describeError(error)});await sleep(wait);}
+ async function one(entry){const {destination,temporary}=paths(entry);await mkdir(path.dirname(destination),{recursive:true});const sources=resourceSources(entry);for(let source=0;source<sources.length;source++){
+  try{for(let attempt=1;attempt<=maxAttempts;attempt++){
+   try{await transfer(entry,destination,temporary,sources[source]);return;}catch(error){if(attempt===maxAttempts||!canRetry(error))throw error;const wait=Math.max(Math.min(30000,retryDelayMs*2**(attempt-1)),error.retryAfterMs||0);log(`Reprise ${attempt+1}/${maxAttempts} : ${entry.name} — ${describeError(error)}`);progress('retrying',{attempt:attempt+1,maxAttempts,retryIn:wait/1000,message:describeError(error)});await sleep(wait);}
+  }}catch(error){if(source===sources.length-1||(!canRetry(error)&&!['HTTP_403','HTTP_404','HTTP_410'].includes(error.code)))throw error;const message=`Source indisponible pour ${entry.name} (${sources[source].hostname}) — ${describeError(error)} Changement de source ; les octets reçus sont conservés.`;log(message);progress('retrying',{retryIn:0,message});}
  }}
  async function worker(){while(!stopped&&cursor<pending.length){const entry=pending[cursor++];try{await one(entry);if(completed<=6||completed%25===0||completed===entries.length)log(`${completed} / ${entries.length} ressources vérifiées · ${downloaded} téléchargées`);}catch(error){stopped=true;failures.push({name:entry.name,error});log('Échec : '+entry.name+' — '+describeError(error));}}}
  await Promise.all(Array.from({length:Math.min(concurrency,pending.length)},worker));if(failures.length){const first=failures[0];throw Object.assign(new Error(`${first.name} — ${describeError(first.error)} Les fichiers complets et partiels sont conservés. Cliquez sur Réessayer pour reprendre.`),{cause:first.error,code:first.error.code});}
