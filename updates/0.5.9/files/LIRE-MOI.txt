@@ -28,7 +28,9 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.5.8 — PROGRESSION NORMALE
+VERSION 0.5.9 — PROGRESSION NORMALE
+Sprites de sélection agrandis de 50 %, bandeaux informatifs supprimés.
+Les gils sont affichés en grand au centre en bas des menus ; Retour reste accessible.
 Accueil > menu > personnage > niveau et difficulté > expédition.
 Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
 Les succès débloquent l’achat des autres héros dans la boutique.
