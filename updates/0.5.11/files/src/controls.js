@@ -4,7 +4,7 @@ export function screenAim(s,point,width,height){
  return {x:s.x+(point.x-width/2)/s.zoom,y:s.y+(point.y-height/2)/s.zoom,active:true};
 }
 export function startDash(s){
- if(!s||s.paused||s.over||s.ending||s.dash||s.dodgeCooldown>0)return false;
+ if(!s||s.crystalEncounter?.phase==='pull'||s.paused||s.over||s.ending||s.dash||s.dodgeCooldown>0)return false;
  const dx=s.aim?.active?s.aim.x-s.x:(s.facing?-1:1),dy=s.aim?.active?s.aim.y-s.y:0,length=Math.hypot(dx,dy);
  if(length<1)return false;
  s.dash={dx:dx/length,dy:dy/length,remaining:.16};s.dodgeCooldown=1.1;s.invuln=Math.max(s.invuln,.22);s.facing=dx<0;

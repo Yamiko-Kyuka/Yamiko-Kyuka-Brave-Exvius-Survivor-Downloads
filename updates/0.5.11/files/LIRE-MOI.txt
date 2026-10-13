@@ -28,7 +28,10 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.5.10 — PROGRESSION NORMALE
+VERSION 0.5.11 — LE RELIQUAIRE DU DRAGON ZOMBIE
+Tour de Cristal : rencontre du Dragon Zombie à 2 minutes, timer suspendu.
+Deux segments de PV progressifs, fausse mort et 12 squelettes à intercepter.
+Rayon et zones de poison ; limite niv. 1 débloquée après victoire (touche R, recharge 60 s).
 Sprites de sélection agrandis de 50 %, bandeaux informatifs supprimés.
 Les gils sont affichés en grand au centre en bas des menus ; Retour reste accessible.
 Accueil > menu > personnage > niveau et difficulté > expédition.
@@ -87,7 +90,7 @@ les fichiers de l’application. Conservez assets/originals, assets/animation-ti
 runtime/win-x64 et userdata. Les ressources déjà téléchargées seront réutilisées.
 ZQSD / WASD / flèches : déplacement. Curseur : viser. Attaques automatiques.
 Clic droit : dash vers le viseur. Molette : zoom / dézoom (50 % à 250 %).
-C : forme. P ou Échap : pause. Magie active et Limit Break retirées.
+C : forme. P ou Échap : pause. R : limite niv. 1 après avoir vaincu le Dragon Zombie.
 Le lanceur ouvre la progression normale. Le mode développeur est optionnel.
 Les cadrages de certaines variantes restent à vérifier visuellement.
 

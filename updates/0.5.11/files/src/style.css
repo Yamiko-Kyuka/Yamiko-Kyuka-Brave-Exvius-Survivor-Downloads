@@ -59,3 +59,5 @@ body[data-screen="menuScreen"] main,body[data-screen="characterScreen"] main,bod
 #menuDock .currency-label{font-size:.55em;letter-spacing:2px}
 #menuDock #back{grid-column:3;justify-self:end;padding:10px 22px}
 @media(max-width:650px){.character-layout,.stage-layout{height:auto}.screen{min-height:calc(100dvh - 88px)}.title-screen{min-height:100dvh}#menuDock{padding:12px 4%;gap:8px;background:#071123f5}#menuDock #back{padding:9px 12px;font-size:11px}}
+
+#bossSegments{display:flex;gap:6px}#bossSegments .boss-health-track{flex:1;height:16px}#bossSegments span{background:linear-gradient(90deg,#506c35,#c0e779)}#limitButton{border-color:#ffe38e;background:linear-gradient(#665233,#332959)!important;color:#ffe8a8}

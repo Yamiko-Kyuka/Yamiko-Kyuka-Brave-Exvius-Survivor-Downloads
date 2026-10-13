@@ -5,7 +5,7 @@ const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function nearestEnemy(s,max=Infinity){return s.enemies.filter(e=>!e.dying&&e.hp>0&&distance(e,s)<=max).sort((a,b)=>distance(a,s)-distance(b,s))[0];}
 export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){
  if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
- e.hp-=damage;e.hit=.18;s.effects.push({kind:'spark',x:e.x,y:e.y,color,life:.25,maxLife:.25});
+ if(e.receiveDamage){damage=e.receiveDamage(damage);if(damage<=0)return false;}else e.hp-=damage;e.hit=.18;s.effects.push({kind:'spark',x:e.x,y:e.y,color,life:.25,maxLife:.25});
  const numbers=s.damageNumbers??=[];const lane=(e.damageSequence||0)%3-1;e.damageSequence=(e.damageSequence||0)+1;
  const x=e.x+lane*12;let y=e.y-48,steps=0;
  const previous=numbers.filter(n=>n.target===e);while(steps<7&&previous.some(n=>Math.abs(n.y-y)<20&&Math.abs(n.x-x)<36)){y-=22;steps++;}

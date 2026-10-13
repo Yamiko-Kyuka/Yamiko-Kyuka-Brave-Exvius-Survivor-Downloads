@@ -2,9 +2,9 @@
 export const TILE=64,SIZE=80,ORIGIN=-SIZE*TILE/2;
 import {levelPlans} from './level-plans.js';
 export class Terrain {
- constructor(stage){
+ constructor(stage,overridePlan=null){
   this.id=stage.id;this.cells=new Uint8Array(SIZE*SIZE);this.flow=new Int16Array(SIZE*SIZE);this.flowTarget=-1;
-  const plan=levelPlans[this.id]||levelPlans.midgar;this.plan=plan;this.areas=plan.areas;this.props=plan.props;
+  const plan=overridePlan||levelPlans[this.id]||levelPlans.midgar;this.plan=plan;this.areas=plan.areas;this.props=plan.props;
   this.styles=new Uint8Array(SIZE*SIZE);this.propCells=new Uint8Array(SIZE*SIZE);
   for(const area of plan.areas){
    for(let y=area.y;y<area.y+area.h;y++)for(let x=area.x;x<area.x+area.w;x++){

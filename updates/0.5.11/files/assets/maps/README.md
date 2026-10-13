@@ -24,3 +24,7 @@ Les vagues ne prennent que des identifiants déclarés pour leur zone. Deux fami
 À cinq minutes, les superboss demandés remplacent les vagues : Jenova, Jecht, l’Empereur de FF II et Cloud of Darkness, respectivement. Le choix de l’Empereur pour la Tour de Cristal suit la demande de conception ; Xande reste une élite. Jecht, l’Empereur et Cloud of Darkness utilisent leurs propres variantes FFBE. Le sprite de Jenova est une interprétation originale générée, faute de planche de ce boss dans les ressources téléchargées ; ses trois poses d’attente et trois attaques sont dans `assets/bosses/jenova.png`. Chaque boss tué donne un cristal de niveau.
 
 Le guide `guide/cartes-obstacles.png` montre le rendu des quatre plans avec un voile rouge sur chaque cellule bloquée, les obstacles numérotés et le point de départ en turquoise. Il est inclus dans le build pour consultation hors du jeu. Le guide ne modifie pas les couleurs des niveaux en combat.
+
+### Reliquaire du Dragon Zombie (0.5.11)
+
+Le reliquaire ouest existant de la Tour de Cristal est temporairement scellé pendant la rencontre. Son plan de collision est aussi celui du rendu. Le boss utilise le dragon squelettique FFBE `2120010` du pack `asset-89673`, et les invocations le squelette `1120010` du pack `asset-89643`, avec leurs animations originales `idle` et `atk`. « Dragon Zombie » désigne ici le boss scénarisé du jeu ; ce sprite ne constitue pas une identification officielle d’une variante FFIII.
