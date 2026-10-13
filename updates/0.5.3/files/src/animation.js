@@ -1,0 +1,30 @@
+/** Per-character clip selection. Never substitute another character's artwork. */
+export const actionLabels={idle:'Repos',move:'Déplacement',atk:'Attaque',standby:'Posture de combat',dead:'Mort',dying:'Blessé',jump:'Esquive',magic_atk:'Magie',magic_standby:'Incantation',limit_atk:'Limite',limit_move:'Déplacement de limite',win:'Victoire',win_before:'Début de victoire',brave_shift:'Transformation',escape:'Retraite',dance:'Danse',anime:'Planche complète',atkeff:'Effet d’attaque',limit_atkeff:'Effet de limite'};
+export function labelFor(state){return actionLabels[state]||state.replaceAll('_',' ');}
+export function clipFor(variant,state,index=0){const options=variant?.animations?.[state];return options?.[Math.abs(index)%options.length]||null;}
+export function attackStates(variant,prefix='atk'){return Object.keys(variant.animations).filter(s=>s===prefix||new RegExp('^'+prefix+'\\d+$').test(s)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));}
+export function actionSequence(variant,event,index=0){const exists=s=>Boolean(clipFor(variant,s));const chosen=(prefix)=>{const states=attackStates(variant,prefix);return states.length?states[index%states.length]:null;};
+const lists={attack:['standby_before','standby',chosen('atk'),'atkeff'],magic:['magic_standby',chosen('magic_atk')],limit:['super_limit_atk_before','limit_move_before','jlimit_move','limit_move','limit_atk_before',chosen('limit_atk'),'limit_atkeff'],move:['move_before','move'],dodge:['jump'],victory:['win_before','win_all','win'],death:['dead'],shift:['brave_shift'],dance:['dance'],escape:['escape']};return (lists[event]||[event]).filter(s=>s&&exists(s)).map(s=>clipFor(variant,s,index));}
+// Play every character's original frames at half the previous cadence.
+// Timing is shared by playback, previews and the moment an attack lands.
+export function clipDuration(clip){const count=clip.frames.length;let duration;if(['jump','dead','dying','brave_shift'].includes(clip.state))duration=Math.max(.45,count/18);else if(clip.state==='standby'||clip.state==='magic_standby')duration=Math.max(.2,count/24);else duration=Math.max(.25,count/(clip.state.startsWith('limit')?40:24));return duration*2;}
+export function frameAt(clip,elapsed,{loop=true,duration=clipDuration(clip)}={}){const n=clip.frames.length,index=Math.floor(Math.max(0,elapsed)/Math.max(.001,duration)*n+1e-9);return {index:loop?index%n:Math.min(n-1,index),rect:clip.frames[loop?index%n:Math.min(n-1,index)]};}
+export class AnimationPlayer{
+ constructor(variant){this.variant=variant;this.sequence=[];this.elapsed=0;this.index=0;this.event='idle';this.cycle=0;this.base='idle';this.onComplete=null;}
+ play(event,{onComplete=null,index=this.cycle++}={}){const seq=actionSequence(this.variant,event,index);if(!seq.length)return false;this.sequence=seq;this.elapsed=0;this.index=0;this.event=event;this.onComplete=onComplete;return true;}
+ get busy(){return this.sequence.length>0;}
+ get clip(){return this.sequence[this.index]||clipFor(this.variant,this.base)||clipFor(this.variant,'idle')||clipFor(this.variant,'standby');}
+ update(dt){this.elapsed+=dt;if(!this.busy)return;while(this.busy&&this.elapsed>=clipDuration(this.clip)){this.elapsed-=clipDuration(this.clip);this.index++;if(this.index>=this.sequence.length){this.sequence=[];this.index=0;const cb=this.onComplete;this.onComplete=null;this.event=this.base;this.elapsed=0;cb?.();}}}
+ setBase(base){if(base===this.base)return;this.base=clipFor(this.variant,base)?base:'idle';if(!this.busy){this.elapsed=0;this.event=this.base;}}
+}
+export function imageForFrame(clip,elapsed,options={}){const frame=frameAt(clip,elapsed,options);const [col,row]=frame.rect;const tile=clip.tiles?.find(t=>row>=t.rowStart&&row<t.rowStart+t.rows&&col>=(t.colStart||0)&&col<(t.colStart||0)+(t.cols||clip.cols));return {...frame,resource:tile?.resource||clip.resource,rowOffset:tile?.rowStart||0,colOffset:tile?.colStart||0};}
+export class SpriteCache{
+ constructor(limit=256*1024*1024){this.limit=limit;this.entries=new Map();this.bytes=0;this.failures=[];}
+ get(id){const entry=this.entries.get(id);if(entry)entry.used=performance.now();return entry?.image||null;}
+ load(id){if(!id)return Promise.resolve(null);const previous=this.entries.get(id);if(previous)return previous.promise;const entry={image:null,bytes:0,used:performance.now(),promise:null};entry.promise=new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{entry.image=img;entry.bytes=img.naturalWidth*img.naturalHeight*4;this.bytes+=entry.bytes;this.trim(id);resolve(img);};img.onerror=()=>{this.entries.delete(id);this.failures.push(id);reject(new Error('Ressource indisponible : '+id));};img.src=id.startsWith('/assets/bosses/')?id:'/resources/'+encodeURIComponent(id);});this.entries.set(id,entry);return entry.promise;}
+ trim(protectedId){for(const [id,e] of [...this.entries].sort((a,b)=>a[1].used-b[1].used)){if(this.bytes<=this.limit)break;if(id!==protectedId&&e.image){this.entries.delete(id);this.bytes-=e.bytes;}}}
+ loadClip(clip,elapsed=0,options={}){if(!clip)return Promise.resolve(null);return this.load(imageForFrame(clip,elapsed,options).resource);}
+ ready(clip,elapsed=0,options={}){return clip&&Boolean(this.get(imageForFrame(clip,elapsed,options).resource));}
+ async preload(clips){for(const clip of clips.filter(Boolean))await this.loadClip(clip);}
+ draw(ctx,clip,elapsed,x,y,{scale=1,flip=false,loop=true,duration}={}){if(!clip)return null;const {index,rect,resource,rowOffset,colOffset}=imageForFrame(clip,elapsed,{loop,duration});const img=this.get(resource);if(!img){this.load(resource).catch(()=>{});return null;}const [col,row,bx,by,bw,bh]=rect;ctx.save();ctx.imageSmoothingEnabled=false;ctx.translate(Math.round(x),Math.round(y));ctx.scale(flip?-scale:scale,scale);ctx.drawImage(img,(col-colOffset)*clip.fw+bx,(row-rowOffset)*clip.fh+by,bw,bh,bx-clip.anchor[0],by-clip.anchor[1],bw,bh);ctx.restore();return index;}
+}

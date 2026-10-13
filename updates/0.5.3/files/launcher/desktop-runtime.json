@@ -1,0 +1,22 @@
+{
+  "sdkVersion": "1.0.4258.31",
+  "source": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.4258.31/microsoft.web.webview2.1.0.4258.31.nupkg",
+  "packageHashAlgorithm": "SHA512",
+  "packageHash": "HlGVwvyP/IWiXAU8K57Vmg59khY3DWMOxMnH4AHusFRy0/vDAjKItXUIVNXiXXaq4CLfSZyNUic1wOIlnPLsPQ==",
+  "files": [
+    {
+      "file": "Microsoft.Web.WebView2.Core.dll",
+      "sha256": "d60e6e94245078cb56e44ebd5f360dc04bf18e460136be93bfc4cfca43b98505"
+    },
+    {
+      "file": "Microsoft.Web.WebView2.WinForms.dll",
+      "sha256": "6a9e6856f23c463783c3afb0ca5d78f56324c86657162ccb16d5227b3233b32a"
+    },
+    {
+      "file": "WebView2Loader.dll",
+      "sha256": "3426dcc55fdfb8b5e7ac623cf33b4ccf283fbf68a0c5a65bddfdb4d749a8abee"
+    }
+  ],
+  "bootstrapperUrl": "https://go.microsoft.com/fwlink/p/?LinkId=2124703",
+  "bootstrapperVerification": "Windows Authenticode Valid; signer organization Microsoft Corporation"
+}

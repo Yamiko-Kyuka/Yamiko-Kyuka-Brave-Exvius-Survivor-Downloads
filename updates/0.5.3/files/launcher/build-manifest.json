@@ -1,0 +1,7 @@
+{
+  "target": "Brave-Exvius-Survivor.exe",
+  "sha256": "fbef1667d7eb9b429c4ae622270cd4585d402273f1d8c1db1282452819028e96",
+  "sourceSha256": "dc6acb88cf6b059bf19bd9e8e8e6c38a843aba464be9409cc37ba21409cfde48",
+  "posterSha256": "80b0f02cb3a0e2fedb5d7eaed23621e62385d579467ebe26b86bf7d073db35ca",
+  "platform": "Windows 10/11 x64; .NET Framework; GUI subsystem"
+}

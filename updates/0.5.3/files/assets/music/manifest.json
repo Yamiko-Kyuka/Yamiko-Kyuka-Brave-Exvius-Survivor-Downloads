@@ -1,0 +1,62 @@
+[
+  {
+    "stage": "midgar",
+    "title": "Mako — alerte réacteur",
+    "bpm": 136,
+    "duration": 56.470588235294116,
+    "file": "assets/music/midgar.ogg",
+    "original": true
+  },
+  {
+    "stage": "menu",
+    "title": "Menu theme",
+    "file": "assets/music/menu.mp3",
+    "userProvided": true,
+    "sha256": "653b3b3eb16527978e0aca74dd9f076482aab8e98bce7495d11ce164a2ecfe01"
+  },
+  {
+    "stage": "zanarkand",
+    "title": "Zanarkand map",
+    "file": "assets/music/zanarkand.mp3",
+    "userProvided": true,
+    "sha256": "ebd3d1a4c5865ea1acbdf7452771754a4f8213f6338f4cf5cb229c7ce08ce2d2"
+  },
+  {
+    "stage": "dark-world",
+    "title": "Dark world",
+    "file": "assets/music/dark-world.mp3",
+    "userProvided": true,
+    "sha256": "3b9b2bfedc013822514f9e4dd58152f1a3ab39516388d3fddc5ad374715429f7"
+  },
+  {
+    "stage": "crystal-tower",
+    "title": "cristal tower",
+    "file": "assets/music/crystal-tower.mp3",
+    "userProvided": true,
+    "sha256": "ffb87b039211cd3cd44d8b85ce915be3273493c0b7aee2074e41553afbc6286f"
+  },
+  {
+    "stage": "victory",
+    "title": "Victory lap",
+    "file": "assets/music/victory.mp3",
+    "userProvided": true,
+    "loop": false,
+    "sha256": "19b751769c2c800e4e2f01ce88df4f979aa34715819445ac5ad343b43049ada7"
+  },
+  {
+    "stage": "menu-click",
+    "title": "Boutons du menu principal",
+    "file": "assets/music/menu-click.mp3",
+    "userProvided": true,
+    "loop": false,
+    "sha256": "1e1fe1a7e051c196fa77f297c0b4c13a9c40c3e2d7e7df61a7ee03ed38ce3ad7"
+  },
+  {
+    "stage": "level-up",
+    "title": "Montée de niveau",
+    "file": "assets/music/level-up.mp3",
+    "userProvided": true,
+    "loop": false,
+    "sha256": "c73874ab192b024bf0349242f5b38b5376cd568e479a3e76a44afc9db6eef885"
+  }
+]

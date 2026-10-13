@@ -1,0 +1,128 @@
+{
+  "id": "jenova-original",
+  "unitId": "boss-jenova",
+  "label": "Jenova",
+  "playable": true,
+  "animations": {
+    "idle": [
+      {
+        "state": "idle",
+        "resource": "/assets/bosses/jenova.png",
+        "fw": 512,
+        "fh": 512,
+        "anchor": [
+          256.0,
+          488
+        ],
+        "frames": [
+          [
+            0,
+            0,
+            8,
+            7,
+            493,
+            505
+          ],
+          [
+            1,
+            0,
+            9,
+            8,
+            493,
+            504
+          ],
+          [
+            2,
+            0,
+            6,
+            9,
+            496,
+            467
+          ]
+        ],
+        "cols": 3,
+        "rows": 2
+      }
+    ],
+    "atk": [
+      {
+        "state": "atk",
+        "resource": "/assets/bosses/jenova.png",
+        "fw": 512,
+        "fh": 512,
+        "anchor": [
+          256.0,
+          488
+        ],
+        "frames": [
+          [
+            0,
+            1,
+            7,
+            0,
+            500,
+            484
+          ],
+          [
+            1,
+            1,
+            10,
+            0,
+            491,
+            490
+          ],
+          [
+            2,
+            1,
+            1,
+            4,
+            509,
+            480
+          ]
+        ],
+        "cols": 3,
+        "rows": 2
+      }
+    ],
+    "dead": [
+      {
+        "state": "dead",
+        "resource": "/assets/bosses/jenova.png",
+        "fw": 512,
+        "fh": 512,
+        "anchor": [
+          256.0,
+          488
+        ],
+        "frames": [
+          [
+            0,
+            0,
+            8,
+            7,
+            493,
+            505
+          ],
+          [
+            1,
+            0,
+            9,
+            8,
+            493,
+            504
+          ],
+          [
+            2,
+            0,
+            6,
+            9,
+            496,
+            467
+          ]
+        ],
+        "cols": 3,
+        "rows": 2
+      }
+    ]
+  }
+}
