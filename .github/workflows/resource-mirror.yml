@@ -1,0 +1,15 @@
+name: Publish verified resource mirror
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish verified archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 resources/publish_mirror.py
