@@ -1,3 +1,4 @@
+import {mitigatedDamage} from './permanent-upgrades.js';
 import {playerRadius} from './hitboxes.js';
 /** Telegraphs lock their target before impact, giving the player time to aim a dash. */
 const specs={
@@ -12,7 +13,7 @@ const specs={
  'cerberus-thunder':{name:'Triple Foudre',windup:.85,cooldown:5,color:'#dba8ff',kind:'triple'},
  'twin-breath':{name:'Double souffle',windup:1,cooldown:6,color:'#bbd8ff',kind:'twin'}
 };
-function hurt(s,amount){if(s.invuln>0||s.godMode||s.ending||s.over)return false;s.hp-=amount*s.difficulty.damage;s.invuln=.65;return true;}
+function hurt(s,amount){if(s.invuln>0||s.godMode||s.ending||s.over)return false;s.hp-=mitigatedDamage(s,amount*s.difficulty.damage);s.invuln=.65;return true;}
 export function tickEnemyAttacks(s,dt){
  s.hostileProjectiles??=[];
  for(const e of s.enemies){

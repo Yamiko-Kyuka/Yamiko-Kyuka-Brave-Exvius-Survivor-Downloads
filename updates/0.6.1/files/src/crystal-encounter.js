@@ -1,3 +1,4 @@
+import {mitigatedDamage} from './permanent-upgrades.js';
 import {Terrain,moveEntity,TILE,ORIGIN} from './terrain.js';
 import {AnimationPlayer,clipFor} from './animation.js';
 import {superbossHealth} from './bosses.js';
@@ -44,7 +45,7 @@ function falseDeath(s,c){
   c.wave.push(skeleton);s.enemies.push(skeleton);
  }
 }
-function hurt(s,damage){if(s.invuln>0||s.godMode||s.over||s.ending)return;s.hp-=damage*s.difficulty.damage;s.invuln=.65;}
+function hurt(s,damage){if(s.invuln>0||s.godMode||s.over||s.ending)return;s.hp-=mitigatedDamage(s,damage*s.difficulty.damage);s.invuln=.65;}
 /** The stage clock freezes, while the encounter and Limit Break use active simulation time. */
 export function tickCrystalEncounter(s,dt){
  const c=s.crystalEncounter;if(!c||c.scripted)return false;

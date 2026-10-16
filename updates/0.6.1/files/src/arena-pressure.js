@@ -1,6 +1,7 @@
+import {mitigatedDamage} from './permanent-upgrades.js';
 import {playerRadius} from './hitboxes.js';
 export const arenaPalettes={midgar:{color:'#63d993',name:'Mako instable'},zanarkand:{color:'#8b73d8',name:'Brume des priants'},'crystal-tower':{color:'#af79d5',name:'Corruption du cristal'},'dark-world':{color:'#9878cc',name:'Néant envahissant'}};
-export function hurtInArena(s,damage){if(s.invuln>0||s.godMode||s.ending||s.over)return false;s.hp-=damage*s.difficulty.damage;s.invuln=.65;return true;}
+export function hurtInArena(s,damage){if(s.invuln>0||s.godMode||s.ending||s.over)return false;s.hp-=mitigatedDamage(s,damage*s.difficulty.damage);s.invuln=.65;return true;}
 /** An encounter clock, never the paused stage clock. Threat fills the arena by two minutes. */
 export function tickArenaPressure(s,c,dt){
  const half=c.arenaHalf||384,start=c.final?30:35,end=120;

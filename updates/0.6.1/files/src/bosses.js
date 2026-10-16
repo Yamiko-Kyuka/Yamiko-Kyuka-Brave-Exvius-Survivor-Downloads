@@ -1,6 +1,7 @@
 import {clipFor} from './animation.js';
 import {weapons,equipmentEffects} from './model.js';
 import {weaponInterval} from './attack-timing.js';
+import {weaponTuning} from './weapon-upgrades.js';
 export const superbosses={
  jenova:{name:'Jenova',size:260,special:'jenova-radiance',health:300,color:'#85e4e9'},
  jecht:{name:'Jecht',manifest:'asset-174143',lastVariant:true,size:245,special:'jecht-shot',health:320,color:'#ffb784'},
@@ -20,8 +21,12 @@ export async function loadSuperboss(stage,manifest,cache){
 export function superbossHealth(s,profile){
  const permanent={...s,hasteTimer:0},mods=equipmentEffects(permanent);let dps=0;
  for(const equipped of s.weapons){const w=weapons[equipped.id];if(!w)continue;
-  const melee=['slash','burst','holy'].includes(w.kind),shots=['shot','arrow','ice'].includes(w.kind)?1+Math.floor((equipped.level-1)/3)+mods.extraProjectiles:['fire','wave','orb','boomerang','meteor'].includes(w.kind)?1+mods.extraProjectiles:1;
-  const damage=w.damage*(s.damage/s.baseDamage)*(1+(equipped.level-1)*.25)*mods.damage*(melee?mods.melee:1);
+  const tuning=weaponTuning(w,equipped),melee=['slash','burst','holy'].includes(w.kind);
+  const count=melee||w.kind==='thunder'?1:w.kind==='meteor'?1+tuning.zones+mods.extraProjectiles:(w.kind==='orbit'?2:1)+tuning.projectiles+mods.extraProjectiles;
+  // A spread volley does not land every projectile on one boss. Extra shots still
+  // help the player instead of multiplying boss health without a useful limit.
+  const shots=1+Math.min(4,count-1)*.5;
+  const damage=w.damage*(s.damage/s.baseDamage)*tuning.damage*mods.damage*(melee?mods.melee:1);
   dps+=damage*shots/weaponInterval(permanent,equipped);
  }
  return Math.ceil(Math.max(s.baseDamage*profile.health,dps*30)*s.difficulty.hp);

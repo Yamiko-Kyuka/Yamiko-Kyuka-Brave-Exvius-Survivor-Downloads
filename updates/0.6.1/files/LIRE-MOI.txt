@@ -28,7 +28,18 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.0 — COMBATS EN ARÈNE
+VERSION 0.6.1 — BOUTIQUE DES CRISTAUX ET RARETÉS
+14 améliorations permanentes pour tous les héros, achetées avec les gils.
+Vie, puissance, célérité, déplacement, portée, XP, attraction, défense,
+régénération, gils bonus, projectiles, relances, exclusions et chance.
+Cinq raretés pour tous les choix de niveau : normal, magique, rare, épique, légendaire.
+Chances de base : 65 %, 17 %, 10 %, 7 %, 1 % ; la Chance favorise les hauts rangs.
+18 passifs, dont 3 légendaires exclusifs : Auto-Phénix, Stase de Shiva, Égide d’Alexandre.
+Fenêtre de choix refaite avec couleurs de rareté, rangs et statistiques avant/après.
+Les relances et exclusions sont renouvelées à chaque expédition.
+Les anciennes sauvegardes sont conservées.
+
+COMBATS EN ARÈNE
 Boss scénarisés à 2 et 4 minutes ; boss final à 6 minutes dans une arène plus grande.
 Chaque boss impose une mécanique de vulnérabilité, répétée à mi-vie.
 Les boss finaux enchaînent trois mécaniques ; l’enrage remplit progressivement les arènes.
@@ -47,7 +58,7 @@ Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
 Les succès débloquent l’achat des autres héros dans la boutique.
 La sauvegarde est dans userdata/progression.json, indépendante du port du navigateur.
 Chaque personnage possède son arme de départ et ses animations propres.
-Les 40 armes et les 8 power-ups possèdent leurs icônes distinctes.
+Les 40 armes et les 18 power-ups possèdent leurs icônes distinctes.
 Les dégâts apparaissent au-dessus des ennemis pour les armes et leurs effets.
 Les animations de repos et de déplacement gardent leur cadence ralentie.
 La barre de vie est visible au-dessus du héros et suit le zoom de la caméra.

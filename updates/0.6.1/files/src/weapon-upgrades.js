@@ -13,12 +13,12 @@ const profiles={
 };
 export function weaponUpgradeOptions(kind){return (profiles[kind]||['damage','projectiles','area','rate']).map(id=>({...options[id],...(kind==='thunder'&&id==='zones'?{name:'Chaîne prolongée',detail:'+1 cible dans la chaîne'}:{}),...(kind==='thunder'&&id==='area'?{name:'Conductivité',detail:'+20 % de portée des éclairs'}:{}),...(kind==='beam'&&id==='projectiles'?{name:'Rayons jumeaux',detail:'+1 rayon par attaque'}:{})}));}
 export function weaponTuning(definition,equipped){
- const points=equipped.upgrades||{};
+ const points=equipped.upgradePower||equipped.upgrades||{};
  // Legacy equipped weapons without branch data retain their former damage.
  const damage=equipped.upgrades?points.damage||0:Math.max(0,(equipped.level||1)-1);
- return {damage:1+.25*damage,area:1+.2*(points.area||0),projectiles:points.projectiles||0,zones:points.zones||0,cooldown:Math.max(.76,1-.08*(points.rate||0))};
+ return {damage:(1+.25*damage)*(equipped.qualityDamage||1),area:1+.2*(points.area||0),projectiles:points.projectiles||0,zones:points.zones||0,cooldown:Math.max(.6,1-.08*(points.rate||0))};
 }
 export function upgradeBranches(definition,equipped){
  if(equipped.level>=8)return [];
- return definition.upgrades.filter(branch=>(equipped.upgrades?.[branch.id]??(branch.id==='damage'&&!equipped.upgrades?Math.max(0,equipped.level-1):0))<branch.max);
+ return definition.upgrades.filter(branch=>!(branch.id==='rate'&&(equipped.upgradePower?.rate||0)>=5)&&(equipped.upgrades?.[branch.id]??(branch.id==='damage'&&!equipped.upgrades?Math.max(0,equipped.level-1):0))<branch.max);
 }
