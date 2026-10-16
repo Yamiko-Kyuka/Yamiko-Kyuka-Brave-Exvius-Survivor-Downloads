@@ -27,7 +27,7 @@ export function separatePlayerBosses(s){
   const nx=d>1e-8?dx/d:1,ny=d>1e-8?dy/d:0,overlap=reach-d,from={x:s.x,y:s.y};
   moveEntity(s.terrain,s,nx*overlap,ny*overlap,playerRadius(s));
   const moved=Math.max(0,(s.x-from.x)*nx+(s.y-from.y)*ny);
-  if(overlap-moved>.01&&!e.miniboss)moveEntity(s.terrain,e,-nx*(overlap-moved),-ny*(overlap-moved),radius(e));
+  if(overlap-moved>.01&&(!e.miniboss||e.mobileBoss))moveEntity(s.terrain,e,-nx*(overlap-moved),-ny*(overlap-moved),radius(e));
  }
 }
 

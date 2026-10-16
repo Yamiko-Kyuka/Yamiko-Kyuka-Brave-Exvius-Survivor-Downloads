@@ -1,0 +1,29 @@
+{
+  "name": "Spectral Keeper",
+  "japaneseName": "魔天のガーディアン",
+  "identitySource": "https://github.com/aEnigmatic/ffbe/blob/95727376e82d27acc1290b6dc8ad27ce3c89ea71/monster_skillsets.json",
+  "identityEntry": "302051000",
+  "spriteId": "3020510",
+  "spriteRepositoryCommit": "f82d603c90ec799f539280267d3af7589c79f117",
+  "sources": [
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated/monster_anime_3020510.png",
+      "path": "assets/bosses/spectral-keeper/monster_anime_3020510.png",
+      "bytes": 54870,
+      "sha256": "2578210919b0dc092cc9fab51328812f27852988e9e83d2b591527d1c5b969a0"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated_csv/monster_cgg_3020510.csv",
+      "path": "assets/bosses/spectral-keeper/monster_cgg_3020510.csv",
+      "bytes": 1113,
+      "sha256": "7ef1b898094582f4fcab477a352facdffe621d10704bc2f14fa7d6af3f9f40a4"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/DaddyRaegen/ffbe_asset_dump/f82d603c90ec799f539280267d3af7589c79f117/monster_animated_csv/monster_atk_cgs_3020510.csv",
+      "path": "assets/bosses/spectral-keeper/monster_atk_cgs_3020510.csv",
+      "bytes": 18,
+      "sha256": "dafee5f6facc836fed4671d0473129516225905d98184de31d5fb6d3aa043525"
+    }
+  ],
+  "import": "Original atlas unchanged. CGG parts rendered in reverse layer order, with native alpha and additive blend. Original CGS attack durations; shadow mask omitted for the game ground marker."
+}

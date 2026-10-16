@@ -28,7 +28,10 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.5.12 — VAGUES ET HITBOX
+VERSION 0.6.0 — COMBATS EN ARÈNE
+Boss scénarisés à 2 et 4 minutes ; boss final à 6 minutes dans une arène plus grande.
+Chaque boss impose une mécanique de vulnérabilité, répétée à mi-vie.
+Les boss finaux enchaînent trois mécaniques ; l’enrage remplit progressivement les arènes.
 Sprite exact FFBE du Dragon Zombie (Dracozombie 3120810) et animations natives.
 Squelettes du Dragon Zombie ralentis de 50 %.
 Cadence des vagues augmentée progressivement jusqu’à x2 à 1 minute.
@@ -65,7 +68,7 @@ Les MP3 de zone sont ceux fournis par l’utilisateur.
 Chaque carte possède des arènes, des corridors et des obstacles solides.
 Consommables rares : Potion, Méga-bombe, Sablier de Shiva, Plume de célérité.
 Les boss laissent toujours un cristal donnant un niveau et un choix d’équipement.
-Après 5 minutes : Jenova, Jecht, l’Empereur de FF II ou Cloud of Darkness.
+Après 6 minutes : Jenova, Jecht, l’Empereur de FF II ou Cloud of Darkness.
 La victoire est obtenue après la mort du superboss et son choix de niveau.
 Menus agrandis de 45 %, accueil et lanceur en pixel art.
 Plans fixes : réacteur et maintenance, place avec ponts, nef et chapelles, îlots du néant.

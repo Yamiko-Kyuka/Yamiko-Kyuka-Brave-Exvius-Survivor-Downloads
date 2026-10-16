@@ -1,6 +1,7 @@
 // Sprite identities checked against the FFBE monster AI data (see assets/maps/README.md).
 // Generic families remain named after their actual FFBE art rather than a missing FF monster.
 export const monsters={
+ '3020510':{name:'Gardien des limbes',size:195,hp:1,speed:0},
  // Scripted reliquary encounter: Dracozombie (ドラゴンゾンビ), verified FFBE sprite 3120810.
  '3120810':{name:'Dragon Zombie',size:180,hp:1,speed:0},
  '1120010':{name:'Squelette du reliquaire',size:44,hp:1,speed:1},

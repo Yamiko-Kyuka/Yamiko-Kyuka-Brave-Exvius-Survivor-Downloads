@@ -5,7 +5,7 @@ export function enemyRadius(size=40,boss=false){return Math.max(10,Math.min(boss
 
 /** Resolve only nearby circles. Large creatures yield less; corpses have no collision. */
 export function separateEnemies(state,passes=4){
- const enemies=state.enemies.filter(e=>e.hp>0&&!e.dying);
+ const enemies=state.enemies.filter(e=>e.hp>0&&!e.dying&&!e.mechanicTarget);
  if(enemies.length<2||state.freezeTimer>0||state.awaitingVictory)return;
  const radii=enemies.map(e=>e.radius??enemyRadius(e.size,e.superboss));
  const cellSize=64;

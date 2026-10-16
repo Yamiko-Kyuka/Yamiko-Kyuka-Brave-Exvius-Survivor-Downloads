@@ -30,3 +30,11 @@ Le guide `guide/cartes-obstacles.png` montre le rendu des quatre plans avec un v
 Le reliquaire ouest existant de la Tour de Cristal est temporairement scellé pendant la rencontre. Son plan de collision est aussi celui du rendu. Le boss utilise le dragon squelettique FFBE `2120010` du pack `asset-89673`, et les invocations le squelette `1120010` du pack `asset-89643`, avec leurs animations originales `idle` et `atk`. « Dragon Zombie » désigne ici le boss scénarisé du jeu ; ce sprite ne constitue pas une identification officielle d’une variante FFIII.
 
 Correction 0.5.12 : le Bone Dragon `2120010` de la première version est remplacé par le **Dracozombie / ドラゴンゾンビ `3120810`**. Identité confirmée dans `monster_skillsets.json`, entrée `312081000`. L’atlas original est conservé sans modification ; les quatre poses natives d’attente et la séquence d’attaque CGS sont utilisées. Les sources GitHub épinglées, tailles et SHA-256 sont dans `assets/bosses/dracozombie/provenance.json`. Le masque d’ombre de l’atlas n’est pas une animation de corps et laisse place à l’anneau au sol du moteur.
+
+### Arènes de raid — 0.6.0
+
+Les niveaux durent six minutes de survie. Les arènes intermédiaires sont des chambres fixes de 12 × 12 cellules, les finales de 16 × 16, rattachées aux lieux nommés du niveau ; leur plan de terrain est aussi celui du rendu. Les obélisques de la mécanique d’abri sont des props solides de ce même plan. Les chaînes, projectiles, objectifs et zones dangereuses sont affichés par le moteur. Le timer de survie est suspendu, tandis qu’une horloge de combat fait croître les dangers au sol et fermer les bords de l’arène.
+
+Les mécaniques sont décrites dans `src/boss-encounters.js` et `src/arena-mechanics.js`. Chaque boss intermédiaire introduit une mécanique distincte ; les finales en combinent trois. La barrière revient à mi-vie ; les dégâts ne peuvent pas traverser cette transition. Les erreurs relancent la mécanique concernée sans annuler l’enrage.
+
+Le Gardien des limbes de Zanarkand utilise le **Spectral Keeper `3020510` / 魔天のガーディアン**, confirmé dans les données FFBE (entrée `302051000`). Son atlas original et les CSV natifs sont conservés sans retouche, avec les empreintes dans `assets/bosses/spectral-keeper/provenance.json`. Les différentes parties du corps sont composées au rendu selon leur ordre, opacité et mode additif natifs.

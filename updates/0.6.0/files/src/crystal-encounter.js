@@ -47,7 +47,7 @@ function falseDeath(s,c){
 function hurt(s,damage){if(s.invuln>0||s.godMode||s.over||s.ending)return;s.hp-=damage*s.difficulty.damage;s.invuln=.65;}
 /** The stage clock freezes, while the encounter and Limit Break use active simulation time. */
 export function tickCrystalEncounter(s,dt){
- const c=s.crystalEncounter;if(!c)return false;
+ const c=s.crystalEncounter;if(!c||c.scripted)return false;
  if(c.boss.hp<=0){endCrystalEncounter(s);return true;}
  c.clock+=dt;
  if(c.phase==='pull'){
@@ -96,7 +96,7 @@ export function castLimitBreak(s){
  s.effects.push({kind:'explosion',x:s.x,y:s.y,radius,color:'#ffe18a',life:.8,maxLife:.8});s.screenFlash={color:'#ffe18a',life:.25,maxLife:.25};s.pickupNotice={name:'LIMITE NIVEAU 1 · Éclat des cristaux',life:2};return true;
 }
 export function drawCrystalEncounter(ctx,s,ox,oy){
- const c=s.crystalEncounter;if(!c)return;
+ const c=s.crystalEncounter;if(!c||c.scripted)return;
  ctx.save();
  for(const p of c.pools){ctx.strokeStyle='#bbe574';ctx.fillStyle=p.age<.5?'#cae78933':'#5c8e2abb';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x+ox,p.y+oy,p.radius,0,Math.PI*2);ctx.fill();ctx.stroke();}
  for(const b of c.beams){ctx.save();ctx.translate(c.boss.x+ox,c.boss.y+oy);ctx.rotate(b.angle);ctx.strokeStyle=b.age<1?'#c3eb78':'#deffaa';ctx.fillStyle='#94c74a88';ctx.lineWidth=b.age<1?2:22;if(b.age<1)ctx.setLineDash([12,8]);else ctx.fillRect(0,-20,780,40);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(780,0);ctx.stroke();ctx.restore();}
