@@ -1,0 +1,6 @@
+{
+  "title": "FFBE rainbow summoning crystal",
+  "source": "https://github.com/lyrgard/ffbeEquip/blob/5d1e23a220a3187a13c91656e7463ec482443c41/static/img/icons/crystals/rainbowCrystal.png",
+  "originalSha256": "5c46114a9ab7deafc58e09fadafb15f28ef18e0fc200c290dc4267c4b8071a3c",
+  "usage": "Same icon for Windows executable, launcher window, game window and local page favicon; ICO container conversion of the source PNG."
+}

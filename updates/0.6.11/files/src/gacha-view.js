@@ -12,7 +12,6 @@ export class GachaView{
  }
  render(){
   const save=this.getSave(),open=gachaUnlocked(save),pool=gachaPool(save),cosmetics=normalizeCosmetics(save.cosmetics),machine=this.$('gachaMachine');
-  this.$('gachaGate').hidden=open;for(const row of this.root.querySelectorAll('[data-gacha-stage]'))row.classList.toggle('complete',['aeon','primal','transcendence'].some(d=>Number(save.difficultyWins?.[row.dataset.gachaStage]?.[d])>0));
   machine.disabled=this.busy||!open||save.coins<GACHA_COST||!pool.length;machine.setAttribute('aria-label',this.busy?'Tirage en cours':'Tourner le Gachapon · 20 000 gils');
   this.$('gachaPrice').disabled=machine.disabled;this.$('gachaPrice').textContent=this.busy?'TIRAGE…':!open?'VERROUILLÉ':!pool.length?'INDISPONIBLE':'TOURNER · 20 000 GILS';
   const acquired=cosmetics.owned.length-this.heroes.length;this.$('gachaOwned').textContent='Collection · '+acquired+' / '+pool.length;
@@ -26,7 +25,6 @@ export class GachaView{
    cost:['Prix et doublons',['Un tirage coûte 20 000 gils. Il faut disposer de la mise entière pour lancer la machine.','Si l’apparence est déjà possédée, 10 000 gils sont remboursés immédiatement. Une seule copie est conservée.']],
    rarities:['Raretés et probabilités',['Normal : 50 % · Magique : 27 % · Rare : 15 % · Épique : 6 % · Légendaire : 2 %.','Les apparences déjà possédées peuvent retomber. La collection ne change pas les probabilités.','La section Collection indique le taux individuel de chaque apparence.']],
    collection:['Votre collection',['Le compteur indique les apparences gagnées parmi les 424 formes et costumes du Gacha. Les 38 apparences classiques sont gratuites et ne sont pas tirées.','Le détail de la collection montre les apparences possédées et les taux individuels.','Un skin ne débloque pas son héros. Récupérez le héros dans Succès, puis choisissez le skin sous son modèle dans la sélection des personnages.']],
-   unlock:['Débloquer le Gacha',['Gagnez les quatre zones en difficulté Élu des Éons ou supérieure.','Une victoire en Pourfendeur de primordiaux ou en Transcendance compte également.']],
    result:['Cette apparence',['Ce skin change uniquement le modèle et ses animations. Les statistiques et l’arme de base restent celles du héros.','Équipez-le ici ou sous le modèle du héros dans la sélection des personnages. Si le héros est encore verrouillé, débloquez-le dans Succès.']]
   };
   const [title,paragraphs]=topics[topic]||topics.rules,body=this.helpDialog.querySelector('#gachaHelpBody');this.helpDialog.querySelector('#gachaHelpTitle').textContent=title;body.replaceChildren();for(const text of paragraphs){const p=document.createElement('p');p.textContent=text;body.append(p);}if(!this.helpDialog.open)this.helpDialog.showModal();this.helpDialog.querySelector('#gachaHelpClose').focus();
