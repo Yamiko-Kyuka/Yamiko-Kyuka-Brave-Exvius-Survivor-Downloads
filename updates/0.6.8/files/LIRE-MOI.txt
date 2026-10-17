@@ -28,7 +28,11 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.7 — HÉROS, GACHA ET BOSS
+VERSION 0.6.8 — DOUBLONS DU GACHA
+Un doublon rembourse immédiatement 10 000 gils sur les 20 000 gils du tirage.
+La collection garde une seule copie ; les probabilités ne changent pas avec les achats.
+
+HÉROS, GACHA ET BOSS
 Un défi réussi débloque immédiatement le héros, avec un pop-up et sa Limit Break native.
 Le jeu reste en pause pendant la présentation ; plusieurs héros défilent séparément.
 Les récompenses et choix de niveau en attente sont conservés.
@@ -36,7 +40,7 @@ Les récompenses déjà prêtes dans Succès affichent la même présentation.
 
 GACHA ET APPARENCES
 Le Gacha se débloque après les quatre zones en Élu des Éons ou supérieur.
-20 000 gils donnent une capsule et une apparence non possédée, parmi 424 formes
+20 000 gils donnent une capsule et une apparence parmi 424 formes
 ou costumes natifs. Les 38 apparences classiques sont gratuites.
 Taux initiaux : Normal 50 %, Magique 27 %, Rare 15 %, Épique 6 %, Légendaire 2 %.
 Les taux par apparence et les formes possédées sont visibles dans la collection.

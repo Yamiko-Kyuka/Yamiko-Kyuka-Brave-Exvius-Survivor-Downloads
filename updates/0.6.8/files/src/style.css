@@ -172,3 +172,5 @@ body.permanent-shop .permanent-card button{font-size:10px;line-height:1.1;paddin
 /* Keep the skin selector below the portrait without displacing character statistics. */
 .skin-choice{gap:4px;margin-bottom:8px}.skin-choice small:empty{display:none}
 @media(min-width:651px){#characterScreen .character-layout{height:calc((100dvh - 88px)/var(--menu-scale) - 115px)}}
+
+.gacha-refund{display:inline-block;margin:8px auto 4px;padding:10px 14px;color:#ffe8a3;font-weight:750;letter-spacing:.6px;background:#4c381a;border:1px solid #e5c16d;border-radius:3px;box-shadow:0 0 18px #ffcf4920}
