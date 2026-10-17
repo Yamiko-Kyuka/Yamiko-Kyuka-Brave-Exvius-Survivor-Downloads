@@ -1,3 +1,4 @@
+import {bossTuning,extraBossPatterns} from './boss-difficulty.js';
 import {AnimationPlayer,clipFor} from './animation.js';
 import {Terrain,TILE,ORIGIN} from './terrain.js';
 import {superbossHealth} from './bosses.js';
@@ -48,21 +49,23 @@ export function beginScheduledEncounter(s){
  if(s.crystalCompleted&&!s.completedEncounters.includes(120))s.completedEncounters.push(120);
  const profile=s.encounterRoster.find(p=>!s.completedEncounters.includes(p.at));
  if(!profile||s.time+1e-6<profile.at)return false;
- if(profile.legacy){if(!beginCrystalEncounter(s))return false;Object.assign(s.crystalEncounter,{scheduledAt:120,kind:'dragon-zombie'});return true;}
+ if(profile.legacy){if(!beginCrystalEncounter(s))return false;const tune=bossTuning(s);Object.assign(s.crystalEncounter,{scheduledAt:120,kind:'dragon-zombie',tuning:tune,profile:{patterns:extraBossPatterns(s.stage.id,tune.rank),color:'#a5e38d'},casts:[],patternStep:0,attackAt:4});return true;}
  return beginScriptedEncounter(s,profile);
 }
 export function beginScriptedEncounter(s,profile){
  if(s.crystalEncounter||s.phase!=='survival')return false;
+ const tuning=bossTuning(s);profile={...profile,patterns:[...profile.patterns,...extraBossPatterns(s.stage.id,tuning.rank)]};
  // About 20% wider, rounded to complete collision tiles; keep each authored room center.
  const oldWidth=profile.final?16:12,width=Math.round(oldWidth*1.2),[rx,ry]=profile.room,x=rx-Math.floor((width-oldWidth)/2),y=ry-Math.floor((width-oldWidth)/2),area={name:profile.roomName+' · arène scellée',shape:'rect',x,y,w:width,h:width,style:1};
  const plan={passage:area.name,areas:[area],paths:[],props:[]},terrain=new Terrain(s.stage,plan),center={x:ORIGIN+(x+width/2)*TILE,y:ORIGIN+(y+width/2)*TILE};
- const hp=Math.ceil(superbossHealth(s,profile)*(profile.final?1.4:1)),radius=Math.min(90,profile.size*.34);
- const boss={achievementId:profile.id,x:center.x,y:center.y,id:profile.superboss?'boss-'+profile.id:profile.variant.unitId,name:profile.name,variant:profile.variant,anim:new AnimationPlayer(profile.variant),size:profile.size,radius,hp,maxHp:hp,segmentHp:hp/2,miniboss:true,mobileBoss:profile.patterns.includes('charge'),superboss:profile.final,elite:true,speed:0,baseSpeed:0,hit:0,dying:0,attack:0,collisionMass:1e12,nativeFacing:profile.variant.nativeFacing||(profile.final?'left':'right')};
- const c=s.crystalEncounter={scripted:true,kind:profile.id,profile,scheduledAt:profile.at,final:profile.final,boss,center,plan,arenaHalf:width*TILE/2,terrain:s.terrain,returnPoint:{x:s.x,y:s.y},storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],previousZoom:s.zoom,clock:0,phase:'pull',pullTime:0,pullFrom:{x:center.x,y:center.y+width*TILE*.42},pullTo:{x:center.x,y:center.y+(profile.final?200:160)},mechanicIndex:0,segmentIndex:0,targets:[],casts:[],attackAt:2,patternStep:0,pools:[],beams:[],wave:[],mageVariant:profile.mageVariant};
+ const hp=Math.ceil(superbossHealth(s,profile)*(profile.final?1.4:1)*tuning.hp),radius=Math.min(90,profile.size*.34);
+ const boss={achievementId:profile.id,x:center.x,y:center.y,id:profile.superboss?'boss-'+profile.id:profile.variant.unitId,name:profile.name,variant:profile.variant,anim:new AnimationPlayer(profile.variant),size:profile.size,radius,hp,maxHp:hp,segmentCount:profile.final?3:2,segmentHp:hp/(profile.final?3:2),miniboss:true,mobileBoss:profile.patterns.includes('charge'),superboss:profile.final,elite:true,speed:0,baseSpeed:0,hit:0,dying:0,attack:0,collisionMass:1e12,nativeFacing:profile.variant.nativeFacing||(profile.final?'left':'right')};
+ const c=s.crystalEncounter={scripted:true,kind:profile.id,profile,tuning,scheduledAt:profile.at,final:profile.final,boss,center,plan,arenaHalf:width*TILE/2,terrain:s.terrain,returnPoint:{x:s.x,y:s.y},storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],previousZoom:s.zoom,clock:0,phase:'pull',pullTime:0,pullFrom:{x:center.x,y:center.y+width*TILE*.42},pullTo:{x:center.x,y:center.y+(profile.final?200:160)},mechanicIndex:0,segmentIndex:0,targets:[],casts:[],attackAt:2,patternStep:0,pools:[],beams:[],wave:[],mageVariant:profile.mageVariant};
  boss.receiveDamage=damage=>{
   if(c.phase!=='combat')return 0;
-  const floor=c.segmentIndex===0?boss.segmentHp:0,amount=Math.min(damage,boss.hp-floor);boss.hp-=amount;
-  if(boss.hp===boss.segmentHp&&c.segmentIndex===0){c.segmentIndex=1;c.mechanicIndex=0;startMechanic(s,c);s.pickupNotice={name:'Mi-vie · la barrière se reforme !',life:2.5};}
+  const floor=boss.maxHp-(c.segmentIndex+1)*boss.segmentHp,remaining=Math.max(0,boss.hp-floor),amount=Math.min(Math.max(0,damage),remaining);boss.hp-=amount;
+  if(c.segmentIndex<boss.segmentCount-1&&boss.hp<=floor+1e-6){boss.hp=floor;c.segmentIndex++;c.mechanicIndex=0;startMechanic(s,c);s.pickupNotice={name:'La barrière se reforme !',life:2.5};}
+  if(c.segmentIndex===boss.segmentCount-1&&boss.hp<1e-6)boss.hp=0;
   return amount;
  };
  s.terrain=terrain;s.enemies=[boss];s.gems=[];s.pickups=[];s.projectiles=[];s.hostileProjectiles=[];s.dash=null;s.action=null;s.anim.sequence=[];s.anim.onComplete=null;
@@ -80,14 +83,19 @@ export function completeScriptedEncounter(s){
 }
 function cast(s,c,kind,angle=Math.atan2(s.y-c.boss.y,s.x-c.boss.x)){
  const base={kind,x:c.boss.x,y:c.boss.y,angle,tx:s.x,ty:s.y,born:c.clock,windup:kind==='charge'?1.15:1.1,color:c.profile.color,revision:c.revision};
- if(kind==='meteor')for(let i=0;i<(c.final?3:2);i++)c.casts.push({...base,tx:s.x+(i?Math.cos(i*2.4)*72:0),ty:s.y+(i?Math.sin(i*2.4)*72:0),radius:40});
+ if(kind==='starfall'){for(let i=0;i<6;i++){const a=i*Math.PI/3;c.casts.push({...base,kind:'meteor',tx:s.x+Math.cos(a)*105,ty:s.y+Math.sin(a)*105,radius:35,windup:1.35});}}
+ else if(kind==='lattice'){for(const offset of [-105,0,105])c.casts.push({...base,kind:'beam',x:base.x-Math.sin(angle)*offset,y:base.y+Math.cos(angle)*offset,windup:1.35});}
+ else if(kind==='spiral'){for(let i=0;i<2;i++)c.casts.push({...base,kind:'radial',angle:angle+i*Math.PI/8,windup:1.2+i*.45});}
+ else if(kind==='nova'){c.casts.push({...base,kind:'radial',windup:1.4});for(const a of [angle-Math.PI/2,angle+Math.PI/2])c.casts.push({...base,kind:'beam',angle:a,windup:1.8});}
+ else if(kind==='meteor')for(let i=0;i<(c.final?3:2);i++)c.casts.push({...base,tx:s.x+(i?Math.cos(i*2.4)*72:0),ty:s.y+(i?Math.sin(i*2.4)*72:0),radius:40});
  else if(kind==='twin'||kind==='cross'){const offsets=kind==='cross'?[-Math.PI/2,0,Math.PI/2]:[-.22,.22];for(const offset of offsets)c.casts.push({...base,kind:'beam',angle:angle+offset});}
  else c.casts.push(base);
- c.boss.anim.play('attack');
+ if(!c.boss.fakeDeath)c.boss.anim.play('attack');
 }
 function fireCast(s,c,a){
  const base={owner:c.boss,x:a.x,y:a.y,age:0,color:a.color,damage:c.final?28:21,radius:11,life:4};
- if(a.kind==='beam'){mechanicBeam(s,c,a);s.hostileProjectiles.push({...base,kind:'beam',angle:a.angle,length:c.arenaHalf*3,life:.32});}
+ if(a.kind==='radial'){const count=8+(c.tuning?.shots||0);for(let i=0;i<count;i++){const angle=a.angle+i*Math.PI*2/count;s.hostileProjectiles.push({...base,kind:'bomb',angle,vx:Math.cos(angle)*175,vy:Math.sin(angle)*175,life:4});}}
+ else if(a.kind==='beam'){mechanicBeam(s,c,a);s.hostileProjectiles.push({...base,kind:'beam',angle:a.angle,length:c.arenaHalf*3,life:.32});}
  else if(a.kind==='meteor')s.hostileProjectiles.push({...base,kind:'meteor',x:a.tx,y:a.ty,radius:a.radius,life:.18});
  else if(a.kind==='quake')s.hostileProjectiles.push({...base,kind:'quake',life:.6,maxRadius:210,radius:0});
  else if(a.kind==='charge')c.charge={angle:a.angle,remaining:c.kind==='behemoth'?BEHEMOTH_CHARGE_DISTANCE/BEHEMOTH_CHARGE_SPEED:1.6};
@@ -105,7 +113,7 @@ function tickPatterns(s,c,dt){
   c.nextObjectiveCast=Math.max(c.nextObjectiveCast,c.clock+.4);
  }
  if(c.phase==='mechanic'&&['beam-relays','cover','charge-wall','charge-pillars'].includes(c.mechanic)&&c.clock>=c.nextObjectiveCast){c.nextObjectiveCast=c.clock+(c.final?3.3:3.8);if(!c.charge&&!preparingCharge)cast(s,c,chargeMechanic?'charge':'beam');}
- if(c.clock>=c.attackAt){c.attackAt=c.clock+(c.final?2.8:3.5);const kind=c.profile.patterns[c.patternStep++%c.profile.patterns.length];if(!(c.phase==='mechanic'&&chargeMechanic&&kind==='charge'))cast(s,c,kind);}
+ if(c.clock>=c.attackAt){c.attackAt=c.clock+(c.final?2.8:3.5)*(c.tuning?.cadence||1);const kind=c.profile.patterns[c.patternStep++%c.profile.patterns.length];if(!(c.phase==='mechanic'&&chargeMechanic&&kind==='charge'))cast(s,c,kind);}
  const fired=c.casts.filter(a=>c.clock-a.born>=a.windup);c.casts=c.casts.filter(a=>c.clock-a.born<a.windup);for(const a of fired)fireCast(s,c,a);
  if(c.charge){const q=c.charge,t=Math.min(dt,q.remaining),speed=pillarCharge?BEHEMOTH_CHARGE_SPEED:470,from={x:c.boss.x,y:c.boss.y},end=s.terrain.trace(from.x,from.y,from.x+Math.cos(q.angle)*speed*t,from.y+Math.sin(q.angle)*speed*t,c.boss.radius);c.boss.x=end.x;c.boss.y=end.y;q.remaining-=t;
   if(segmentDistance(s,from.x,from.y,end.x,end.y)<c.boss.radius+playerRadius(s))hurtInArena(s,c.final?32:24);
@@ -114,7 +122,7 @@ function tickPatterns(s,c,dt){
 }
 export function tickBossEncounters(s,dt){
  const c=s.crystalEncounter;if(!c)return false;
- if(!c.scripted){const ended=tickCrystalEncounter(s,dt);if(ended){s.completedEncounters??=[];if(!s.completedEncounters.includes(120))s.completedEncounters.push(120);s.defeatedEncounterBoss=s.defeatedCrystalBoss;return true;}tickArenaPressure(s,c,dt);return false;}
+ if(!c.scripted){const ended=tickCrystalEncounter(s,dt);if(ended){s.completedEncounters??=[];if(!s.completedEncounters.includes(120))s.completedEncounters.push(120);s.defeatedEncounterBoss=s.defeatedCrystalBoss;return true;}if(c.phase!=='pull'&&c.profile?.patterns.length)tickPatterns(s,c,dt);tickArenaPressure(s,c,dt);return false;}
  if(c.boss.hp<=0)return completeScriptedEncounter(s);
  c.clock+=dt;
  if(c.phase==='pull'){c.pullTime+=dt;const t=Math.min(1,c.pullTime/.6),ease=1-(1-t)**3;s.x=c.pullFrom.x+(c.pullTo.x-c.pullFrom.x)*ease;s.y=c.pullFrom.y+(c.pullTo.y-c.pullFrom.y)*ease;if(t===1)startMechanic(s,c);return false;}
@@ -128,12 +136,12 @@ export function encounterInstruction(c){
  return prefix+(c.phase==='combat'?' · BARRIÈRE BRISÉE':c.hint||mechanicNames[c.mechanic]);
 }
 export function drawBossEncounters(ctx,s,ox,oy){
- const c=s.crystalEncounter;if(!c)return;drawArenaPressure(ctx,s,ox,oy);if(!c.scripted)return;
- drawMechanic(ctx,s,c,ox,oy);ctx.save();
- for(const a of c.casts){const age=c.clock-a.born;ctx.strokeStyle=a.color;ctx.fillStyle=a.color;ctx.globalAlpha=.25+age/a.windup*.3;ctx.lineWidth=2;
-  if(a.kind==='meteor'||a.kind==='quake'){ctx.beginPath();ctx.arc((a.kind==='meteor'?a.tx:a.x)+ox,(a.kind==='meteor'?a.ty:a.y)+oy,a.kind==='meteor'?a.radius:210,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.stroke();}
+ const c=s.crystalEncounter;if(!c)return;drawArenaPressure(ctx,s,ox,oy);if(c.scripted)drawMechanic(ctx,s,c,ox,oy);ctx.save();
+ for(const a of c.casts||[]){const age=c.clock-a.born;ctx.strokeStyle=a.color;ctx.fillStyle=a.color;ctx.globalAlpha=.25+age/a.windup*.3;ctx.lineWidth=2;
+  if(a.kind==='radial'){ctx.globalAlpha=.85;for(let i=0;i<8;i++){const angle=a.angle+i*Math.PI/4;ctx.beginPath();ctx.moveTo(a.x+ox+Math.cos(angle)*45,a.y+oy+Math.sin(angle)*45);ctx.lineTo(a.x+ox+Math.cos(angle)*100,a.y+oy+Math.sin(angle)*100);ctx.stroke();}}
+  else if(a.kind==='meteor'||a.kind==='quake'){ctx.beginPath();ctx.arc((a.kind==='meteor'?a.tx:a.x)+ox,(a.kind==='meteor'?a.ty:a.y)+oy,a.kind==='meteor'?a.radius:210,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.stroke();}
   else{ctx.save();ctx.translate(a.x+ox,a.y+oy);ctx.rotate(a.angle);ctx.setLineDash([10,6]);ctx.strokeRect(0,a.kind==='charge'?-c.boss.radius:-16,a.kind==='charge'&&c.kind==='behemoth'?BEHEMOTH_CHARGE_DISTANCE:c.arenaHalf*3,a.kind==='charge'?c.boss.radius*2:32);ctx.restore();}
  }
- if(c.phase==='pull'){ctx.strokeStyle='#ddd4ed';ctx.globalAlpha=1;ctx.lineWidth=3;const dx=s.x-c.boss.x,dy=s.y-c.boss.y,length=Math.hypot(dx,dy);ctx.translate(c.boss.x+ox,c.boss.y+oy);ctx.rotate(Math.atan2(dy,dx));for(let x=0;x<length;x+=14){ctx.beginPath();ctx.ellipse(x,0,10,5,0,0,Math.PI*2);ctx.stroke();}}
+ if(c.scripted&&c.phase==='pull'){ctx.strokeStyle='#ddd4ed';ctx.globalAlpha=1;ctx.lineWidth=3;const dx=s.x-c.boss.x,dy=s.y-c.boss.y,length=Math.hypot(dx,dy);ctx.translate(c.boss.x+ox,c.boss.y+oy);ctx.rotate(Math.atan2(dy,dx));for(let x=0;x<length;x+=14){ctx.beginPath();ctx.ellipse(x,0,10,5,0,0,Math.PI*2);ctx.stroke();}}
  ctx.restore();
 }

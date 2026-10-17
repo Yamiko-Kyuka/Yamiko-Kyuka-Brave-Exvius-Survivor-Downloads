@@ -1,0 +1,197 @@
+{
+  "heroCount": 38,
+  "total": 462,
+  "drawPool": 424,
+  "heroes": [
+    {
+      "heroId": "cloud",
+      "name": "Cloud",
+      "appearances": 15
+    },
+    {
+      "heroId": "wol",
+      "name": "Warrior of Light",
+      "appearances": 6
+    },
+    {
+      "heroId": "lightning",
+      "name": "Lightning",
+      "appearances": 11
+    },
+    {
+      "heroId": "asset-70472",
+      "name": "Rain",
+      "appearances": 34
+    },
+    {
+      "heroId": "asset-87187",
+      "name": "Lasswell",
+      "appearances": 30
+    },
+    {
+      "heroId": "asset-87186",
+      "name": "Fina",
+      "appearances": 41
+    },
+    {
+      "heroId": "asset-87692",
+      "name": "Lid",
+      "appearances": 21
+    },
+    {
+      "heroId": "asset-91127",
+      "name": "Jake",
+      "appearances": 17
+    },
+    {
+      "heroId": "asset-88183",
+      "name": "Nichol",
+      "appearances": 27
+    },
+    {
+      "heroId": "asset-92746",
+      "name": "Sakura",
+      "appearances": 22
+    },
+    {
+      "heroId": "asset-88181",
+      "name": "Dark Fina",
+      "appearances": 14
+    },
+    {
+      "heroId": "asset-116655",
+      "name": "Sol",
+      "appearances": 8
+    },
+    {
+      "heroId": "asset-87214",
+      "name": "Garland",
+      "appearances": 9
+    },
+    {
+      "heroId": "asset-87210",
+      "name": "Firion",
+      "appearances": 9
+    },
+    {
+      "heroId": "asset-89281",
+      "name": "Emperor",
+      "appearances": 6
+    },
+    {
+      "heroId": "asset-95316",
+      "name": "Onion Knight",
+      "appearances": 10
+    },
+    {
+      "heroId": "asset-87391",
+      "name": "Cloud of Darkness",
+      "appearances": 7
+    },
+    {
+      "heroId": "asset-87146",
+      "name": "Cecil",
+      "appearances": 12
+    },
+    {
+      "heroId": "asset-87207",
+      "name": "Golbez",
+      "appearances": 7
+    },
+    {
+      "heroId": "asset-86770",
+      "name": "Bartz",
+      "appearances": 11
+    },
+    {
+      "heroId": "asset-86769",
+      "name": "Exdeath",
+      "appearances": 8
+    },
+    {
+      "heroId": "terra",
+      "name": "Terra",
+      "appearances": 14
+    },
+    {
+      "heroId": "asset-87086",
+      "name": "Kefka",
+      "appearances": 7
+    },
+    {
+      "heroId": "sephiroth",
+      "name": "Sephiroth",
+      "appearances": 8
+    },
+    {
+      "heroId": "asset-99240",
+      "name": "Squall",
+      "appearances": 13
+    },
+    {
+      "heroId": "asset-129583",
+      "name": "Edea",
+      "appearances": 5
+    },
+    {
+      "heroId": "asset-87021",
+      "name": "Zidane",
+      "appearances": 11
+    },
+    {
+      "heroId": "asset-87346",
+      "name": "Kuja",
+      "appearances": 6
+    },
+    {
+      "heroId": "asset-93680",
+      "name": "Tidus",
+      "appearances": 10
+    },
+    {
+      "heroId": "asset-105336",
+      "name": "Jecht",
+      "appearances": 6
+    },
+    {
+      "heroId": "yuna",
+      "name": "Yuna",
+      "appearances": 13
+    },
+    {
+      "heroId": "asset-87355",
+      "name": "Shantotto",
+      "appearances": 10
+    },
+    {
+      "heroId": "asset-109064",
+      "name": "Shadow Lord",
+      "appearances": 5
+    },
+    {
+      "heroId": "asset-88524",
+      "name": "Vaan",
+      "appearances": 8
+    },
+    {
+      "heroId": "asset-93734",
+      "name": "Gabranth",
+      "appearances": 5
+    },
+    {
+      "heroId": "asset-90421",
+      "name": "Y’shtola",
+      "appearances": 5
+    },
+    {
+      "heroId": "asset-86630",
+      "name": "Noctis",
+      "appearances": 8
+    },
+    {
+      "heroId": "asset-117465",
+      "name": "Ardyn",
+      "appearances": 3
+    }
+  ]
+}

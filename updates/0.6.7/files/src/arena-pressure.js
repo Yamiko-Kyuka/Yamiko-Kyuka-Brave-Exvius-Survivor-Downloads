@@ -5,8 +5,8 @@ export function hurtInArena(s,damage){if(s.invuln>0||s.godMode||s.ending||s.over
 /** An encounter clock, never the paused stage clock. Threat fills the arena by two minutes. */
 export function tickArenaPressure(s,c,dt){
  // Xande's longer placement sequence needs room for both full cycles before enrage.
- const meteorEncounter=c.profile?.mechanics.includes('meteor-seals');
- const half=c.arenaHalf||384,start=meteorEncounter?95:c.final?30:35,end=120;
+ const meteorEncounter=c.profile?.mechanics?.includes('meteor-seals');
+ const half=c.arenaHalf||384,start=meteorEncounter?95:c.final?45:35,end=c.final?150:120;
  const elapsed=Math.max(0,Math.min(1,(c.clock-start)/(end-start)));
  c.enrageProgress=c.final?elapsed*elapsed:elapsed;
  c.safeHalf=half*(1-c.enrageProgress);

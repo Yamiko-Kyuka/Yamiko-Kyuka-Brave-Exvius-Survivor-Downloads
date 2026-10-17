@@ -28,10 +28,30 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.6 — HÉROS ET SUCCÈS
+VERSION 0.6.7 — HÉROS, GACHA ET BOSS
+Un défi réussi débloque immédiatement le héros, avec un pop-up et sa Limit Break native.
+Le jeu reste en pause pendant la présentation ; plusieurs héros défilent séparément.
+Les récompenses et choix de niveau en attente sont conservés.
+Les récompenses déjà prêtes dans Succès affichent la même présentation.
+
+GACHA ET APPARENCES
+Le Gacha se débloque après les quatre zones en Élu des Éons ou supérieur.
+20 000 gils donnent une capsule et une apparence non possédée, parmi 424 formes
+ou costumes natifs. Les 38 apparences classiques sont gratuites.
+Taux initiaux : Normal 50 %, Magique 27 %, Rare 15 %, Épique 6 %, Légendaire 2 %.
+Les taux par apparence et les formes possédées sont visibles dans la collection.
+Sous le modèle du héros, choisissez une apparence acquise. Ses animations changent,
+mais les statistiques et l’arme de base restent les mêmes. Un skin ne débloque pas son héros.
+
+BOSS ET DIFFICULTÉS
+Les boss de 2, 4 et 6 minutes gagnent des patterns et davantage de PV par difficulté.
+Les quatre boss finaux possèdent trois vrais segments de vie distincts.
+Les dégâts excédentaires ne sautent plus les transitions de mécanique.
+
+HÉROS ET SUCCÈS
 La sélection ne présente que vos héros débloqués.
 35 défis de boss, de difficultés et de victoires multiples remplacent les achats de héros.
-Récupérez gratuitement les héros dans Succès une fois leur défi accompli.
+Les héros se débloquent gratuitement dès que leur défi est accompli.
 Une difficulté supérieure compte également ; les héros déjà acquis sont conservés.
 
 PERSONNAGES DISPONIBLES
@@ -52,7 +72,7 @@ Les trois combats de boss restent à vitesse normale, même en Turbo.
 Arènes agrandies ; Béhémoth vulnérable après collision avec un des trois piliers.
 Les flaques automatiques sous le joueur ont été supprimées des arènes.
 Clic gauche : alterner visée manuelle et cible automatique la plus proche.
-Clic droit : dash vers le curseur. Cadences différentes pour les 40 armes.
+Clic droit : dash vers le curseur. Cadences différentes pour les 38 armes.
 Recul sur les monstres ordinaires, Materia Choc et achat permanent Impact des cristaux.
 Prix des achats permanents multipliés par dix. Quinze achats visibles sans défilement.
 Rangs multipliés par dix : 50 en général, 20 projectiles, 30 relances et exclusions.
@@ -64,7 +84,7 @@ Les sauvegardes, héros recrutés et achats précédents sont conservés.
 
 COMBATS EN ARÈNE
 Boss scénarisés à 2 et 4 minutes ; boss final à 6 minutes dans une arène plus grande.
-Chaque boss impose une mécanique de vulnérabilité, répétée à mi-vie.
+Chaque boss impose une mécanique de vulnérabilité, répétée entre les segments de vie.
 Les boss finaux enchaînent trois mécaniques ; la limite de temps réduit l’espace disponible.
 Sprite exact FFBE du Dragon Zombie (Dracozombie 3120810) et animations natives.
 Squelettes du Dragon Zombie ralentis de 50 %.
@@ -82,7 +102,7 @@ Les succès de boss permettent de récupérer gratuitement les autres héros.
 Les trois sauvegardes sont dans userdata/progression-slots.json, indépendantes du port du navigateur.
 L’ancien fichier userdata/progression.json reste conservé après migration.
 Chaque personnage possède son arme de départ et ses animations propres.
-Les 40 armes et les 19 power-ups possèdent leurs icônes distinctes.
+Les 38 armes et les 19 power-ups possèdent leurs icônes distinctes.
 Les dégâts apparaissent au-dessus des ennemis pour les armes et leurs effets.
 Les animations de repos et de déplacement gardent leur cadence ralentie.
 La barre de vie est visible au-dessus du héros et suit le zoom de la caméra.

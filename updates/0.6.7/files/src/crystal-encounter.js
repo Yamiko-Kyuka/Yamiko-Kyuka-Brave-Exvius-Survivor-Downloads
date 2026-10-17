@@ -1,3 +1,4 @@
+import {bossTuning} from './boss-difficulty.js';
 import {mitigatedDamage} from './permanent-upgrades.js';
 import {Terrain,moveEntity,TILE,ORIGIN} from './terrain.js';
 import {AnimationPlayer,clipFor} from './animation.js';
@@ -22,8 +23,8 @@ function body(variant,x,y,size,hp){return {variant,x,y,id:variant.unitId,anim:ne
 export function beginCrystalEncounter(s){
  if(s.stage.id!=='crystal-tower'||s.crystalCompleted||s.crystalEncounter||s.phase!=='survival'||s.time+1e-6<120||!s.crystalAssets)return false;
  const terrain=new Terrain(s.stage,reliquary),center={x:ORIGIN+17*TILE,y:ORIGIN+14*TILE},returnPoint={x:s.x,y:s.y};
- const segment=Math.ceil(superbossHealth(s,{health:100})/2);
- const boss={...body(s.crystalAssets.dragon,center.x,center.y,180,segment*2),name:'Dragon Zombie',achievementId:'dragon-zombie',elite:true,miniboss:true,collisionMass:1e12,speed:0,baseSpeed:0,segmentHp:segment};
+ const segment=Math.ceil(superbossHealth(s,{health:100})*bossTuning(s).hp/2);
+ const boss={...body(s.crystalAssets.dragon,center.x,center.y,180,segment*2),name:'Dragon Zombie',achievementId:'dragon-zombie',elite:true,miniboss:true,collisionMass:1e12,speed:0,baseSpeed:0,segmentCount:2,segmentHp:segment};
  const c=s.crystalEncounter={boss,terrain:s.terrain,returnPoint,storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],clock:0,phase:'pull',pullTime:0,center,arenaHalf:reliquary.areas[0].w*TILE/2,beamAt:2,poolAt:5,beams:[],pools:[],wave:[],absorbed:0,round:0};
  boss.receiveDamage=damage=>{
   if(c.phase!=='combat')return 0;
