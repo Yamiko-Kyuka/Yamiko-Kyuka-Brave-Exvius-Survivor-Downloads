@@ -1,0 +1,18 @@
+{
+  "name": "King Mog / Roi Mog",
+  "unitId": "5080010",
+  "identityEntry": "508001000",
+  "manifest": "assets/animation-data/asset-107468.json",
+  "source": "aEnigmatic/ffbe monster_ai.json",
+  "sourceCommit": "95727376e82d27acc1290b6dc8ad27ce3c89ea71",
+  "identity": {
+    "name": "モーグリ王（ノーマル）",
+    "monster": "King Mog",
+    "skills": 31
+  },
+  "animations": [
+    "atk",
+    "idle"
+  ],
+  "nativeResourcesUnchanged": true
+}
