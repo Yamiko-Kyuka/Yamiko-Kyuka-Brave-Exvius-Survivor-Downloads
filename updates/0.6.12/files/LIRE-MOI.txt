@@ -28,10 +28,11 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.11 — DÉCOUVERTE
-Les cartes et difficultés verrouillées sont masquées par ?????.
-Les descriptions sous les cartes et le bandeau de déblocage du Gacha sont retirés.
-Le Gacha reste inaccessible tant que les quatre victoires requises ne sont pas acquises.
+VERSION 0.6.12 — PRÉSENTATION ET AUDIO
+Le personnage débloqué est agrandi et centré. Le bouton JOUER adopte un style cristal.
+L’écran titre est épuré. Un petit tintement accompagne le survol des contrôles.
+Options : volumes général, musique, menus/notifications et combats indépendants.
+Le réglage des volumes est conservé séparément pour chaque sauvegarde.
 
 LE FESTIVAL DES MOGS
 Comptoir festif, machine de cristal et d’or, lanternes et hôte Mog animé.

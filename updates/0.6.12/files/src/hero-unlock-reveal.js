@@ -4,11 +4,11 @@ export function revealVariant(entity,preferred){
  const hasLimit=v=>actionSequence(v,'limit').some(c=>c.state.startsWith('limit_atk'));
  return (preferred&&hasLimit(preferred)?preferred:null)||entity.variants.find(v=>v.playable&&hasLimit(v))||entity.variants.find(hasLimit)||preferred||entity.variants[0];
 }
-export function revealFraming(clips,width,height){
+export function revealFraming(clips,width,height,maxScale=3.5){
  let left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
  for(const clip of clips.filter(Boolean))for(const [, ,x,y,w,h]of clip.frames){left=Math.min(left,x-clip.anchor[0]);top=Math.min(top,y-clip.anchor[1]);right=Math.max(right,x+w-clip.anchor[0]);bottom=Math.max(bottom,y+h-clip.anchor[1]);}
  if(!Number.isFinite(left))return {scale:1,x:width/2,y:height*.7};
- const scale=Math.min(3.5,(width-64)/Math.max(1,right-left),(height-40)/Math.max(1,bottom-top));
+ const scale=Math.min(maxScale,(width-64)/Math.max(1,right-left),(height-40)/Math.max(1,bottom-top));
  return {scale,x:width/2-(left+right)/2*scale,y:height/2-(top+bottom)/2*scale};
 }
 
@@ -39,7 +39,8 @@ export class HeroUnlockReveal{
    const variant=revealVariant(entity),clips=actionSequence(variant,'limit');
    await this.cache.preload([...clips,...actionSequence(variant,'victory'),clipFor(variant,'idle')]);
    if(serial!==this.serial)return;
-   this.animation=new AnimationPlayer(variant);this.framing=revealFraming([...clips,clipFor(variant,'idle'),...actionSequence(variant,'victory')],this.canvas.width,this.canvas.height);
+   // Frame the hero's body, so wide Limit Break effects cannot shrink or offset it.
+   this.animation=new AnimationPlayer(variant);this.framing=revealFraming([clipFor(variant,'idle')],this.canvas.width,this.canvas.height,10.5);
    this.animation.play(clips.length?'limit':'victory',{onComplete:()=>this.animation?.play('victory')});
    this.dialog.querySelector('[data-unlock-status]').textContent='';
   }).catch(()=>{

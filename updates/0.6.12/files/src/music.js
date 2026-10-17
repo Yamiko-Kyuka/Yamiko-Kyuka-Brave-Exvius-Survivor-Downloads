@@ -1,3 +1,4 @@
+import {effectiveVolume} from './audio-settings.js';
 const AUDIO_REVISION='0.5.6';
 export const musicTracks={
  menu:{file:'menu.mp3',title:'Menu theme'},
@@ -15,14 +16,14 @@ export class BattleMusic {
   const track=musicTracks[stage.id]||{file:stage.musicFile||stage.id+'.ogg',title:stage.name||stage.id,loop:stage.loop};
   this.options=options;this.audio.loop=track.loop!==false;
   if(this.stage!==stage.id||this.track?.file!==track.file){this.stage=stage.id;this.track=track;this.error=null;this.audio.src=audioUrl(track.file);this.audio.load();}
-  this.audio.volume=options.musicVolume;
+  this.audio.volume=effectiveVolume(options,'music');
   if(!options.music){this.audio.pause();return;}
   try{await this.audio.play();}catch{return false;}
   return true;
  }
  playMenu(options){return this.play({id:'menu'},options);}
  playVictory(options){return this.play({id:'victory'},options);}
- configure(options){this.options=options;this.audio.volume=options.musicVolume;if(!options.music)this.audio.pause();else if(this.stage&&!this.audio.ended)this.audio.play().catch(()=>{});}
+ configure(options){this.options=options;this.audio.volume=effectiveVolume(options,'music');if(!options.music)this.audio.pause();else if(this.stage&&!this.audio.ended)this.audio.play().catch(()=>{});}
  stop(){this.audio.pause();this.stage=null;this.track=null;this.audio.removeAttribute('src');this.audio.load();}
 }
 /** Locate the audible part of an uploaded clip without altering its original file. */
@@ -37,30 +38,45 @@ export function audibleWindow(buffer,threshold=.003){
  const start=Math.max(0,first/buffer.sampleRate-.003),end=Math.min(buffer.duration,(last+1)/buffer.sampleRate+.03);
  return {offset:start,duration:end-start};
 }
+/** A quiet, short crystal chime, prepared once with no network or MP3 latency. */
+function menuHoverClip(context){
+ const rate=context.sampleRate,buffer=context.createBuffer(1,Math.ceil(rate*.14),rate),samples=buffer.getChannelData(0);
+ for(let i=0;i<samples.length;i++){
+  const t=i/rate,envelope=Math.min(1,t/.002)*Math.exp(-t*42)*Math.min(1,(.14-t)/.012);
+  samples[i]=envelope*(.075*Math.sin(2*Math.PI*1568*t)+.022*Math.sin(2*Math.PI*3136*t)+.009*Math.sin(2*Math.PI*4704*t));
+ }
+ return {buffer,offset:0,duration:buffer.duration};
+}
 /** Short effects are fetched and decoded before interaction, then started directly on the audio clock. */
 export class SoundEffects {
- constructor(context=null){this.context=context;this.buffers=new Map();this.channels=new Map();this.pending=null;this.error=null;}
+ constructor(context=null){this.context=context;this.buffers=new Map();this.channels=new Map();this.pending=null;this.error=null;this.lastHover=-Infinity;this.output=null;}
  prepare(){
   if(this.pending)return this.pending;
   this.pending=(async()=>{
    try{this.context??=new (globalThis.AudioContext||globalThis.webkitAudioContext)({latencyHint:'interactive'});}catch{return;}
+   this.buffers.set('menu-hover',menuHoverClip(this.context));
    await Promise.all(['menu-click','level-up'].map(async id=>{
     try{const response=await fetch(audioUrl(id+'.mp3'));if(!response.ok)throw Error('HTTP '+response.status);const buffer=await this.context.decodeAudioData(await response.arrayBuffer());this.buffers.set(id,{buffer,...audibleWindow(buffer)});}catch(error){this.error='Un bruitage ne peut pas être chargé.';console.error('Bruitages :',id,error);}
    }));
   })();return this.pending;
  }
  unlock(){this.prepare();if(this.context?.state==='suspended')return this.context.resume().catch(()=>{});return Promise.resolve();}
+ hover(options){
+  if(!options.sound||this.context?.state!=='running')return false;
+  const now=this.context.currentTime;if(now-this.lastHover<.09)return false;
+  const played=this.play('menu-hover',options);if(played)this.lastHover=now;return played;
+ }
  play(id,options){
   if(!options.sound)return false;
   const clip=this.buffers.get(id);if(!clip||!clip.duration)return false;
   const start=()=>{
    const previous=this.channels.get(id);if(previous&&!previous.ended)previous.source.stop();
-   const source=this.context.createBufferSource();source.buffer=clip.buffer;source.loop=false;source.connect(this.context.destination);
+   this.configure(options);const source=this.context.createBufferSource();source.buffer=clip.buffer;source.loop=false;source.connect(this.output);
    const channel={source,loop:false,ended:false,offset:clip.offset,duration:clip.duration,startedAt:this.context.currentTime};
    source.onended=()=>{channel.ended=true;};this.channels.set(id,channel);source.start(this.context.currentTime,clip.offset,clip.duration);return true;
   };
   if(this.context.state==='suspended')return this.context.resume().then(start).catch(()=>false);
   return start();
  }
- configure(options){if(!options.sound)for(const channel of this.channels.values())if(!channel.ended){channel.source.stop();channel.ended=true;}}
+ configure(options){if(this.context){if(!this.output){this.output=this.context.createGain();this.output.connect(this.context.destination);}this.output.gain.setValueAtTime(options.sound?effectiveVolume(options,'sound'):0,this.context.currentTime);}if(!options.sound)for(const channel of this.channels.values())if(!channel.ended){channel.source.stop();channel.ended=true;}}
 }
