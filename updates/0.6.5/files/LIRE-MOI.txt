@@ -28,7 +28,11 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.4 — SAUVEGARDES ET BOUTIQUE
+VERSION 0.6.5 — PERSONNAGES DISPONIBLES
+Retrait de Caius Ballad et Gaius van Baelsar des fiches proposées en jeu.
+Les 38 héros disponibles conservent leurs prix et leurs armes.
+
+SAUVEGARDES ET BOUTIQUE
 Trois sauvegardes indépendantes, sélectionnables au lancement et depuis le menu.
 Suppression avec confirmation ; la progression existante rejoint le premier emplacement.
 Boutique : grandes icônes centrées et résumé court du prochain bonus juste dessous.
@@ -106,7 +110,7 @@ Jenova est maintenant visible ; tous les superboss apparaissent dans le champ de
 Leurs PV s’adaptent à l’équipement, avec une protection d’arrivée de 2 secondes.
 Trois difficultés, succès et bestiaire persistants.
 Les animations du personnage sont sélectionnées automatiquement.
-Caius et Gaius sont signalés indisponibles : leurs animations sont absentes du catalogue.
+Les personnages sans animations disponibles sont retirés de la sélection et des boutiques.
 
 MISES À JOUR DEPUIS LE LANCEUR
 Le lanceur vérifie les versions publiées sur le site GitHub Pages. Cliquez sur
