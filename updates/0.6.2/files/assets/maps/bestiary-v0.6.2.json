@@ -1,0 +1,232 @@
+{
+  "source": "https://raw.githubusercontent.com/aEnigmatic/ffbe/95727376e82d27acc1290b6dc8ad27ce3c89ea71/monster_ai.json",
+  "commit": "95727376e82d27acc1290b6dc8ad27ce3c89ea71",
+  "note": "Verified FFBE sprite identities. Assignment to zones is a fan-game family adaptation, not an exact canonical encounter table.",
+  "records": [
+    {
+      "spriteId": "1010010",
+      "identities": [
+        "Dire Rat",
+        "Dire Rat Lv. 100"
+      ]
+    },
+    {
+      "spriteId": "1050310",
+      "identities": [
+        "Foot Soldier"
+      ]
+    },
+    {
+      "spriteId": "1060020",
+      "identities": [
+        "Searcher Lv. 99",
+        "Searcher"
+      ]
+    },
+    {
+      "spriteId": "1010260",
+      "identities": [
+        "Blind Wolf"
+      ]
+    },
+    {
+      "spriteId": "1060040",
+      "identities": [
+        "Signalbot"
+      ]
+    },
+    {
+      "spriteId": "1040210",
+      "identities": [
+        "Bomb",
+        "Bomb Lv. 99"
+      ]
+    },
+    {
+      "spriteId": "1050330",
+      "identities": [
+        "Zoldaad Soldier"
+      ]
+    },
+    {
+      "spriteId": "1050350",
+      "identities": [
+        "Special Forces Axeman"
+      ]
+    },
+    {
+      "spriteId": "1050340",
+      "identities": [
+        "Special Forces Swordsman"
+      ]
+    },
+    {
+      "spriteId": "1050430",
+      "identities": [
+        "Captain"
+      ]
+    },
+    {
+      "spriteId": "1050320",
+      "identities": [
+        "Zombie Soldier"
+      ]
+    },
+    {
+      "spriteId": "1030130",
+      "identities": [
+        "Red Marshmallow"
+      ]
+    },
+    {
+      "spriteId": "2010210",
+      "identities": [
+        "Coeurl"
+      ]
+    },
+    {
+      "spriteId": "1120410",
+      "identities": [
+        "Dead Head"
+      ]
+    },
+    {
+      "spriteId": "1030150",
+      "identities": [
+        "White Mousse"
+      ]
+    },
+    {
+      "spriteId": "1100170",
+      "identities": [
+        "Ancient Objet d'Art"
+      ]
+    },
+    {
+      "spriteId": "3010110",
+      "identities": [
+        "Behemoth"
+      ]
+    },
+    {
+      "spriteId": "3010010",
+      "identities": [
+        "Chimera"
+      ]
+    },
+    {
+      "spriteId": "1050110",
+      "identities": [
+        "Sorcerer"
+      ]
+    },
+    {
+      "spriteId": "1120010",
+      "identities": [
+        "Skeleton"
+      ]
+    },
+    {
+      "spriteId": "2100310",
+      "identities": [
+        "Gargoyle"
+      ]
+    },
+    {
+      "spriteId": "1050020",
+      "identities": [
+        "Goblin Guard"
+      ]
+    },
+    {
+      "spriteId": "1050130",
+      "identities": [
+        "Dark Wizard"
+      ]
+    },
+    {
+      "spriteId": "2100110",
+      "identities": [
+        "Golem"
+      ]
+    },
+    {
+      "spriteId": "4070430",
+      "identities": [
+        "Green Dragon"
+      ]
+    },
+    {
+      "spriteId": "3050010",
+      "identities": [
+        "Hill Gigas"
+      ]
+    },
+    {
+      "spriteId": "4070420",
+      "identities": [
+        "Yellow Dragon"
+      ]
+    },
+    {
+      "spriteId": "4070410",
+      "identities": [
+        "Red Dragon"
+      ]
+    },
+    {
+      "spriteId": "1080110",
+      "identities": [
+        "Dark Elemental"
+      ]
+    },
+    {
+      "spriteId": "1040030",
+      "identities": [
+        "Bloody Eye"
+      ]
+    },
+    {
+      "spriteId": "2100260",
+      "identities": [
+        "Dark Roper"
+      ]
+    },
+    {
+      "spriteId": "2120170",
+      "identities": [
+        "Gespenst"
+      ]
+    },
+    {
+      "spriteId": "1030170",
+      "identities": [
+        "Purple Bavarois"
+      ]
+    },
+    {
+      "spriteId": "2100330",
+      "identities": [
+        "Rock Gargoyle"
+      ]
+    },
+    {
+      "spriteId": "1040180",
+      "identities": [
+        "Azazel"
+      ]
+    },
+    {
+      "spriteId": "3010030",
+      "identities": [
+        "Demon Chimera"
+      ]
+    },
+    {
+      "spriteId": "3040510",
+      "identities": [
+        "Archeodemon"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "target": "Brave-Exvius-Survivor.exe",
+  "sha256": "a9c5db3919c744925ff36c3e9ca23105df6df43ff129ae05afbb5ad2060caf1a",
+  "sourceSha256": "48ecfc3207f414df06bc4236318156617b957f7949fa7f39abcebd3ed6aef99b",
+  "updaterSha256": "88c13a6d643415cf07fce3fcae9221dde931dcdbf3d7d47105505ab2de9861d9",
+  "posterSha256": "80b0f02cb3a0e2fedb5d7eaed23621e62385d579467ebe26b86bf7d073db35ca",
+  "targetFramework": ".NETFramework,Version=v4.6.2",
+  "referencePackageSha512": "HMn0QQmPYcJsVuKet9WA8IQbBweZvc7US88N39itSRqcn/1XOT/Kao1QiiykxU+vx8k7/zim11cVmKtunju4MA==",
+  "platform": "Windows 10/11 x64; .NET Framework 4.6.2; GUI subsystem"
+}

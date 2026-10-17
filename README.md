@@ -1,10 +1,10 @@
 # Brave Exvius Survivor — téléchargements
 
-Version publiée : **0.6.1**.
+Version publiée : **0.6.2**.
 
 - [Site et installation](https://yamiko-kyuka.github.io/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/)
-- [Jeu et nouveau lanceur Windows](https://yamiko-kyuka.github.io/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/downloads/Brave-Exvius-Survivor-v0.6.1-Windows.zip)
-- [Nouveau lanceur seul, pour une installation existante](https://yamiko-kyuka.github.io/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/downloads/Brave-Exvius-Survivor-Launcher-Update.zip?v=28b41fc93237)
+- [Jeu et nouveau lanceur Windows](https://yamiko-kyuka.github.io/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/downloads/Brave-Exvius-Survivor-v0.6.2-Windows.zip)
+- [Nouveau lanceur seul, pour une installation existante](https://yamiko-kyuka.github.io/Yamiko-Kyuka-Brave-Exvius-Survivor-Downloads/downloads/Brave-Exvius-Survivor-Launcher-Update.zip?v=0a25a14fdf2e)
 
 Fermez le jeu, extrayez le ZIP dans votre dossier et relancez le lanceur. Les mises à jour suivantes passent par son bouton **Mettre à jour**. La sauvegarde et les ressources déjà installées sont conservées. Une première installation télécharge environ 4,7 Go de sprites.
 
