@@ -1,7 +1,8 @@
+import {loadSlots,normalizeSlots,writeSlot} from './save-slots.js';
 import {tickLegendaryEffects,tryAutoPhoenix,drawLegendaryAura} from './legendary-effects.js';
 import {permanentUpgrades,permanentUpgradeCost,purchasePermanentUpgrade,permanentHeroStats,applyPermanentUpgrades,permanentBonuses,mitigatedDamage,tickRegeneration} from './permanent-upgrades.js';
 import {rarityOf,rarities,rarityProbabilities,rarityDetail} from './rarity.js';
-import {heroes,weapons,stages,difficulties,stageUnlocked,difficultyUnlocked,turboUnlocked,scaledDifficulty,loadSave,normalizeSave,available,purchase,completeRun,recordMonster,levelChoices,chooseUpgrade,choicePreview,rerollLevelChoices,banishLevelChoice,powerups,equipmentEffects} from './model.js';
+import {heroes,weapons,stages,difficulties,stageUnlocked,difficultyUnlocked,turboUnlocked,scaledDifficulty,normalizeSave,available,purchase,completeRun,recordMonster,levelChoices,chooseUpgrade,choicePreview,rerollLevelChoices,banishLevelChoice,powerups,equipmentEffects} from './model.js';
 import {AnimationPlayer,SpriteCache,clipFor,actionSequence,clipDuration,labelFor} from './animation.js';
 import {nearestEnemy,fireWeapon,tickWeapons,tickProjectiles,drawCombat,tickDamageNumbers,drawDamageNumbers,drawHitAura} from './combat.js';
 import {loadCrystalEncounter,tickLimitBreak,castLimitBreak,drawCrystalEncounter} from './crystal-encounter.js';
@@ -35,19 +36,71 @@ const cache=new SpriteCache(),manifests=new Map(),variantsChosen=new Map(),cards
 const catalog=await fetch('assets/animation-catalog.json').then(r=>{if(!r.ok)throw Error('Bibliothèque indisponible');return r.json();});
 const summaries=new Map(catalog.map(e=>[e.id,e]));for(const h of heroes)h.manifest=summaries.get(h.id)?.manifest;
 let permanentPurchasePending=false;
-let save=loadSave(localStorage);try{const r=await fetch('/api/save');if(r.ok){const disk=await r.json();if(disk)save=normalizeSave(disk);}}catch{}
+let slotStore=loadSlots(localStorage),activeSlot=null,slotBusy=false;
+try{const r=await fetch('/api/saves');if(r.ok){const disk=await r.json();if(disk)slotStore=normalizeSlots(disk);}}catch{}
+let save=normalizeSave(slotStore.slots[slotStore.activeSlot]?.save);
 // Start the uploaded title theme before sprite loading or effect decoding completes.
 music.playMenu(save.options);
 let forcedTestStage=null,turbo=false;
 let selected=heroes[0],selectedVariant=null,shop=false,state=null,last=performance.now(),page=0,query='',gallery=null,selectionVersion=0,screen='titleScreen',stage=stages[0],difficulty=difficulties[0],enemyPool=[],enemyCatalog=[],poolLoading=null,saveTimer=0,saveFailure=false;
-async function persist(){if(playtest)return;try{localStorage.setItem('bes-save',JSON.stringify(save));}catch{}try{const r=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(save)});if(!r.ok)throw Error('Save failed');saveFailure=false;}catch{saveFailure=true;} $('coins').textContent=save.coins;}
+let saveQueue=Promise.resolve();
+function cacheSlots(){try{localStorage.setItem('bes-save-slots',JSON.stringify(slotStore));}catch{}}
+async function persist(){
+ if(playtest||activeSlot===null)return;
+ const slot=activeSlot,data=structuredClone(save);slotStore=writeSlot(slotStore,slot,data);cacheSlots();
+ const initial=structuredClone(slotStore);
+ saveQueue=saveQueue.catch(()=>{}).then(async()=>{try{const r=await fetch('/api/saves',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot,data,initial})});if(!r.ok)throw Error('Save failed');saveFailure=false;}catch{saveFailure=true;}});
+ await saveQueue;$('coins').textContent=save.coins;
+}
 function show(html,buttons=[]){$('modal').classList.remove('levelup-modal');$('modalBody').innerHTML=html;for(const b of buttons){const button=document.createElement('button');button.textContent=b.text;button.onclick=b.action;$('modalBody').append(button);}if(!$('modal').open)$('modal').showModal();}
 function close(){gallery=null;$('modal').close();}
 $('modal').addEventListener('cancel',e=>e.preventDefault());
 function reportError(error){console.error(error);show('<h2>Chargement interrompu</h2><p>Une ressource du personnage ne peut pas être chargée. Relancez l’installateur pour vérifier la bibliothèque.</p>',[{text:'Retour au menu',action:()=>{state=null;route('menuScreen');}}]);}
-function route(id){document.body.classList.remove('permanent-shop');close();if(id==='arena')music.stop();else music.playMenu(save.options);screen=id;document.body.dataset.screen=id;keys.clear();for(const s of document.querySelectorAll('.screen'))s.hidden=s.id!==id;$('arena').hidden=id!=='arena';$('menuDock').hidden=['titleScreen','arena'].includes(id);$('back').hidden=['menuScreen','arena'].includes(id);$('coins').textContent=save.coins;if(id==='menuScreen')$('progressSummary').textContent=`${save.unlocked.length} héros recrutés · ${save.stats.kills} monstres vaincus · ${save.stats.wins} victoires`;if(id==='arena')resize();window.scrollTo(0,0);}
+function route(id){document.body.classList.remove('permanent-shop');close();if(id==='arena')music.stop();else music.playMenu(save.options);screen=id;document.body.dataset.screen=id;keys.clear();for(const s of document.querySelectorAll('.screen'))s.hidden=s.id!==id;$('arena').hidden=id!=='arena';$('menuDock').hidden=['titleScreen','saveScreen','arena'].includes(id);$('back').hidden=['menuScreen','arena'].includes(id);$('coins').textContent=save.coins;if(id==='menuScreen')$('progressSummary').textContent=`${save.unlocked.length} héros recrutés · ${save.stats.kills} monstres vaincus · ${save.stats.wins} victoires`;if(id==='arena')resize();window.scrollTo(0,0);}
 function characters(inShop=false){shop=inShop;page=0;query='';$('heroSearch').value='';route('characterScreen');renderRoster();selectHero(selected).catch(reportError);}
-$('enter').onclick=()=>{initAudio();route('menuScreen');};$('begin').onclick=()=>characters();$('shopNav').onclick=()=>characters(true);$('back').onclick=()=>{if(screen==='stageScreen')characters();else route('menuScreen');};
+$('enter').onclick=()=>{initAudio();renderSaveSlots();};$('begin').onclick=()=>characters();$('shopNav').onclick=()=>characters(true);$('back').onclick=()=>{if(screen==='stageScreen')characters();else route('menuScreen');};
+
+function renderSaveSlots(message=''){
+ route('saveScreen');$('saveSlots').replaceChildren();$('slotFeedback').textContent=message;
+ for(let i=0;i<3;i++){
+  const entry=slotStore.slots[i],card=document.createElement('article');card.className='panel save-card';card.dataset.slot=i;
+  const heading=document.createElement('h3');heading.textContent='Sauvegarde '+(i+1);
+  const art=itemIcon('/assets/ui/pickups/level.svg');art.classList.add('save-crystal');
+  const info=document.createElement('p');
+  if(entry){const data=entry.save;info.textContent=`${data.unlocked.length} héros · ${data.coins.toLocaleString('fr-FR')} gils`;const stats=document.createElement('small');stats.textContent=`${data.stats.runs} expéditions · ${data.stats.wins} victoires`;info.append(document.createElement('br'),stats);}
+  else info.textContent='Emplacement libre';
+  const play=document.createElement('button');play.dataset.saveSlot=i;play.className='primary';play.textContent=entry?'CONTINUER':'NOUVELLE PARTIE';play.disabled=slotBusy;
+  play.onclick=async()=>{
+   if(slotBusy)return;slotBusy=true;renderSaveSlots();
+   await saveQueue;activeSlot=i;save=normalizeSave(slotStore.slots[i]?.save);slotStore.activeSlot=i;
+   selected=heroes[0];variantsChosen.clear();state=null;stage=stages[0];difficulty=difficulties[0];turbo=false;forcedTestStage=null;
+   await persist();music.configure(save.options);sfx.configure(save.options);slotBusy=false;route('menuScreen');
+  };
+  card.append(heading,art,info,play);
+  if(entry){
+   const remove=document.createElement('button');remove.className='delete-save';remove.dataset.deleteSlot=i;remove.textContent='SUPPRIMER';remove.disabled=slotBusy||playtest;
+   remove.onclick=()=>{if(playtest)return;show(`<h2>Supprimer la sauvegarde ${i+1} ?</h2><p>Tous les héros, gils et améliorations de cet emplacement seront effacés. Les autres sauvegardes seront conservées.</p>`,[
+    {text:'Annuler',action:close},
+    {text:'Supprimer définitivement',action:async()=>{
+     if(slotBusy)return;slotBusy=true;close();renderSaveSlots('Suppression en cours…');await saveQueue;
+     try{
+      const r=await fetch('/api/saves',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot:i,initial:slotStore})});if(!r.ok)throw Error('Delete failed');
+      slotStore=writeSlot(slotStore,i,null);if(activeSlot===i){activeSlot=null;save=normalizeSave(null);}cacheSlots();slotBusy=false;renderSaveSlots('Emplacement '+(i+1)+' libéré.');
+     }catch{slotBusy=false;renderSaveSlots('Suppression impossible. La sauvegarde est conservée ; réessayez.');}
+    }}]);};
+   card.append(remove);
+  }
+  $('saveSlots').append(card);
+ }
+}
+
+function permanentSummary(upgrade,level){
+ const labels={vitality:['health','PV'],might:['damage','dégâts'],haste:['cooldown','recharge'],stride:['speed','vitesse'],reach:['range','portée'],wisdom:['experience','XP'],magnet:['magnet','attraction'],guard:['defense','protection'],regen:['regen','PV/s'],fortune:['gils','gils'],quantity:['projectiles','projectile'],rerolls:['rerolls','relance'],banishes:['banishes','exclusion'],luck:['luck','chance'],knockback:['knockback','recul']};
+ if(level>=upgrade.maxLevel)return 'Bonus maximal';
+ const [key,label]=labels[upgrade.id],before=permanentBonuses(save)[key],after=permanentBonuses({...save,permanentUpgrades:{...save.permanentUpgrades,[upgrade.id]:level+1}})[key];
+ const percent=!['regen','projectiles','rerolls','banishes'].includes(key),gain=(after-before)*(percent?100:1);
+ return (gain<0?'−':'+')+Math.abs(gain).toLocaleString('fr-FR',{maximumFractionDigits:2})+(percent?' % ':' ')+label;
+}
 function renderPermanentShop(focusId){
  route('collectionScreen');document.body.classList.add('permanent-shop');$('collectionTitle').textContent='Boutique des cristaux';
  $('collectionContent').innerHTML='<p>Améliorations permanentes pour tous vos héros, dès la prochaine expédition. Aucun emplacement d’arme ou de power-up utilisé.</p><p id="permanentFeedback" class="hint" role="status" aria-live="polite"></p><div id="permanentGrid" class="permanent-grid"></div>';
@@ -56,7 +109,7 @@ function renderPermanentShop(focusId){
   const level=save.permanentUpgrades[upgrade.id],cost=permanentUpgradeCost(save,upgrade.id),card=document.createElement('article');
   card.className='panel permanent-card';card.dataset.permanent=upgrade.id;
   const icon=itemIcon(upgrade.icon),name=document.createElement('h3'),detail=document.createElement('p'),ranks=document.createElement('p'),button=document.createElement('button');
-  name.textContent=upgrade.name;detail.textContent=upgrade.detail;ranks.className='permanent-ranks';ranks.textContent='RANG '+level+' / '+upgrade.maxLevel;ranks.style.setProperty('--rank-progress',100*level/upgrade.maxLevel+'%');
+  name.textContent=upgrade.name;detail.textContent=permanentSummary(upgrade,level);detail.title=upgrade.detail;ranks.className='permanent-ranks';ranks.textContent='RANG '+level+' / '+upgrade.maxLevel;ranks.style.setProperty('--rank-progress',100*level/upgrade.maxLevel+'%');
   button.dataset.permanentBuy=upgrade.id;button.disabled=cost===null||save.coins<cost||playtest||permanentPurchasePending;
   button.textContent=cost===null?'RANG MAXIMUM':playtest?'INDISPONIBLE EN MODE DÉVELOPPEUR':`AMÉLIORER · ${cost} GILS`;
   if(cost!==null&&save.coins<cost)button.title='Gils insuffisants';
@@ -66,11 +119,13 @@ function renderPermanentShop(focusId){
    $('permanentFeedback').textContent=upgrade.name+' · rang '+save.permanentUpgrades[upgrade.id]+' acquis pour tous les héros.';
    await saving;permanentPurchasePending=false;if(screen==='collectionScreen'&&$('permanentGrid')){renderPermanentShop(upgrade.id);$('permanentFeedback').textContent=upgrade.name+' · rang '+save.permanentUpgrades[upgrade.id]+' acquis pour tous les héros.'+(saveFailure?' Copie locale conservée ; écriture du fichier de progression indisponible.':'');}
   };
-  card.append(icon,name,detail,ranks,button);$('permanentGrid').append(card);
+  const benefit=document.createElement('div');benefit.className='permanent-benefit';benefit.append(icon,detail);card.append(name,benefit,ranks,button);$('permanentGrid').append(card);
  }
  if(focusId)document.querySelector(`[data-permanent-buy="${focusId}"]`)?.focus();
 }
 $('permanentNav').onclick=()=>renderPermanentShop();
+$('savesNav').onclick=async()=>{await persist();state=null;renderSaveSlots();};
+$('saveBack').onclick=()=>route('titleScreen');
 $('quit').onclick=()=>{if(window.chrome?.webview){window.chrome.webview.postMessage('quit');return;}state=null;route('titleScreen');};
 async function manifest(id){if(!manifests.has(id)){const summary=summaries.get(id);if(!summary)throw Error('Ressources manquantes : '+id);manifests.set(id,fetch(summary.manifest).then(r=>{if(!r.ok)throw Error('Animations indisponibles : '+summary.name);return r.json();}));}return manifests.get(id);}
 function defaultVariant(entity){return entity.variants.find(v=>v.id===variantsChosen.get(entity.id))||entity.variants.find(v=>v.playable)||entity.variants.find(v=>clipFor(v,'idle'))||entity.variants[0];}

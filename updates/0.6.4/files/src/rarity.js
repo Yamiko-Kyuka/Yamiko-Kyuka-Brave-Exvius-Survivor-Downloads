@@ -1,9 +1,9 @@
 export const rarities=[
  {id:'normal',name:'Normal',color:'#ffffff',weight:6500,potency:1,count:1,initialDamage:0},
- {id:'magic',name:'Magique',color:'#82df9c',weight:1700,potency:1.2,count:2,initialDamage:.10},
- {id:'rare',name:'Rare',color:'#77beff',weight:1000,potency:1.45,count:3,initialDamage:.20},
- {id:'epic',name:'Épique',color:'#ce9bff',weight:700,potency:1.8,count:4,initialDamage:.35},
- {id:'legendary',name:'Légendaire',color:'#ffc66b',weight:100,potency:2.25,count:5,initialDamage:.50}
+ {id:'magic',name:'Magique',color:'#42f29a',weight:1700,potency:1.2,count:2,initialDamage:.10},
+ {id:'rare',name:'Rare',color:'#55aaff',weight:1000,potency:1.45,count:3,initialDamage:.20},
+ {id:'epic',name:'Épique',color:'#ce80ff',weight:700,potency:1.8,count:4,initialDamage:.35},
+ {id:'legendary',name:'Légendaire',color:'#ffd04e',weight:100,potency:2.25,count:5,initialDamage:.50}
 ];
 export function rarityOf(choice){return rarities.find(r=>r.id===choice.rarity)||rarities[0];}
 export function rarityProbabilities(luck=0){

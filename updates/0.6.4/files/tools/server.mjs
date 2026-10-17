@@ -1,3 +1,4 @@
+import {normalizeSlots,writeSlot,validSlot} from '../src/save-slots.js';
 import {byteRange} from './static_response.mjs';
 import http from 'node:http';
 import {readFile,open,stat,mkdir,rename,writeFile} from 'node:fs/promises';
@@ -11,9 +12,33 @@ const index=JSON.parse(await readFile(path.join(root,'assets/resource-index.json
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ogg':'audio/ogg','.mp3':'audio/mpeg','.ttf':'font/ttf','.txt':'text/plain'};
 const cache=new Map();let cacheBytes=0;let tileGenerator;
 const saveDirectory=process.env.BES_SAVE_DIR||path.join(root,'userdata'),savePath=path.join(saveDirectory,'progression.json');let saveQueue=Promise.resolve();
+const slotsPath=path.join(saveDirectory,'progression-slots.json');
+async function readSlots(){
+ try{const raw=JSON.parse(await readFile(slotsPath,'utf8'));if(!raw||!Array.isArray(raw.slots))throw Error('Invalid save store');return normalizeSlots(raw);}
+ catch(e){if(e.code!=='ENOENT')throw e;}
+ try{return normalizeSlots(null,JSON.parse(await readFile(savePath,'utf8')));}catch(e){if(e.code!=='ENOENT')throw e;return null;}
+}
+async function slotsRequest(req,res){
+ const reply=(status,data)=>res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify(data));
+ try{
+  if(req.method==='GET'){await saveQueue.catch(()=>{});reply(200,await readSlots());return;}
+  if(!['POST','DELETE'].includes(req.method)){reply(405,{error:'Method not allowed'});return;}
+  if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`){reply(403,{error:'Origin refused'});return;}
+  let chunks=[],size=0;for await(const chunk of req){size+=chunk.length;if(size>4*1024*1024){reply(413,{error:'Save too large'});return;}chunks.push(chunk);}
+  let body;try{body=JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{reply(400,{error:'Invalid JSON'});return;}
+  if(!validSlot(body?.slot)||req.method==='POST'&&(!body.data||typeof body.data!=='object'||Array.isArray(body.data))){reply(400,{error:'Invalid save slot'});return;}
+  const data=req.method==='DELETE'?null:body.data;
+  saveQueue=saveQueue.catch(()=>{}).then(async()=>{
+   const current=await readSlots()||normalizeSlots(body.initial),next=writeSlot(current,body.slot,data);
+   await mkdir(saveDirectory,{recursive:true});await writeFile(slotsPath+'.tmp',JSON.stringify(next));await rename(slotsPath+'.tmp',slotsPath);
+  });
+  await saveQueue;reply(200,{ok:true});
+ }catch{reply(500,{error:'Save file unavailable; existing progress preserved'});}
+}
+
 async function generatedTile(id){if(!tileGenerator){const {createTileGenerator}=await import('./generate_tile.mjs');tileGenerator=createTileGenerator(root,index,resource);}return tileGenerator(id);}
 async function resource(id){if(cache.has(id)){const v=cache.get(id);cache.delete(id);cache.set(id,v);return v;}const item=index[id];if(!item)return null;const source=path.resolve(root,item.archive);if(!source.startsWith(root))throw Error('Invalid archive path');let data;if(item.offset===undefined){try{data=await readFile(source);}catch(error){if(item.derived&&error.code==='ENOENT')data=await generatedTile(id);else throw error;}}else{const file=await open(source,'r');try{const compressed=Buffer.alloc(item.compressedSize);let position=0;while(position<compressed.length){const {bytesRead}=await file.read(compressed,position,compressed.length-position,item.offset+position);if(!bytesRead)throw Error('Incomplete archive member');position+=bytesRead;}if(item.method===8)data=await inflate(compressed);else if(item.method===0)data=compressed;else throw Error('Unsupported ZIP compression');}finally{await file.close();}}if(!item.derived&&data.length!==item.size)throw Error('Invalid resource size');while(cacheBytes+data.length>64*1024*1024&&cache.size){const [old,value]=cache.entries().next().value;cacheBytes-=value.length;cache.delete(old);}if(data.length<=64*1024*1024){cache.set(id,data);cacheBytes+=data.length;}return data;}
-export const server=http.createServer(async(req,res)=>{try{const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(name==='/api/save'){
+export const server=http.createServer(async(req,res)=>{try{const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(name==='/api/saves'){await slotsRequest(req,res);return;}if(name==='/api/save'){
 if(req.method==='GET'){let data=null;try{data=JSON.parse(await readFile(savePath,'utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify(data));return;}
 if(req.method!=='POST'){res.writeHead(405).end();return;}
 if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`){res.writeHead(403).end();return;}

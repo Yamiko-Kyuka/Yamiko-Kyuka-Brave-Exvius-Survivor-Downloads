@@ -28,7 +28,13 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.3 — PROGRESSION, COMBAT ET EXPLORATION
+VERSION 0.6.4 — SAUVEGARDES ET BOUTIQUE
+Trois sauvegardes indépendantes, sélectionnables au lancement et depuis le menu.
+Suppression avec confirmation ; la progression existante rejoint le premier emplacement.
+Boutique : grandes icônes centrées et résumé court du prochain bonus juste dessous.
+Les quinze achats tiennent dans la fenêtre sans défilement.
+
+PROGRESSION, COMBAT ET EXPLORATION
 Cartes débloquées dans l’ordre Midgar → Zanarkand → Tour de cristal → Monde des ténèbres.
 Six difficultés progressives par carte ; gagner un palier débloque le suivant.
 Mode Turbo ×1,5 débloqué séparément pour chaque carte et difficulté gagnée.
@@ -63,7 +69,8 @@ Les gils sont affichés en grand au centre en bas des menus ; Retour reste acces
 Accueil > menu > personnage > niveau et difficulté > expédition.
 Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
 Les succès débloquent l’achat des autres héros dans la boutique.
-La sauvegarde est dans userdata/progression.json, indépendante du port du navigateur.
+Les trois sauvegardes sont dans userdata/progression-slots.json, indépendantes du port du navigateur.
+L’ancien fichier userdata/progression.json reste conservé après migration.
 Chaque personnage possède son arme de départ et ses animations propres.
 Les 40 armes et les 19 power-ups possèdent leurs icônes distinctes.
 Les dégâts apparaissent au-dessus des ennemis pour les armes et leurs effets.
