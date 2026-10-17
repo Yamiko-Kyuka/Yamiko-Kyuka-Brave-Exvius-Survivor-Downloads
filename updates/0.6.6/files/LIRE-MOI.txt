@@ -28,9 +28,15 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.5 — PERSONNAGES DISPONIBLES
+VERSION 0.6.6 — HÉROS ET SUCCÈS
+La sélection ne présente que vos héros débloqués.
+35 défis de boss, de difficultés et de victoires multiples remplacent les achats de héros.
+Récupérez gratuitement les héros dans Succès une fois leur défi accompli.
+Une difficulté supérieure compte également ; les héros déjà acquis sont conservés.
+
+PERSONNAGES DISPONIBLES
 Retrait de Caius Ballad et Gaius van Baelsar des fiches proposées en jeu.
-Les 38 héros disponibles conservent leurs prix et leurs armes.
+Les 38 héros disponibles conservent leurs armes et leurs cadences.
 
 SAUVEGARDES ET BOUTIQUE
 Trois sauvegardes indépendantes, sélectionnables au lancement et depuis le menu.
@@ -48,7 +54,7 @@ Les flaques automatiques sous le joueur ont été supprimées des arènes.
 Clic gauche : alterner visée manuelle et cible automatique la plus proche.
 Clic droit : dash vers le curseur. Cadences différentes pour les 40 armes.
 Recul sur les monstres ordinaires, Materia Choc et achat permanent Impact des cristaux.
-Prix des héros et achats permanents multipliés par dix. Quinze achats visibles sans défilement.
+Prix des achats permanents multipliés par dix. Quinze achats visibles sans défilement.
 Rangs multipliés par dix : 50 en général, 20 projectiles, 30 relances et exclusions.
 Les gains de recharge, protection, chance et recul deviennent progressifs après le rang 5.
 Cristaux d’XP facettés et scintillants ; petites pièces dorées sur les éliminations.
@@ -72,7 +78,7 @@ Sprites de sélection agrandis de 50 %, bandeaux informatifs supprimés.
 Les gils sont affichés en grand au centre en bas des menus ; Retour reste accessible.
 Accueil > menu > personnage > niveau et difficulté > expédition.
 Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
-Les succès débloquent l’achat des autres héros dans la boutique.
+Les succès de boss permettent de récupérer gratuitement les autres héros.
 Les trois sauvegardes sont dans userdata/progression-slots.json, indépendantes du port du navigateur.
 L’ancien fichier userdata/progression.json reste conservé après migration.
 Chaque personnage possède son arme de départ et ses animations propres.
