@@ -3,21 +3,33 @@ import {AnimationPlayer,clipFor} from './animation.js';
 import {GachaPresentation} from './gacha-presentation.js';
 import {revealFraming} from './hero-unlock-reveal.js';
 export class GachaView{
- constructor({root,getSave,persist,heroes,loadVariant,loadEntity,cache,onEquip,dialog}){
-  Object.assign(this,{root,getSave,persist,heroes,loadVariant,cache,onEquip,busy:false,elapsed:0,skin:null,preview:null,serial:0});
-  this.$=id=>root.querySelector('#'+id);this.$('gachaMachine').onclick=()=>this.spin();this.$('gachaEquip').onclick=async()=>{if(this.skin&&equipSkin(this.getSave(),this.skin.heroId,this.skin.id)){await persist();this.onEquip?.();this.render();}};
+ constructor({root,getSave,persist,heroes,loadVariant,loadEntity,cache,onEquip,dialog,helpDialog}){
+  Object.assign(this,{root,getSave,persist,heroes,loadVariant,cache,onEquip,busy:false,elapsed:0,skin:null,preview:null,serial:0,helpDialog});
+  this.$=id=>root.querySelector('#'+id);this.$('gachaMachine').onclick=()=>this.spin();this.$('gachaPrice').onclick=()=>this.spin();this.$('gachaEquip').onclick=async()=>{if(this.skin&&equipSkin(this.getSave(),this.skin.heroId,this.skin.id)){await persist();this.onEquip?.();this.render();}};
   this.presentation=new GachaPresentation({dialog,machine:this.$('gachaMachine'),loadEntity,cache,onReveal:()=>this.reveal(),onDismiss:()=>{this.busy=false;this.render();},onEquip:()=>this.$('gachaEquip').click()});
+  for(const button of document.querySelectorAll('[data-gacha-help]'))button.onclick=()=>this.openHelp(button.dataset.gachaHelp);helpDialog.querySelector('#gachaHelpClose').onclick=()=>helpDialog.close();helpDialog.addEventListener('cancel',e=>{e.preventDefault();helpDialog.close();});
   for(const h of heroes){const o=document.createElement('option');o.value=h.id;o.textContent=h.name;this.$('gachaHeroFilter').append(o);}this.$('gachaHeroFilter').onchange=()=>this.collection();
  }
  render(){
-  const save=this.getSave(),open=gachaUnlocked(save),pool=gachaPool(save),cosmetics=normalizeCosmetics(save.cosmetics),remaining=pool.filter(s=>!cosmetics.owned.includes(s.id)).length,machine=this.$('gachaMachine');
+  const save=this.getSave(),open=gachaUnlocked(save),pool=gachaPool(save),cosmetics=normalizeCosmetics(save.cosmetics),machine=this.$('gachaMachine');
   this.$('gachaGate').hidden=open;for(const row of this.root.querySelectorAll('[data-gacha-stage]'))row.classList.toggle('complete',['aeon','primal','transcendence'].some(d=>Number(save.difficultyWins?.[row.dataset.gachaStage]?.[d])>0));
   machine.disabled=this.busy||!open||save.coins<GACHA_COST||!pool.length;machine.setAttribute('aria-label',this.busy?'Tirage en cours':'Tourner le Gachapon · 20 000 gils');
-  this.$('gachaPrice').textContent=this.busy?'LA CAPSULE ARRIVE…':!open?'GACHA VERROUILLÉ':!pool.length?'COLLECTION COMPLÈTE':save.coins<GACHA_COST?'20 000 GILS · GILS INSUFFISANTS':'TOURNER · 20 000 GILS';
-  const acquired=cosmetics.owned.length-this.heroes.length;this.$('gachaOwned').textContent=acquired+' apparence'+(acquired===1?' obtenue':'s obtenues')+' · '+remaining+' à découvrir';
+  this.$('gachaPrice').disabled=machine.disabled;this.$('gachaPrice').textContent=this.busy?'TIRAGE…':!open?'VERROUILLÉ':!pool.length?'INDISPONIBLE':'TOURNER · 20 000 GILS';
+  const acquired=cosmetics.owned.length-this.heroes.length;this.$('gachaOwned').textContent='Collection · '+acquired+' / '+pool.length;
   this.$('gachaOdds').replaceChildren();for(const r of gachaOdds(save)){const chip=document.createElement('span');chip.style.color=r.color;chip.textContent=r.name+' '+(r.probability*100).toLocaleString('fr-FR',{maximumFractionDigits:2})+' %';this.$('gachaOdds').append(chip);}
   if(this.skin){const ownedHero=save.unlocked.includes(this.skin.heroId);this.$('gachaEquip').disabled=!ownedHero;this.$('gachaEquip').textContent=ownedHero?(cosmetics.selected[this.skin.heroId]===this.skin.id?'APPARENCE ÉQUIPÉE':'ÉQUIPER CETTE APPARENCE'):'HÉROS À DÉBLOQUER DANS SUCCÈS';}
   if(this.presentation.revealed&&this.presentation.active)this.updatePresentation();this.presentation.prepare();this.collection();
+ }
+ openHelp(topic){
+  const topics={
+   rules:['Le Gacha',['Cliquez sur la machine ou sur Tourner. Le Mog tourne la molette, apporte la capsule et révèle votre apparence.','Les apparences changent le modèle et ses animations, sans modifier les statistiques ni l’arme du héros.']],
+   cost:['Prix et doublons',['Un tirage coûte 20 000 gils. Il faut disposer de la mise entière pour lancer la machine.','Si l’apparence est déjà possédée, 10 000 gils sont remboursés immédiatement. Une seule copie est conservée.']],
+   rarities:['Raretés et probabilités',['Normal : 50 % · Magique : 27 % · Rare : 15 % · Épique : 6 % · Légendaire : 2 %.','Les apparences déjà possédées peuvent retomber. La collection ne change pas les probabilités.','La section Collection indique le taux individuel de chaque apparence.']],
+   collection:['Votre collection',['Le compteur indique les apparences gagnées parmi les 424 formes et costumes du Gacha. Les 38 apparences classiques sont gratuites et ne sont pas tirées.','Le détail de la collection montre les apparences possédées et les taux individuels.','Un skin ne débloque pas son héros. Récupérez le héros dans Succès, puis choisissez le skin sous son modèle dans la sélection des personnages.']],
+   unlock:['Débloquer le Gacha',['Gagnez les quatre zones en difficulté Élu des Éons ou supérieure.','Une victoire en Pourfendeur de primordiaux ou en Transcendance compte également.']],
+   result:['Cette apparence',['Ce skin change uniquement le modèle et ses animations. Les statistiques et l’arme de base restent celles du héros.','Équipez-le ici ou sous le modèle du héros dans la sélection des personnages. Si le héros est encore verrouillé, débloquez-le dans Succès.']]
+  };
+  const [title,paragraphs]=topics[topic]||topics.rules,body=this.helpDialog.querySelector('#gachaHelpBody');this.helpDialog.querySelector('#gachaHelpTitle').textContent=title;body.replaceChildren();for(const text of paragraphs){const p=document.createElement('p');p.textContent=text;body.append(p);}if(!this.helpDialog.open)this.helpDialog.showModal();this.helpDialog.querySelector('#gachaHelpClose').focus();
  }
  updatePresentation(){const cosmetics=normalizeCosmetics(this.getSave().cosmetics);this.presentation.updateReward({skin:this.skin,hero:this.heroes.find(h=>h.id===this.skin.heroId),canEquip:this.getSave().unlocked.includes(this.skin.heroId),equipped:cosmetics.selected[this.skin.heroId]===this.skin.id});}
  collection(){

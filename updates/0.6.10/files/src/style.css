@@ -288,3 +288,29 @@ body.permanent-shop .permanent-card button{font-size:10px;line-height:1.1;paddin
 .summon-arm{visibility:hidden}
 @media(max-width:1000px){.gacha-layout{grid-template-columns:1fr}.gacha-machine-panel{max-width:620px;width:100%;margin:auto}.gacha-information{max-width:620px;width:100%;margin:auto}#gachaScreen>.section-title{align-items:flex-start}.gacha-machine-panel>#gachaPrice{font-size:14px}.gacha-layout{gap:18px}}
 @media(max-width:650px){#gachaScreen{padding:22px 4vw 110px}#gachaScreen>.section-title{display:block}#gachaScreen>.section-title h2{font-size:29px}#gachaOwned{display:inline-block;padding:8px 10px;font-size:10px!important;margin-top:14px}.gacha-machine-panel{padding:23px 15px 15px}.festival-sign h3{font-size:18px}.gacha-booth .gachapon-art{height:350px;max-height:none}.gacha-booth{max-width:340px}#gachaHost{width:210px;right:-35px}.gacha-machine-panel>#gachaPrice{padding:12px 24px;font-size:12px}.gacha-information{padding:22px 16px}.festival-heading h3{font-size:22px}.gacha-rules{gap:10px;padding:12px 8px}.gacha-rules>strong{font-size:24px}.gacha-rules>p{font-size:10px;padding-left:10px}.gacha-rules b{font-size:10px}.gacha-odds{gap:4px}.gacha-odds>span{font-size:8px;padding:8px 2px}.gacha-welcome{padding:22px 10px}}
+
+/* Essential labels stay visible; contextual explanations open from small ? buttons. */
+.gacha-status-only{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0!important}
+.gacha-help-button{display:inline-grid;place-items:center;flex:none;vertical-align:middle;width:28px;height:28px;min-width:28px;padding:0!important;margin:0;font:700 15px Georgia,serif!important;line-height:1;color:#dceaf2;background:linear-gradient(#263e59,#101e36);border:1px solid #d7c28b99;border-radius:3px;box-shadow:inset 0 0 0 2px #081528,0 2px 4px #02091699;letter-spacing:0}
+.gacha-help-button:hover{border-color:#fff0b5;color:#fff4d1}
+#gachaScreen h2 .gacha-help-button{margin-left:8px}
+.gacha-collection-summary{display:flex;align-items:center;gap:9px}
+.gacha-price-row{display:flex;justify-content:center;align-items:center;gap:10px;margin:18px auto 4px;position:relative;z-index:3}
+.gacha-price-row>#gachaPrice{width:auto;padding:13px 25px;margin:0;color:#fff0b0;font-size:14px;letter-spacing:1.2px;border:1px solid #dfc183;background:linear-gradient(140deg,#3d4760,#192a43 55%);box-shadow:inset 0 0 0 2px #071428,0 4px 12px #0005}
+.gacha-booth{margin-top:33px}
+.gacha-information{display:flex;flex-direction:column}
+.gacha-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 8px}
+.gacha-section-heading h3{font:21px Cinzel,Georgia,serif;color:#ffe7b4;margin:0}
+.gacha-information .gacha-odds{margin:8px 0 20px;flex:none}
+.gacha-information .gacha-welcome{display:grid;place-items:center;flex:1;min-height:280px;padding:35px 10px}
+.gacha-welcome .festival-crystal{height:110px;width:110px;margin:0}
+.gacha-welcome .festival-crystal span{font-size:78px}
+.gacha-information .gacha-result{flex:1}
+.gacha-information details{flex:none}
+.gacha-summon .summon-help{position:absolute;top:0;right:0;z-index:5;margin:0;width:28px}
+.gacha-help-modal{zoom:1;width:min(500px,92vw);max-width:92vw;max-height:85dvh;padding:26px 30px;background:linear-gradient(145deg,#1f3853,#0d1930);border:1px solid #e1c98b;box-shadow:inset 0 0 0 3px #091328,0 12px 60px #000a;overflow:auto}
+.gacha-help-modal::backdrop{background:#020914bd}
+.gacha-help-modal h2{font:23px Cinzel,Georgia,serif;margin:0 28px 18px 0;color:#ffe2a6}
+.gacha-help-modal p{font-size:14px;line-height:1.75;margin:12px 0;color:#d4dfea}
+.gacha-help-modal .gacha-help-close{position:absolute;right:12px;top:10px;width:29px;height:29px;min-width:0;margin:0;padding:0;text-align:center;font-size:22px;line-height:1;border:1px solid #b8cbd366;background:#12243b;box-shadow:none}
+@media(max-width:650px){.gacha-collection-summary{margin-top:14px;gap:8px}#gachaOwned{margin-top:0}#gachaScreen h2 .gacha-help-button{margin-left:3px}.gacha-price-row>#gachaPrice{padding:12px 15px;font-size:11px;letter-spacing:.8px}.gacha-help-button{width:30px;height:30px;min-width:30px}.gacha-information .gacha-welcome{min-height:220px}.gacha-help-modal{padding:23px 22px}.gacha-help-modal h2{font-size:21px}.gacha-help-modal p{font-size:13px}}
