@@ -28,7 +28,13 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
-VERSION 0.6.8 — DOUBLONS DU GACHA
+VERSION 0.6.9 — LE FESTIVAL DES MOGS
+Comptoir festif, machine de cristal et d’or, lanternes et hôte Mog animé.
+Le Mog tourne la molette, récupère la capsule, l’apporte et l’ouvre.
+Le skin apparaît dans un pop-up aux effets de sa rareté, du blanc au doré.
+Passer la scène ou recharger conserve le tirage et son éventuel remboursement.
+
+DOUBLONS DU GACHA
 Un doublon rembourse immédiatement 10 000 gils sur les 20 000 gils du tirage.
 La collection garde une seule copie ; les probabilités ne changent pas avec les achats.
 

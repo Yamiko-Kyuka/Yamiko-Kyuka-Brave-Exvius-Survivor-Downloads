@@ -174,3 +174,117 @@ body.permanent-shop .permanent-card button{font-size:10px;line-height:1.1;paddin
 @media(min-width:651px){#characterScreen .character-layout{height:calc((100dvh - 88px)/var(--menu-scale) - 115px)}}
 
 .gacha-refund{display:inline-block;margin:8px auto 4px;padding:10px 14px;color:#ffe8a3;font-weight:750;letter-spacing:.6px;background:#4c381a;border:1px solid #e5c16d;border-radius:3px;box-shadow:0 0 18px #ffcf4920}
+
+/* The Mog hosts a short capsule ceremony before the rarity reveal. */
+.gacha-summon{zoom:1;isolation:isolate;width:min(1000px,96vw);max-width:96vw;max-height:94dvh;padding:24px 30px;text-align:center;overflow-x:hidden;border:2px solid var(--summon-color,#e2c179);background:radial-gradient(ellipse at 50% 35%,#203652,#080f24 75%);box-shadow:inset 0 0 0 4px #070d22,0 0 70px #a7ccec30,0 20px 100px #000c}
+.gacha-summon::backdrop{background:#020614e8;backdrop-filter:blur(5px)}
+.gacha-summon>.eyebrow{font-size:11px;letter-spacing:3px;color:#e8d2a2;margin:0 0 10px}
+.summon-stage{height:clamp(230px,51dvh,460px);position:relative;overflow:hidden;background:radial-gradient(ellipse at 55% 80%,#36567755,transparent 55%)}
+.summon-floor{position:absolute;bottom:4%;left:8%;width:86%;height:16%;border-radius:50%;background:radial-gradient(ellipse,#6a92bb55,#02091444 55%,transparent 72%);border-bottom:1px solid #9db7ce33}
+.summon-machine{position:absolute;left:3%;top:2%;width:48%;height:94%;filter:drop-shadow(0 10px 14px #010813aa)}
+.summon-machine .gachapon-art{width:100%;height:100%;max-height:none}
+#summonMog{position:absolute;height:auto;image-rendering:pixelated;z-index:2;pointer-events:none;filter:drop-shadow(0 4px 3px #03081999);transform-origin:50% 93.333%}
+.summon-capsule{position:absolute;width:54px;height:54px;z-index:3;transform:translate(-50%,-50%) scale(var(--capsule-scale,1));filter:drop-shadow(0 0 13px var(--summon-color));pointer-events:none}
+.summon-capsule>span{position:absolute;left:0;width:100%;height:50%;border:2px solid #f7f3e4}
+.capsule-top{top:0;border-radius:60px 60px 0 0;background:radial-gradient(ellipse at 30% 15%,#ffffffbc,transparent 40%),var(--summon-color);transform:translateY(calc(var(--opening,0)*-48px)) rotate(calc(var(--opening,0)*-22deg));transform-origin:50% 100%}
+.capsule-bottom{bottom:0;border-radius:0 0 60px 60px;background:linear-gradient(140deg,#fff9e9,#9aa5b9);transform:translateY(calc(var(--opening,0)*30px)) rotate(calc(var(--opening,0)*15deg))}
+.summon-capsule>.capsule-glow{left:-70%;top:-70%;width:240%;height:240%;border:0;border-radius:50%;background:radial-gradient(circle,#fffbdc,var(--summon-color) 25%,transparent 70%);opacity:var(--opening,0);mix-blend-mode:screen}
+.summon-caption{font-size:15px;min-height:24px;color:#e5dfce;margin:6px 0 12px}
+.gacha-summon button{text-align:center;font-size:12px;letter-spacing:1px}
+.gacha-summon .summon-skip{width:auto;margin:0 auto;background:#0b1530;border-color:#8794ae;color:#d0d9ea;font-size:10px;padding:10px 20px}
+.summon-reward{position:relative;isolation:isolate;overflow:hidden;padding:22px 12px 8px;min-height:300px}
+.summon-tier{display:inline-block;color:var(--summon-color);border:1px solid var(--summon-color);padding:9px 24px;font-size:15px;letter-spacing:3px;text-transform:uppercase;background:#060d2199;box-shadow:0 0 25px color-mix(in srgb,var(--summon-color) 25%,transparent)}
+.summon-reward h2{color:#fff3cf;font-size:clamp(22px,3vw,36px);line-height:1.25;margin:18px auto 8px;max-width:780px}
+.summon-reward>p{margin:6px auto;color:#c9d9ed}
+.summon-reward .gacha-refund{color:#ffe8a3;margin-top:10px}
+#summonSkin{position:relative;display:block;width:100%;height:auto;max-height:min(34dvh,300px);object-fit:contain;image-rendering:pixelated;z-index:1}
+#summonPreviewStatus{min-height:16px;font-size:11px}
+.summon-buttons{position:relative;display:flex;gap:12px;justify-content:center;z-index:2;margin-top:12px}
+.summon-buttons button{width:auto;flex:1;max-width:360px;margin:0;padding:14px 12px}
+.summon-buttons .primary{background:linear-gradient(180deg,var(--summon-color),color-mix(in srgb,var(--summon-color) 70%,#18294b));color:#0a1427;font-weight:800;border-color:var(--summon-color)}
+.summon-aura{position:absolute;z-index:-1;pointer-events:none;left:50%;top:50%;width:min(70vw,540px);height:min(70vw,540px);transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--summon-color) 20%,transparent),transparent 68%)}
+.summon-particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.summon-particles i{position:absolute;left:50%;top:49%;width:5px;height:5px;background:var(--summon-color);box-shadow:0 0 9px var(--summon-color);border-radius:50%;opacity:0;animation:summon-sparks 2.4s ease-out var(--delay) both;transform-origin:center}
+.gacha-summon[data-effect="motes"] .summon-aura{border:1px solid #42f29a88;box-shadow:inset 0 0 50px #42f29a16;animation:summon-ring 7s linear infinite}
+.gacha-summon[data-effect="motes"] .summon-particles i{width:8px;height:8px;border-radius:70% 0 70% 0;animation-duration:3s}
+.gacha-summon[data-effect="shards"] .summon-aura{border:2px dashed #55aaff88;box-shadow:inset 0 0 40px #55aaff20;animation:summon-ring 10s linear infinite}
+.gacha-summon[data-effect="shards"] .summon-particles i{width:9px;height:19px;border-radius:0;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:linear-gradient(#e2f5ff,#55aaff);animation-duration:3.2s}
+.gacha-summon[data-effect="sigil"]{background:radial-gradient(ellipse at 50% 45%,#482266,#0b0d26 75%);box-shadow:inset 0 0 0 4px #130c28,0 0 90px #ce80ff55}
+.gacha-summon[data-effect="sigil"] .summon-aura{border:3px double #ce80ffcc;outline:1px solid #ce80ff66;outline-offset:14px;background:repeating-conic-gradient(from 10deg,#ce80ff22 0 2deg,transparent 3deg 30deg),radial-gradient(circle,#ce80ff30,transparent 68%);animation:summon-ring 12s linear infinite}
+.gacha-summon[data-effect="sigil"] .summon-aura:after{content:'✦ ◇ ✦ ◇ ✦ ◇';position:absolute;inset:12%;display:grid;place-items:center;font-size:30px;letter-spacing:12px;color:#d7aaff;border:1px dashed #ce80ff99;border-radius:50%}
+.gacha-summon[data-effect="sigil"] .summon-particles i{width:9px;height:9px;transform:rotate(45deg);border-radius:0;animation-duration:3.6s}
+.gacha-summon[data-effect="sunburst"]{background:radial-gradient(ellipse at 50% 40%,#614820,#181322 72%);border-width:3px;box-shadow:inset 0 0 0 4px #211707,0 0 100px #ffd04e66}
+.gacha-summon[data-effect="sunburst"] .summon-tier{color:#fff0a8;font-weight:800;text-shadow:0 0 15px #ffd04e}
+.gacha-summon[data-effect="sunburst"] .summon-aura{width:700px;height:700px;background:repeating-conic-gradient(from 0deg,#ffd04e33 0 5deg,transparent 6deg 18deg),radial-gradient(circle,#ffe1a04d,transparent 65%);animation:summon-ring 22s linear infinite}
+.gacha-summon[data-effect="sunburst"] .summon-aura:after{content:'';position:absolute;inset:15%;border:4px double #ffe5a1bb;border-radius:50%;box-shadow:0 0 40px #ffd04e55,inset 0 0 40px #ffd04e55}
+.gacha-summon[data-effect="sunburst"] .summon-particles i{left:var(--offset);top:15%;width:8px;height:38px;border-radius:0;background:linear-gradient(transparent,#fff0b0,#ffd04e,transparent);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);animation:summon-gold 4s ease-out var(--delay) both}
+.gacha-summon[data-phase="reveal"] .summon-reward{animation:summon-reveal .55s ease-out both}
+@keyframes summon-sparks{0%{opacity:0;transform:rotate(var(--angle)) translateX(15px) scale(.2)}18%{opacity:1}100%{opacity:0;transform:rotate(var(--angle)) translateX(var(--travel)) scale(.5)}}
+@keyframes summon-gold{0%{opacity:0;transform:translateY(-40px) scaleY(.3)}20%{opacity:1}100%{opacity:0;transform:translateY(400px) scaleY(1.2)}}
+@keyframes summon-ring{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes summon-reveal{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@media(max-width:650px){.gacha-summon{padding:18px 12px}.gacha-summon>.eyebrow{font-size:9px;letter-spacing:2px}.summon-caption{font-size:12px}.summon-buttons{flex-direction:column;gap:8px}.summon-buttons button{max-width:none;padding:11px;font-size:10px}.summon-reward{padding:14px 0 0}.summon-tier{font-size:12px}.summon-reward h2{font-size:23px}.summon-reward>p{font-size:12px}.summon-reward .gacha-refund{padding:8px;font-size:11px}#summonSkin{max-height:28dvh}.gacha-summon[data-effect="sunburst"] .summon-aura{width:500px;height:500px}}
+@media(max-height:650px){.gacha-summon{padding:14px 16px}.summon-reward{padding-top:8px}.summon-tier{padding:6px 18px;font-size:12px}.summon-reward h2{font-size:23px;margin:9px 0 4px}#summonSkin{max-height:25dvh}.summon-buttons{margin-top:6px}.summon-buttons button{padding:10px}.summon-caption{margin:0 0 6px}.gacha-summon>.eyebrow{margin-bottom:6px}}
+@media(prefers-reduced-motion:reduce){.gacha-summon *{animation:none!important;transition:none!important}}
+
+.summon-arm{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;overflow:visible}.summon-arm path{fill:none;stroke:#f1dfcb;stroke-width:8px;stroke-linecap:round;filter:drop-shadow(0 1px 1px #4c3143)}.summon-arm circle{fill:#f7e8d4;stroke:#9c747a;stroke-width:1px}
+
+/* Crystal festival: a Moogle booth with warm lights and an invocation-style ledger. */
+#gachaScreen{max-width:1440px;padding:25px 3vw 108px}
+#gachaScreen>.section-title{margin-bottom:20px;align-items:center}
+#gachaScreen>.section-title h2{color:#fff0ce;font-size:clamp(28px,3vw,42px);margin:6px 0 0;text-shadow:0 3px 16px #02091f}
+#gachaScreen>.section-title .eyebrow{color:#a9dfe8;letter-spacing:3px}
+#gachaOwned{border:1px solid #dfc88b70;background:#0b2034c9;padding:12px 16px;color:#f3dca6;border-radius:2px;font-size:12px!important}
+.gacha-layout{grid-template-columns:minmax(340px,.96fr) minmax(380px,1.04fr);gap:24px}
+.gacha-machine-panel,.gacha-information{border-color:#d9c48b;background:radial-gradient(ellipse at 50% 10%,#2c506785,transparent 58%),linear-gradient(140deg,#142842f5,#10182ff5);box-shadow:inset 0 0 0 3px #071528,inset 0 0 0 5px #e3cd8c25,0 16px 45px #020719aa;position:relative;overflow:hidden}
+.gacha-machine-panel{padding:25px 20px 18px}
+.gacha-machine-panel:after,.gacha-information:after{content:'';position:absolute;inset:10px;border:1px solid #c0dbd62b;pointer-events:none;clip-path:polygon(0 0,24% 0,24% 1%,1% 1%,1% 24%,0 24%,0 0,100% 0,100% 24%,99% 24%,99% 1%,76% 1%,76% 0,100% 0,100% 100%,76% 100%,76% 99%,99% 99%,99% 76%,100% 76%,100% 100%,0 100%,0 76%,1% 76%,1% 99%,24% 99%,24% 100%,0 100%)}
+.festival-lights{position:absolute;left:2%;top:12px;width:96%;height:40px;border-top:1px solid #c9b67a88;border-radius:50%;pointer-events:none;z-index:2}
+.festival-lights i{position:absolute;top:5px;left:calc(var(--light-index)*11%);width:6px;height:10px;background:#ffdda0;border:1px solid #f5f1d1;transform:rotate(45deg);box-shadow:0 0 12px #ffc96288}
+.festival-lights i:nth-child(1){--light-index:0}.festival-lights i:nth-child(2){--light-index:1;top:13px}.festival-lights i:nth-child(3){--light-index:2;top:19px;background:#8adfe5;box-shadow:0 0 14px #8adfe588}.festival-lights i:nth-child(4){--light-index:3;top:23px}.festival-lights i:nth-child(5){--light-index:4;top:25px;background:#d2a8fa;box-shadow:0 0 14px #d2a8fa88}.festival-lights i:nth-child(6){--light-index:5;top:25px}.festival-lights i:nth-child(7){--light-index:6;top:22px;background:#8adfe5;box-shadow:0 0 14px #8adfe588}.festival-lights i:nth-child(8){--light-index:7;top:16px}.festival-lights i:nth-child(9){--light-index:8;top:9px}
+.festival-sign{position:relative;z-index:2;padding-top:18px}
+.festival-sign small{font-size:8px;letter-spacing:3px;color:#b0cdd4}
+.festival-sign h3{font:22px Cinzel,Georgia,serif;color:#ffe6b0;margin:8px 0 2px;text-shadow:0 3px 8px #020a20}
+.festival-sign h3:before,.festival-sign h3:after{content:' ✧ ';color:#95dfe7;font-size:15px}
+.gacha-booth{position:relative;max-width:420px;margin:6px auto 0;isolation:isolate}
+.gacha-booth .gacha-machine{max-width:330px;z-index:1;filter:drop-shadow(0 8px 14px #010b20aa)}
+.gacha-booth .gachapon-art{height:clamp(310px,43dvh,440px);max-height:none;width:100%;object-fit:contain}
+.booth-halo{position:absolute;z-index:-1;left:50%;top:35%;width:260px;height:260px;transform:translate(-50%,-50%);border:1px solid #9ad9df33;border-radius:50%;background:radial-gradient(circle,#9ad9df16,transparent 68%);outline:1px dashed #b6d5df26;outline-offset:16px;box-shadow:0 0 50px #6ae0eb0c}
+.booth-podium{height:35px;margin:-12px auto 0;width:90%;position:relative;z-index:0;border-radius:50%;border-bottom:3px solid #dfc98c77;background:radial-gradient(ellipse at 50% 20%,#4f6d8277,#071527 70%);box-shadow:0 10px 15px #01071788}
+#gachaHost{position:absolute;z-index:2;right:-40px;bottom:34px;width:235px;max-width:68%;height:auto;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 4px 3px #040b1caa)}
+.gacha-machine-panel>#gachaPrice{position:relative;display:inline-block;padding:13px 27px;margin:16px auto 5px;color:#fff0b0;font-size:15px;letter-spacing:1.5px;border:1px solid #dfc183;background:linear-gradient(140deg,#3d4760,#192a43 55%);box-shadow:inset 0 0 0 2px #071428,0 4px 12px #0005}
+.gacha-machine-panel>#gachaPrice:before,.gacha-machine-panel>#gachaPrice:after{content:'◆';font-size:8px;color:#9bdddf;position:absolute;top:18px}.gacha-machine-panel>#gachaPrice:before{left:10px}.gacha-machine-panel>#gachaPrice:after{right:10px}
+.gacha-machine-panel>#gachaNotice{margin:7px auto 0;max-width:350px;color:#b7ccd4;font-size:12px;line-height:1.5;min-height:36px}
+.gacha-information{padding:26px}
+.festival-heading{text-align:center;padding:0 0 18px;position:relative;border-bottom:1px solid #c9bb8766;margin-bottom:18px}
+.festival-heading>span{color:#a0e1e5;font-size:24px;text-shadow:0 0 18px #86deed66}
+.festival-heading>small{display:block;color:#b8ced5;font-size:9px;letter-spacing:3px;margin-top:3px}
+.festival-heading h3{color:#ffe8bb;font-size:25px;margin:9px 0 0}
+.gacha-rules{display:flex;gap:18px;justify-content:center;align-items:center;max-width:460px;margin:auto;padding:14px;border:1px solid #b7cecc44;background:#07152aa1}
+.gacha-rules>strong{font:28px Cinzel,Georgia,serif;color:#ffe6a6;text-align:center;white-space:nowrap}
+.gacha-rules>strong small{display:block;font:8px system-ui,sans-serif;letter-spacing:2px;color:#b5cdd2;margin-top:4px}
+.gacha-rules>p{font-size:11px;margin:0;padding-left:16px;border-left:1px solid #c9b97866;line-height:1.5}
+.gacha-rules b{display:block;color:#ffe2a3;font-size:12px;margin-top:3px}
+.gacha-information .gacha-cosmetic-note{font-size:11px;line-height:1.6;text-align:center;color:#bbccd5;margin:13px 0 22px}
+.odds-title{display:block;font-size:9px;letter-spacing:2px;color:#a9d6de;text-align:center}
+.gacha-odds{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:11px 0 20px}
+.gacha-odds>span{font-size:10px;line-height:1.7;text-align:center;border:1px solid currentColor;padding:9px 3px 7px;background:linear-gradient(160deg,#24415855,#07162bbb);box-shadow:inset 0 0 0 2px #08172b99;white-space:normal}
+.gacha-odds>span:before{content:'◆';display:block;font-size:12px;text-shadow:0 0 12px currentColor;margin-bottom:2px}
+.gacha-welcome{padding:13px 12px 22px;text-align:center;background:radial-gradient(ellipse at 50% 35%,#3f789421,transparent 72%);border:1px solid #82b5c32b}
+.festival-crystal{height:80px;width:80px;position:relative;margin:2px auto 12px;display:grid;place-items:center}
+.festival-crystal:before{content:'';position:absolute;inset:0;border:1px solid #c2dec75c;transform:rotate(45deg);box-shadow:0 0 20px #75d8e518}
+.festival-crystal:after{content:'';position:absolute;inset:6px;border:1px dashed #aedfe433;transform:rotate(45deg)}
+.festival-crystal span{color:#c2f5f0;font-size:56px;text-shadow:0 0 20px #77d1df55;line-height:1}
+.gacha-welcome h4{font:16px Cinzel,Georgia,serif;color:#e7dbba;margin:14px 0 8px}
+.gacha-welcome p{font-size:11px;line-height:1.7;margin:0;color:#a9becb}
+.gacha-result{background:radial-gradient(ellipse at top,color-mix(in srgb,var(--skin-color) 9%,transparent),#0a182b99);border-radius:2px}
+.gacha-information details{border-top:1px solid #c1d1d533;padding-top:15px;margin-top:18px}
+.gacha-information summary{font-size:12px;color:#d5c691;margin:0}
+.gacha-information details[open] summary{margin-bottom:14px}
+.gacha-summon>.festival-lights{top:10px;left:3%;width:94%;opacity:.6;z-index:-1}
+.gacha-summon>.eyebrow{position:relative;z-index:1;padding:10px 0 6px;color:#eddfb5}
+.gacha-summon:not([data-phase="reveal"]){background:radial-gradient(ellipse at 50% 65%,#25415c,#091327 75%);border-color:#dac58c;box-shadow:inset 0 0 0 4px #09162a,0 15px 100px #000a}
+.gacha-summon[data-phase="reveal"] .summon-reward{animation-duration:.35s}
+.summon-arm{visibility:hidden}
+@media(max-width:1000px){.gacha-layout{grid-template-columns:1fr}.gacha-machine-panel{max-width:620px;width:100%;margin:auto}.gacha-information{max-width:620px;width:100%;margin:auto}#gachaScreen>.section-title{align-items:flex-start}.gacha-machine-panel>#gachaPrice{font-size:14px}.gacha-layout{gap:18px}}
+@media(max-width:650px){#gachaScreen{padding:22px 4vw 110px}#gachaScreen>.section-title{display:block}#gachaScreen>.section-title h2{font-size:29px}#gachaOwned{display:inline-block;padding:8px 10px;font-size:10px!important;margin-top:14px}.gacha-machine-panel{padding:23px 15px 15px}.festival-sign h3{font-size:18px}.gacha-booth .gachapon-art{height:350px;max-height:none}.gacha-booth{max-width:340px}#gachaHost{width:210px;right:-35px}.gacha-machine-panel>#gachaPrice{padding:12px 24px;font-size:12px}.gacha-information{padding:22px 16px}.festival-heading h3{font-size:22px}.gacha-rules{gap:10px;padding:12px 8px}.gacha-rules>strong{font-size:24px}.gacha-rules>p{font-size:10px;padding-left:10px}.gacha-rules b{font-size:10px}.gacha-odds{gap:4px}.gacha-odds>span{font-size:8px;padding:8px 2px}.gacha-welcome{padding:22px 10px}}

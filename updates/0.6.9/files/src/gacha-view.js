@@ -1,10 +1,12 @@
 import {GACHA_COST,drawSkin,equipSkin,gachaOdds,gachaPool,gachaUnlocked,normalizeCosmetics} from './gacha.js';
 import {AnimationPlayer,clipFor} from './animation.js';
+import {GachaPresentation} from './gacha-presentation.js';
 import {revealFraming} from './hero-unlock-reveal.js';
 export class GachaView{
- constructor({root,getSave,persist,heroes,loadVariant,cache,onEquip}){
+ constructor({root,getSave,persist,heroes,loadVariant,loadEntity,cache,onEquip,dialog}){
   Object.assign(this,{root,getSave,persist,heroes,loadVariant,cache,onEquip,busy:false,elapsed:0,skin:null,preview:null,serial:0});
   this.$=id=>root.querySelector('#'+id);this.$('gachaMachine').onclick=()=>this.spin();this.$('gachaEquip').onclick=async()=>{if(this.skin&&equipSkin(this.getSave(),this.skin.heroId,this.skin.id)){await persist();this.onEquip?.();this.render();}};
+  this.presentation=new GachaPresentation({dialog,machine:this.$('gachaMachine'),loadEntity,cache,onReveal:()=>this.reveal(),onDismiss:()=>{this.busy=false;this.render();},onEquip:()=>this.$('gachaEquip').click()});
   for(const h of heroes){const o=document.createElement('option');o.value=h.id;o.textContent=h.name;this.$('gachaHeroFilter').append(o);}this.$('gachaHeroFilter').onchange=()=>this.collection();
  }
  render(){
@@ -15,8 +17,9 @@ export class GachaView{
   const acquired=cosmetics.owned.length-this.heroes.length;this.$('gachaOwned').textContent=acquired+' apparence'+(acquired===1?' obtenue':'s obtenues')+' · '+remaining+' à découvrir';
   this.$('gachaOdds').replaceChildren();for(const r of gachaOdds(save)){const chip=document.createElement('span');chip.style.color=r.color;chip.textContent=r.name+' '+(r.probability*100).toLocaleString('fr-FR',{maximumFractionDigits:2})+' %';this.$('gachaOdds').append(chip);}
   if(this.skin){const ownedHero=save.unlocked.includes(this.skin.heroId);this.$('gachaEquip').disabled=!ownedHero;this.$('gachaEquip').textContent=ownedHero?(cosmetics.selected[this.skin.heroId]===this.skin.id?'APPARENCE ÉQUIPÉE':'ÉQUIPER CETTE APPARENCE'):'HÉROS À DÉBLOQUER DANS SUCCÈS';}
-  this.collection();
+  if(this.presentation.revealed&&this.presentation.active)this.updatePresentation();this.presentation.prepare();this.collection();
  }
+ updatePresentation(){const cosmetics=normalizeCosmetics(this.getSave().cosmetics);this.presentation.updateReward({skin:this.skin,hero:this.heroes.find(h=>h.id===this.skin.heroId),canEquip:this.getSave().unlocked.includes(this.skin.heroId),equipped:cosmetics.selected[this.skin.heroId]===this.skin.id});}
  collection(){
   const save=this.getSave(),owned=new Set(normalizeCosmetics(save.cosmetics).owned),odds=gachaOdds(save),heroId=this.$('gachaHeroFilter').value;
   import('./skin-catalog.js').then(({skinCatalog})=>{this.$('gachaCollection').replaceChildren();for(const skin of skinCatalog.filter(s=>s.heroId===heroId)){
@@ -26,14 +29,14 @@ export class GachaView{
  spin(){
   if(this.busy)return;const skin=drawSkin(this.getSave());if(!skin){this.render();return;}
   this.skin=skin;this.busy=true;this.elapsed=0;this.preview=null;this.$('gachaPreview').getContext('2d').clearRect(0,0,600,320);this.serial++;this.$('gachaResult').hidden=true;this.$('gachaRefund').hidden=true;this.$('gachaMachine').dataset.phase='spinning';const rarity=gachaOdds(this.getSave()).find(r=>r.id===skin.rarity);this.$('gachaMachine').style.setProperty('--capsule-color',rarity.color);this.$('gachaNotice').textContent='Une capsule se prépare…';
-  this.persist();this.render();
+  this.persist();this.presentation.start(skin);this.render();
  }
  async reveal(){
-  const skin=this.skin,serial=this.serial,hero=this.heroes.find(h=>h.id===skin.heroId),rarity=gachaOdds(this.getSave()).find(r=>r.id===skin.rarity);this.$('gachaMachine').dataset.phase='reveal';this.$('gachaResult').hidden=false;this.$('gachaResult').style.setProperty('--skin-color',rarity.color);this.$('gachaSkinRarity').textContent='✦ '+rarity.name;this.$('gachaSkinName').textContent=skin.name;this.$('gachaSkinHero').textContent=hero.name;this.$('gachaRefund').hidden=!skin.duplicate;this.$('gachaRefund').textContent=skin.duplicate?'DOUBLON · + '+skin.refund.toLocaleString('fr-FR')+' GILS REMBOURSÉS':'';this.$('gachaNotice').textContent=skin.duplicate?'Apparence déjà possédée · moitié de la mise remboursée.':'Nouvelle apparence obtenue !';this.busy=false;this.render();
-  try{const variant=await this.loadVariant(skin),idle=clipFor(variant,'idle'),anim=new AnimationPlayer(variant);await this.cache.preload([idle]);if(serial!==this.serial)return;this.preview={anim,framing:revealFraming([idle],600,320)};}catch{this.$('gachaNotice').textContent=(skin.duplicate?'Doublon remboursé.':'Apparence ajoutée à votre collection.')+' Aperçu indisponible pour le moment.';}
+  const skin=this.skin,serial=this.serial,hero=this.heroes.find(h=>h.id===skin.heroId),rarity=gachaOdds(this.getSave()).find(r=>r.id===skin.rarity);this.$('gachaMachine').dataset.phase='reveal';this.$('gachaResult').hidden=false;this.$('gachaWelcome').hidden=true;this.$('gachaResult').style.setProperty('--skin-color',rarity.color);this.$('gachaSkinRarity').textContent='✦ '+rarity.name;this.$('gachaSkinName').textContent=skin.name;this.$('gachaSkinHero').textContent=hero.name;this.$('gachaRefund').hidden=!skin.duplicate;this.$('gachaRefund').textContent=skin.duplicate?'DOUBLON · + '+skin.refund.toLocaleString('fr-FR')+' GILS REMBOURSÉS':'';this.$('gachaNotice').textContent=skin.duplicate?'Apparence déjà possédée · moitié de la mise remboursée.':'Nouvelle apparence obtenue !';this.render();this.updatePresentation();this.presentation.$('summonPreviewStatus').textContent='Le cristal révèle votre apparence…';
+  try{const variant=await this.loadVariant(skin),idle=clipFor(variant,'idle'),anim=new AnimationPlayer(variant);await this.cache.preload([idle]);if(serial!==this.serial)return;this.preview={anim,framing:revealFraming([idle],600,320)};this.presentation.$('summonPreviewStatus').textContent='';}catch{if(serial!==this.serial)return;this.presentation.$('summonPreviewStatus').textContent='Aperçu indisponible. Votre récompense est enregistrée.';this.$('gachaNotice').textContent=(skin.duplicate?'Doublon remboursé.':'Apparence ajoutée à votre collection.')+' Aperçu indisponible pour le moment.';}
  }
  tick(dt){
-  if(this.busy){this.elapsed+=dt;if(this.elapsed>=.9)this.$('gachaMachine').dataset.phase='drop';if(this.elapsed>=2.1)this.reveal();}
-  const p=this.preview;if(this.root.hidden||!p)return;const clip=p.anim.clip;if(!this.cache.ready(clip,p.anim.elapsed,{loop:!p.anim.busy})){this.cache.loadClip(clip,p.anim.elapsed,{loop:!p.anim.busy}).catch(()=>{});return;}p.anim.update(dt);if(!this.cache.ready(p.anim.clip,p.anim.elapsed,{loop:!p.anim.busy})){this.cache.loadClip(p.anim.clip,p.anim.elapsed,{loop:!p.anim.busy}).catch(()=>{});return;}const ctx=this.$('gachaPreview').getContext('2d');ctx.clearRect(0,0,600,320);this.cache.draw(ctx,p.anim.clip,p.anim.elapsed,p.framing.x,p.framing.y,{scale:p.framing.scale,loop:!p.anim.busy});
+  this.presentation.tick(dt);if(!this.root.hidden)this.presentation.drawHost(this.$('gachaHost'),dt);this.elapsed=this.presentation.elapsed;if(this.busy&&!this.presentation.revealed)this.$('gachaMachine').dataset.phase=this.presentation.phase||'spinning';
+  const p=this.preview;if(this.root.hidden||!p)return;const clip=p.anim.clip;if(!this.cache.ready(clip,p.anim.elapsed,{loop:!p.anim.busy})){this.cache.loadClip(clip,p.anim.elapsed,{loop:!p.anim.busy}).catch(()=>{});return;}p.anim.update(dt);if(!this.cache.ready(p.anim.clip,p.anim.elapsed,{loop:!p.anim.busy})){this.cache.loadClip(p.anim.clip,p.anim.elapsed,{loop:!p.anim.busy}).catch(()=>{});return;}for(const canvas of [this.$('gachaPreview'),...(this.presentation.active&&this.presentation.revealed?[this.presentation.$('summonSkin')]:[])]){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,600,320);this.cache.draw(ctx,p.anim.clip,p.anim.elapsed,p.framing.x,p.framing.y,{scale:p.framing.scale,loop:!p.anim.busy});}
  }
 }
