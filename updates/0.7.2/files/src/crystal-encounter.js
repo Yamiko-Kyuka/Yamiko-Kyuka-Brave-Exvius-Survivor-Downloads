@@ -1,3 +1,4 @@
+import {beginBossRating,tickBossRating,awardBossRating,recordBossDamage,recordBossMechanic} from './boss-rating.js';
 import {bossTuning} from './boss-difficulty.js';
 import {mitigatedDamage} from './permanent-upgrades.js';
 import {Terrain,moveEntity,TILE,ORIGIN} from './terrain.js';
@@ -27,12 +28,13 @@ export function beginCrystalEncounter(s){
  const boss={...body(s.crystalAssets.dragon,center.x,center.y,180,segment*2),name:'Dragon Zombie',achievementId:'dragon-zombie',elite:true,miniboss:true,collisionMass:1e12,speed:0,baseSpeed:0,segmentCount:2,segmentHp:segment};
  const c=s.crystalEncounter={boss,terrain:s.terrain,returnPoint,storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],clock:0,phase:'pull',pullTime:0,center,arenaHalf:reliquary.areas[0].w*TILE/2,beamAt:2,poolAt:5,beams:[],pools:[],wave:[],absorbed:0,round:0};
  boss.receiveDamage=damage=>{
-  if(c.phase!=='combat')return 0;
-  const floor=boss.hp>segment?segment:0,amount=Math.min(damage,boss.hp-floor);
+  if(c.phase==='pull')return 0;
+  const floor=boss.hp>segment?segment:0,amount=Math.min(Math.max(0,damage)*(c.phase==='combat'?1:.1),boss.hp-floor);
   boss.hp-=amount;
-  if(boss.hp===segment&&floor===segment)falseDeath(s,c);
+  if(c.phase==='combat'&&boss.hp===segment&&floor===segment)falseDeath(s,c);
   return amount;
  };
+ beginBossRating(s,c);
  s.terrain=terrain;s.enemies=[boss];s.gems=[];s.pickups=[];s.projectiles=[];s.hostileProjectiles=[];s.dash=null;s.action=null;s.anim.sequence=[];
  s.x=center.x;s.y=center.y+310;c.pullFrom={x:s.x,y:s.y};c.pullTo={x:center.x,y:center.y+160};
  s.phase='crystal-miniboss';s.time=120;s.invuln=1;s.pickupNotice={name:'Une chaîne vous entraîne dans le reliquaire !',life:3};return true;
@@ -46,12 +48,12 @@ function falseDeath(s,c){
   c.wave.push(skeleton);s.enemies.push(skeleton);
  }
 }
-function hurt(s,damage){if(s.invuln>0||s.godMode||s.over||s.ending)return;s.hp-=mitigatedDamage(s,damage*s.difficulty.damage);s.invuln=.65;}
+function hurt(s,damage){if(s.invuln>0||s.godMode||s.over||s.ending)return;const amount=mitigatedDamage(s,damage*s.difficulty.damage);recordBossDamage(s,amount);s.hp-=amount;s.invuln=.65;}
 /** The stage clock freezes, while the encounter and Limit Break use active simulation time. */
 export function tickCrystalEncounter(s,dt){
  const c=s.crystalEncounter;if(!c||c.scripted)return false;
  if(c.boss.hp<=0){endCrystalEncounter(s);return true;}
- c.clock+=dt;
+ tickBossRating(c,dt);c.clock+=dt;
  if(c.phase==='pull'){
   c.pullTime+=dt;const t=Math.min(1,c.pullTime/.6),ease=1-(1-t)**3;
   s.x=c.pullFrom.x+(c.pullTo.x-c.pullFrom.x)*ease;s.y=c.pullFrom.y+(c.pullTo.y-c.pullFrom.y)*ease;
@@ -69,6 +71,7 @@ export function tickCrystalEncounter(s,dt){
  }
  s.enemies=s.enemies.filter(e=>!e.absorbed);
  if(c.phase==='false-death'&&c.wave.every(e=>e.hp<=0||e.dying||e.absorbed)){
+  if(c.absorbed<2)recordBossMechanic(c);else c.failures=(c.failures||0)+1;
   c.phase='combat';c.boss.fakeDeath=false;c.wave=[];
   s.pickupNotice={name:c.absorbed>=2?'Le dragon se relève : deux segments.':'Le dragon se relève : dernier segment !',life:3};
  }
@@ -85,6 +88,7 @@ export function tickCrystalEncounter(s,dt){
 }
 export function endCrystalEncounter(s){
  const c=s.crystalEncounter;if(!c||c.boss.hp>0)return false;
+ awardBossRating(s,c);
  s.terrain=c.terrain;Object.assign(s,c.returnPoint);s.enemies=c.storedEnemies;s.gems=c.storedGems;s.pickups=c.storedPickups;s.spawnPortals=c.storedPortals||[];
  s.pickups.push({kind:'level',x:s.x,y:s.y});s.projectiles=[];s.hostileProjectiles=[];s.effects=[];s.crystalCompleted=true;s.crystalEncounter=null;s.phase='survival';s.lastElite=Math.max(s.lastElite,1);s.spawn=1;s.invuln=2;
  s.kills++;s.defeatedCrystalBoss=c.boss;s.limitBreakLevel=1;s.limitCharge=0;

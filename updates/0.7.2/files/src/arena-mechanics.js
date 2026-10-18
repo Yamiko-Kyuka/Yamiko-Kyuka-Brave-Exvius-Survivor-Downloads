@@ -1,3 +1,4 @@
+import {recordBossMechanic} from './boss-rating.js';
 import {startRaidMechanic,tickRaidMechanic} from './raid-mechanics.js';
 import {drawRaidMechanics} from './raid-art.js';
 import {AnimationPlayer} from './animation.js';
@@ -62,6 +63,7 @@ export function mechanicHint(c){
  return '';
 }
 export function finishMechanic(s,c){
+ recordBossMechanic(c);
  if(c.mechanic==='meteor-seals'){
   s.effects.push({kind:'burst',x:c.boss.x,y:c.boss.y-c.boss.size*.38,radius:c.boss.size*.8,color:'#d5cbff',life:.6,maxLife:.6});
  }

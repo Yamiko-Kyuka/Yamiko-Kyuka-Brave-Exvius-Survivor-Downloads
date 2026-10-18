@@ -1,3 +1,4 @@
+import {beginBossRating,tickBossRating,awardBossRating} from './boss-rating.js';
 import {raidProfile} from './raid-design.js';
 import {createRaidArena} from './raid-arena.js';
 import {tickRaidPatterns,drawRaidPatterns} from './raid-patterns.js';
@@ -66,20 +67,23 @@ export function beginScriptedEncounter(s,profile){
  const hp=Math.ceil(superbossHealth(s,profile)*(profile.final?1.4:1)*tuning.hp),radius=Math.min(90,profile.size*.34);
  const boss={achievementId:profile.id,x:center.x,y:center.y,id:profile.superboss?'boss-'+profile.id:profile.variant.unitId,name:profile.name,variant:profile.variant,anim:new AnimationPlayer(profile.variant),size:profile.size,radius,hp,maxHp:hp,segmentCount:profile.final?3:2,segmentHp:hp/(profile.final?3:2),miniboss:true,mobileBoss:profile.redesigned||profile.patterns.includes('charge'),superboss:profile.final,elite:true,speed:0,baseSpeed:0,hit:0,dying:0,attack:0,collisionMass:1e12,nativeFacing:profile.variant.nativeFacing||(profile.final?'left':'right')};
  const c=s.crystalEncounter={scripted:true,kind:profile.id,profile,tuning,scheduledAt:profile.at,final:profile.final,boss,center,plan,arenaHalf:width*TILE/2,terrain:s.terrain,returnPoint:{x:s.x,y:s.y},storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],previousZoom:s.zoom,clock:0,phase:'pull',pullTime:0,pullFrom:{x:center.x,y:center.y+width*TILE*.42},pullTo:{x:center.x,y:center.y+(profile.final?200:160)},mechanicIndex:0,segmentIndex:0,targets:[],casts:[],attackAt:2,patternStep:0,pools:[],beams:[],wave:[],mageVariant:profile.mageVariant};
- if(profile.redesigned){c.redesigned=true;c.rules=profile.rules;c.raidBaseTerrain=terrain;boss.aimable=()=>c.phase==='combat';}
+ if(profile.redesigned){c.redesigned=true;c.rules=profile.rules;c.raidBaseTerrain=terrain;boss.aimable=()=>c.phase!=='pull';}
  boss.receiveDamage=damage=>{
-  if(c.phase!=='combat')return 0;
-  const floor=boss.maxHp-(c.segmentIndex+1)*boss.segmentHp,remaining=Math.max(0,boss.hp-floor),amount=Math.min(Math.max(0,damage),remaining);boss.hp-=amount;
+  if(c.phase==='pull')return 0;
+  const multiplier=c.phase==='combat'?1:.1;
+  const floor=boss.maxHp-(c.segmentIndex+1)*boss.segmentHp,remaining=Math.max(0,boss.hp-floor),amount=Math.min(Math.max(0,damage)*multiplier,remaining);boss.hp-=amount;
   if(c.segmentIndex<boss.segmentCount-1&&boss.hp<=floor+1e-6){boss.hp=floor;c.segmentIndex++;c.mechanicIndex=0;startMechanic(s,c);s.pickupNotice={name:'La barrière se reforme !',life:2.5};}
   if(c.segmentIndex===boss.segmentCount-1&&boss.hp<1e-6)boss.hp=0;
   return amount;
  };
+ beginBossRating(s,c);
  s.terrain=terrain;s.enemies=[boss];s.gems=[];s.pickups=[];s.projectiles=[];s.hostileProjectiles=[];s.dash=null;s.action=null;s.anim.sequence=[];s.anim.onComplete=null;
  Object.assign(s,c.pullFrom);s.zoom=Math.min(s.zoom,profile.redesigned?(profile.final?.6:.72):profile.final?.8:1);s.phase='scripted-boss';if(profile.final)s.superboss=boss;s.time=profile.at;s.invuln=1;s.bossNotice=null;s.pickupNotice={name:'Une chaîne vous attire dans l’arène !',life:2.5};
  return true;
 }
 export function completeScriptedEncounter(s){
  const c=s.crystalEncounter;if(!c?.scripted||c.boss.hp>0)return false;
+ awardBossRating(s,c);
  s.terrain=c.terrain;Object.assign(s,c.returnPoint);s.zoom=c.previousZoom;s.enemies=c.storedEnemies;s.gems=c.storedGems;s.pickups=c.storedPickups;s.spawnPortals=c.storedPortals||[];
  s.projectiles=[];s.hostileProjectiles=[];s.effects=[];s.crystalEncounter=null;s.phase=c.final?'victory':'survival';s.spawn=1;s.lastElite=Math.floor(c.scheduledAt/120);s.invuln=2;s.kills++;
  s.completedEncounters??=[];if(!s.completedEncounters.includes(c.scheduledAt))s.completedEncounters.push(c.scheduledAt);
@@ -120,7 +124,7 @@ function tickPatterns(s,c,dt){
   c.nextObjectiveCast=Math.max(c.nextObjectiveCast,c.clock+.4);
  }
  if(c.phase==='mechanic'&&['beam-relays','cover','charge-wall','charge-pillars'].includes(c.mechanic)&&c.clock>=c.nextObjectiveCast){c.nextObjectiveCast=c.clock+(c.final?3.3:3.8);if(!c.charge&&!preparingCharge)cast(s,c,chargeMechanic?'charge':'beam');}
- if(c.clock>=c.attackAt){c.attackAt=c.clock+(c.final?2.8:3.5)*(c.tuning?.cadence||1);const kind=c.profile.patterns[c.patternStep++%c.profile.patterns.length];if(!(c.phase==='mechanic'&&chargeMechanic&&kind==='charge'))cast(s,c,kind);}
+ if(c.clock>=c.attackAt){c.attackAt=c.clock+(c.final?2.8:3.5)*(c.tuning?.cadence||1)*.75;const kind=c.profile.patterns[c.patternStep++%c.profile.patterns.length];if(!(c.phase==='mechanic'&&chargeMechanic&&kind==='charge'))cast(s,c,kind);}
  const fired=c.casts.filter(a=>c.clock-a.born>=a.windup);c.casts=c.casts.filter(a=>c.clock-a.born<a.windup);for(const a of fired)fireCast(s,c,a);
  if(c.charge){const q=c.charge,t=Math.min(dt,q.remaining),speed=pillarCharge?BEHEMOTH_CHARGE_SPEED:470,from={x:c.boss.x,y:c.boss.y},end=s.terrain.trace(from.x,from.y,from.x+Math.cos(q.angle)*speed*t,from.y+Math.sin(q.angle)*speed*t,c.boss.radius);c.boss.x=end.x;c.boss.y=end.y;q.remaining-=t;
   if(segmentDistance(s,from.x,from.y,end.x,end.y)<c.boss.radius+playerRadius(s))hurtInArena(s,c.final?32:24);
@@ -131,7 +135,7 @@ export function tickBossEncounters(s,dt){
  const c=s.crystalEncounter;if(!c)return false;
  if(!c.scripted){const ended=tickCrystalEncounter(s,dt);if(ended){s.completedEncounters??=[];if(!s.completedEncounters.includes(120))s.completedEncounters.push(120);s.defeatedEncounterBoss=s.defeatedCrystalBoss;return true;}if(c.phase!=='pull'&&c.profile?.patterns.length)tickPatterns(s,c,dt);tickArenaPressure(s,c,dt);return false;}
  if(c.boss.hp<=0)return completeScriptedEncounter(s);
- c.clock+=dt;
+ tickBossRating(c,dt);c.clock+=dt;
  if(c.phase==='pull'){c.pullTime+=dt;const t=Math.min(1,c.pullTime/.6),ease=1-(1-t)**3;s.x=c.pullFrom.x+(c.pullTo.x-c.pullFrom.x)*ease;s.y=c.pullFrom.y+(c.pullTo.y-c.pullFrom.y)*ease;if(t===1)startMechanic(s,c);return false;}
  if(c.redesigned)tickRaidPatterns(s,c,dt);else tickPatterns(s,c,dt);tickMechanic(s,c,dt);tickArenaPressure(s,c,dt);return false;
 }

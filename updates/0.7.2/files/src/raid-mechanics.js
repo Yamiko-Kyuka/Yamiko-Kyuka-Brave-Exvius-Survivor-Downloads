@@ -1,3 +1,4 @@
+import {recordBossMechanic} from './boss-rating.js';
 import {AnimationPlayer} from './animation.js';
 import {Terrain,ORIGIN,TILE,moveEntity} from './terrain.js';
 import {raidMechanics} from './raid-design.js';
@@ -43,6 +44,7 @@ export function startRaidMechanic(s,c){
  c.hint=spec.name;
 }
 export function finishRaidMechanic(s,c){
+ recordBossMechanic(c);
  s.enemies=s.enemies.filter(e=>!e.mechanicTarget&&!e.raidSummon);s.hostileProjectiles=[];c.mechanicMeteor=null;c.carried=false;c.raidSource=null;c.casts=[];c.charge=null;c.boss.fakeDeath=false;
  c.mechanicIndex++;
  if(c.mechanicIndex<c.profile.mechanics.length){startRaidMechanic(s,c);return;}

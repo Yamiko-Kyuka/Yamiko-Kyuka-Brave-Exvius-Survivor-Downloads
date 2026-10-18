@@ -51,7 +51,7 @@ export function tickRaidPatterns(s,c,dt){
  // Astrolabe targeting is a deliberate placement sequence; attacks resume during exposure/combat.
  const placement=c.phase==='mechanic'&&c.activeMechanic?.kind==='meteor-core'&&c.mechanicMeteor;
  if(c.clock>=c.attackAt&&!placement){
-  const specs=c.profile.attackSpecs,spec=specs[c.patternStep++%specs.length];c.attackAt=c.clock+(6.4-c.rules.rank*.3);
+  const specs=c.profile.attackSpecs,spec=specs[c.patternStep++%specs.length];c.attackAt=c.clock+(6.4-c.rules.rank*.3)*.75;
   if(!(ram&&spec.type.includes('charge')))scheduleRaidAttack(s,c,spec);
  }
  const ready=c.casts.filter(a=>c.clock-a.born>=a.windup);c.casts=c.casts.filter(a=>c.clock-a.born<a.windup);for(const a of ready)if(a.revision===c.revision)fire(s,c,a);

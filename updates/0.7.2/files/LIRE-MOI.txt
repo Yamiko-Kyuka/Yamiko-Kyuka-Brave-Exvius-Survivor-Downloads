@@ -28,6 +28,16 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
+VERSION 0.7.2 — FLUIDITÉ, NOTES ET IDENTITÉ
+Les héros se déplacent 40 % plus vite de base. Les boss enchaînent leurs attaques
+avec 25 % d’intervalle en moins ; leurs annonces restent lisibles.
+Leurs barrières réduisent les dégâts de 90 % au lieu de les annuler.
+Après chaque victoire : note D à SSS, bonus d’XP/gils de x1 à x3, animation de
+3 secondes, puis récapitulatif des notes à la fin de la partie.
+Chaque arme possède un bruitage court. Les options permettent de régler les
+effets visuels des armes du joueur de 1 % à 100 %, sans atténuer les dangers.
+Les menus utilisent Cinzel et la boutique s’appelle Boutique d’améliorations.
+
 VERSION 0.7.1 — CRITIQUES, MULTI-HITS ET BARRES DU HÉROS
 Critique de base : 5 %, pour 200 % des dégâts. Multi-hit : 1 %, chaque écho
 ajoute 20 % du coup initial et peut déclencher un autre écho. Trois bonus
