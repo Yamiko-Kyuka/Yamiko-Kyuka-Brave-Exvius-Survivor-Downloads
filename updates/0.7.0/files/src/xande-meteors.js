@@ -46,7 +46,9 @@ export function tickMeteorSeals(s,c){
 }
 
 export function meteorCountdown(s){
- const c=s.crystalEncounter,m=c?.phase==='mechanic'&&c.mechanic==='meteor-seals'?c.sealMeteor:null;
+ const c=s.crystalEncounter;
+ if(c?.redesigned&&c.mechanicMeteor){const m=c.mechanicMeteor,seconds=Math.max(0,m.endsAt-c.clock);return {label:m.stage==='locked'?'IMPACT · ESQUIVEZ':'MÉTÉORE',seconds,progress:Math.min(1,Math.max(0,1-seconds/m.duration)),locked:m.stage==='locked',number:1};}
+ const m=c?.phase==='mechanic'&&c.mechanic==='meteor-seals'?c.sealMeteor:null;
  if(!m)return null;
  const seconds=Math.max(0,m.endsAt-c.clock);
  return {label:m.stage==='locked'?'IMPACT · ESQUIVEZ':m.role==='decoy'?'MÉTÉORE 2 · ÉCARTEZ-LE':'MÉTÉORE · REJOIGNEZ LE SCEAU',seconds,progress:Math.min(1,Math.max(0,1-seconds/m.duration)),locked:m.stage==='locked',number:m.number};

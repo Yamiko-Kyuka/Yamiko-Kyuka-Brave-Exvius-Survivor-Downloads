@@ -1,3 +1,6 @@
+import {raidProfile} from './raid-design.js';
+import {createRaidArena} from './raid-arena.js';
+import {tickRaidPatterns,drawRaidPatterns} from './raid-patterns.js';
 import {bossTuning,extraBossPatterns} from './boss-difficulty.js';
 import {AnimationPlayer,clipFor} from './animation.js';
 import {Terrain,TILE,ORIGIN} from './terrain.js';
@@ -33,13 +36,15 @@ export const encounterDefinitions={
 export async function loadEncounterRoster(stage,enemyCatalog,cache,finalProfile){
  const roster=[];const mage=enemyCatalog.find(e=>e.variant.unitId==='1050110')?.variant;
  for(const [index,def]of encounterDefinitions[stage.id].entries()){
-  if(def.legacy){roster.push({...def,at:120});continue;}
+  const redesign=raidProfile(def.id);
+  let skeletonVariant=null;
   let variant=def.superboss?finalProfile.variant:enemyCatalog.find(e=>e.variant.unitId===def.unit)?.variant;
+  if(def.legacy){const dragon=await fetch('/assets/bosses/dracozombie/variant.json'),skeleton=await fetch('/assets/animation-data/asset-89643.json');if(!dragon.ok||!skeleton.ok)throw Error('Ossuaire indisponible');variant=await dragon.json();skeletonVariant=(await skeleton.json()).variants.find(v=>v.unitId==='1120010');await cache.preload([clipFor(skeletonVariant,'idle'),clipFor(skeletonVariant,'atk')]);}
   if(def.variantFile){const r=await fetch(def.variantFile);if(!r.ok)throw Error('Animations du '+def.name+' indisponibles');variant=await r.json();}
   if(!variant||!clipFor(variant,'idle'))throw Error('Animations du boss indisponibles : '+def.id);
   await cache.preload([clipFor(variant,'idle'),clipFor(variant,'atk')]);
   if(def.mechanics.includes('mages')){if(!mage)throw Error('Mages indisponibles');await cache.preload([clipFor(mage,'idle'),clipFor(mage,'atk')]);}
-  roster.push({...def,name:def.name||finalProfile.name,size:def.size||finalProfile.size,variant,mageVariant:mage,health:def.superboss?finalProfile.health:140,at:(index+1)*120,final:index===2});
+  roster.push({...def,...redesign,skeletonVariant,name:def.id==='dragon-zombie'?'Dragon Zombie':def.name||finalProfile.name,size:def.size||finalProfile.size,variant,mageVariant:mage,health:def.superboss?finalProfile.health:140,at:(index+1)*120,final:index===2});
  }
  return roster;
 }
@@ -54,13 +59,14 @@ export function beginScheduledEncounter(s){
 }
 export function beginScriptedEncounter(s,profile){
  if(s.crystalEncounter||s.phase!=='survival')return false;
- const tuning=bossTuning(s);profile={...profile,patterns:[...profile.patterns,...extraBossPatterns(s.stage.id,tuning.rank)]};
- // About 20% wider, rounded to complete collision tiles; keep each authored room center.
- const oldWidth=profile.final?16:12,width=Math.round(oldWidth*1.2),[rx,ry]=profile.room,x=rx-Math.floor((width-oldWidth)/2),y=ry-Math.floor((width-oldWidth)/2),area={name:profile.roomName+' · arène scellée',shape:'rect',x,y,w:width,h:width,style:1};
- const plan={passage:area.name,areas:[area],paths:[],props:[]},terrain=new Terrain(s.stage,plan),center={x:ORIGIN+(x+width/2)*TILE,y:ORIGIN+(y+width/2)*TILE};
+ const tuning=bossTuning(s);profile=profile.redesigned?{...profile,...raidProfile(profile.id,tuning.rank)}:{...profile,patterns:[...profile.patterns,...extraBossPatterns(s.stage.id,tuning.rank)]};
+ let width,plan,terrain,center;
+ if(profile.redesigned){const arena=createRaidArena(s.stage,profile);width=arena.half*2/TILE;({plan,terrain,center}=arena);}
+ else{const oldWidth=profile.final?16:12; width=Math.round(oldWidth*1.2);const [rx,ry]=profile.room,x=rx-Math.floor((width-oldWidth)/2),y=ry-Math.floor((width-oldWidth)/2),area={name:profile.roomName+' · arène scellée',shape:'rect',x,y,w:width,h:width,style:1};plan={passage:area.name,areas:[area],paths:[],props:[]};terrain=new Terrain(s.stage,plan);center={x:ORIGIN+(x+width/2)*TILE,y:ORIGIN+(y+width/2)*TILE};}
  const hp=Math.ceil(superbossHealth(s,profile)*(profile.final?1.4:1)*tuning.hp),radius=Math.min(90,profile.size*.34);
- const boss={achievementId:profile.id,x:center.x,y:center.y,id:profile.superboss?'boss-'+profile.id:profile.variant.unitId,name:profile.name,variant:profile.variant,anim:new AnimationPlayer(profile.variant),size:profile.size,radius,hp,maxHp:hp,segmentCount:profile.final?3:2,segmentHp:hp/(profile.final?3:2),miniboss:true,mobileBoss:profile.patterns.includes('charge'),superboss:profile.final,elite:true,speed:0,baseSpeed:0,hit:0,dying:0,attack:0,collisionMass:1e12,nativeFacing:profile.variant.nativeFacing||(profile.final?'left':'right')};
+ const boss={achievementId:profile.id,x:center.x,y:center.y,id:profile.superboss?'boss-'+profile.id:profile.variant.unitId,name:profile.name,variant:profile.variant,anim:new AnimationPlayer(profile.variant),size:profile.size,radius,hp,maxHp:hp,segmentCount:profile.final?3:2,segmentHp:hp/(profile.final?3:2),miniboss:true,mobileBoss:profile.redesigned||profile.patterns.includes('charge'),superboss:profile.final,elite:true,speed:0,baseSpeed:0,hit:0,dying:0,attack:0,collisionMass:1e12,nativeFacing:profile.variant.nativeFacing||(profile.final?'left':'right')};
  const c=s.crystalEncounter={scripted:true,kind:profile.id,profile,tuning,scheduledAt:profile.at,final:profile.final,boss,center,plan,arenaHalf:width*TILE/2,terrain:s.terrain,returnPoint:{x:s.x,y:s.y},storedEnemies:s.enemies,storedGems:s.gems,storedPickups:s.pickups,storedPortals:s.spawnPortals||[],previousZoom:s.zoom,clock:0,phase:'pull',pullTime:0,pullFrom:{x:center.x,y:center.y+width*TILE*.42},pullTo:{x:center.x,y:center.y+(profile.final?200:160)},mechanicIndex:0,segmentIndex:0,targets:[],casts:[],attackAt:2,patternStep:0,pools:[],beams:[],wave:[],mageVariant:profile.mageVariant};
+ if(profile.redesigned){c.redesigned=true;c.rules=profile.rules;c.raidBaseTerrain=terrain;boss.aimable=()=>c.phase==='combat';}
  boss.receiveDamage=damage=>{
   if(c.phase!=='combat')return 0;
   const floor=boss.maxHp-(c.segmentIndex+1)*boss.segmentHp,remaining=Math.max(0,boss.hp-floor),amount=Math.min(Math.max(0,damage),remaining);boss.hp-=amount;
@@ -69,7 +75,7 @@ export function beginScriptedEncounter(s,profile){
   return amount;
  };
  s.terrain=terrain;s.enemies=[boss];s.gems=[];s.pickups=[];s.projectiles=[];s.hostileProjectiles=[];s.dash=null;s.action=null;s.anim.sequence=[];s.anim.onComplete=null;
- Object.assign(s,c.pullFrom);s.zoom=Math.min(s.zoom,profile.final?.8:1);s.phase='scripted-boss';if(profile.final)s.superboss=boss;s.time=profile.at;s.invuln=1;s.bossNotice=null;s.pickupNotice={name:'Une chaîne vous attire dans l’arène !',life:2.5};
+ Object.assign(s,c.pullFrom);s.zoom=Math.min(s.zoom,profile.redesigned?(profile.final?.6:.72):profile.final?.8:1);s.phase='scripted-boss';if(profile.final)s.superboss=boss;s.time=profile.at;s.invuln=1;s.bossNotice=null;s.pickupNotice={name:'Une chaîne vous attire dans l’arène !',life:2.5};
  return true;
 }
 export function completeScriptedEncounter(s){
@@ -77,6 +83,7 @@ export function completeScriptedEncounter(s){
  s.terrain=c.terrain;Object.assign(s,c.returnPoint);s.zoom=c.previousZoom;s.enemies=c.storedEnemies;s.gems=c.storedGems;s.pickups=c.storedPickups;s.spawnPortals=c.storedPortals||[];
  s.projectiles=[];s.hostileProjectiles=[];s.effects=[];s.crystalEncounter=null;s.phase=c.final?'victory':'survival';s.spawn=1;s.lastElite=Math.floor(c.scheduledAt/120);s.invuln=2;s.kills++;
  s.completedEncounters??=[];if(!s.completedEncounters.includes(c.scheduledAt))s.completedEncounters.push(c.scheduledAt);
+ if(c.kind==='dragon-zombie'){s.crystalCompleted=true;s.limitBreakLevel=1;s.limitCharge=0;s.defeatedCrystalBoss=c.boss;}
  s.defeatedEncounterBoss=c.boss;s.pickupNotice={name:c.boss.name+' vaincu · arène libérée !',life:3};
  if(c.final){s.awaitingVictory=true;s.pendingLevels=(s.pendingLevels||0)+1;s.enemies=[];}else s.pickups.push({kind:'level',x:s.x,y:s.y});
  return true;
@@ -126,7 +133,7 @@ export function tickBossEncounters(s,dt){
  if(c.boss.hp<=0)return completeScriptedEncounter(s);
  c.clock+=dt;
  if(c.phase==='pull'){c.pullTime+=dt;const t=Math.min(1,c.pullTime/.6),ease=1-(1-t)**3;s.x=c.pullFrom.x+(c.pullTo.x-c.pullFrom.x)*ease;s.y=c.pullFrom.y+(c.pullTo.y-c.pullFrom.y)*ease;if(t===1)startMechanic(s,c);return false;}
- tickPatterns(s,c,dt);tickMechanic(s,c,dt);tickArenaPressure(s,c,dt);return false;
+ if(c.redesigned)tickRaidPatterns(s,c,dt);else tickPatterns(s,c,dt);tickMechanic(s,c,dt);tickArenaPressure(s,c,dt);return false;
 }
 export function encounterInstruction(c){
  if(!c)return '';
@@ -136,8 +143,8 @@ export function encounterInstruction(c){
  return prefix+(c.phase==='combat'?' · BARRIÈRE BRISÉE':c.hint||mechanicNames[c.mechanic]);
 }
 export function drawBossEncounters(ctx,s,ox,oy){
- const c=s.crystalEncounter;if(!c)return;drawArenaPressure(ctx,s,ox,oy);if(c.scripted)drawMechanic(ctx,s,c,ox,oy);ctx.save();
- for(const a of c.casts||[]){const age=c.clock-a.born;ctx.strokeStyle=a.color;ctx.fillStyle=a.color;ctx.globalAlpha=.25+age/a.windup*.3;ctx.lineWidth=2;
+ const c=s.crystalEncounter;if(!c)return;drawArenaPressure(ctx,s,ox,oy);if(c.scripted)drawMechanic(ctx,s,c,ox,oy);if(c.redesigned)drawRaidPatterns(ctx,s,c,ox,oy);ctx.save();
+ for(const a of c.redesigned?[]:c.casts||[]){const age=c.clock-a.born;ctx.strokeStyle=a.color;ctx.fillStyle=a.color;ctx.globalAlpha=.25+age/a.windup*.3;ctx.lineWidth=2;
   if(a.kind==='radial'){ctx.globalAlpha=.85;for(let i=0;i<8;i++){const angle=a.angle+i*Math.PI/4;ctx.beginPath();ctx.moveTo(a.x+ox+Math.cos(angle)*45,a.y+oy+Math.sin(angle)*45);ctx.lineTo(a.x+ox+Math.cos(angle)*100,a.y+oy+Math.sin(angle)*100);ctx.stroke();}}
   else if(a.kind==='meteor'||a.kind==='quake'){ctx.beginPath();ctx.arc((a.kind==='meteor'?a.tx:a.x)+ox,(a.kind==='meteor'?a.ty:a.y)+oy,a.kind==='meteor'?a.radius:210,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.stroke();}
   else{ctx.save();ctx.translate(a.x+ox,a.y+oy);ctx.rotate(a.angle);ctx.setLineDash([10,6]);ctx.strokeRect(0,a.kind==='charge'?-c.boss.radius:-16,a.kind==='charge'&&c.kind==='behemoth'?BEHEMOTH_CHARGE_DISTANCE:c.arenaHalf*3,a.kind==='charge'?c.boss.radius*2:32);ctx.restore();}

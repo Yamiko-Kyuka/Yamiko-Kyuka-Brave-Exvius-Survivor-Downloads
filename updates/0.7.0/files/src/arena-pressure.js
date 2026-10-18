@@ -4,6 +4,8 @@ export const arenaPalettes={midgar:{color:'#63d993',name:'Mako instable'},zanark
 export function hurtInArena(s,damage){if(s.invuln>0||s.godMode||s.ending||s.over)return false;s.hp-=mitigatedDamage(s,damage*s.difficulty.damage);s.invuln=.65;return true;}
 /** An encounter clock, never the paused stage clock. Threat fills the arena by two minutes. */
 export function tickArenaPressure(s,c,dt){
+ if(c.redesigned){const end=c.rules.enrage,start=end*.65,progress=Math.max(0,Math.min(1,(c.clock-start)/(end-start)));c.enrageProgress=progress;c.safeHalf=c.arenaHalf*(1-progress*.88);if(c.clock>=end)hurtInArena(s,s.maxHp*.4);else if(progress>0&&(Math.abs(s.x-c.center.x)>c.safeHalf||Math.abs(s.y-c.center.y)>c.safeHalf))hurtInArena(s,s.maxHp*.16);return;}
+
  // Xande's longer placement sequence needs room for both full cycles before enrage.
  const meteorEncounter=c.profile?.mechanics?.includes('meteor-seals');
  const half=c.arenaHalf||384,start=meteorEncounter?95:c.final?45:35,end=c.final?150:120;

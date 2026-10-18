@@ -1,3 +1,5 @@
+import {startRaidMechanic,tickRaidMechanic} from './raid-mechanics.js';
+import {drawRaidMechanics} from './raid-art.js';
 import {AnimationPlayer} from './animation.js';
 import {Terrain,TILE,ORIGIN} from './terrain.js';
 import {startMeteorSeals,tickMeteorSeals,drawMeteorSeals} from './xande-meteors.js';
@@ -24,6 +26,7 @@ function restoreArena(s,c,cover=false){
  if(!s.terrain.walkable(s.x,s.y,s.radius||14))Object.assign(s,s.terrain.nearestFloor(s.x,s.y,s.radius||14));
 }
 export function startMechanic(s,c){
+ if(c.redesigned)return startRaidMechanic(s,c);
  s.enemies=s.enemies.filter(e=>!e.mechanicTarget);c.targets=[];c.progress=0;c.hold=0;c.latch=-1;c.firstKillAt=null;c.charge=null;c.casts=[];c.carried=null;c.covered=new Set();c.sealMeteor=null;
  c.mechanic=c.profile.mechanics[c.mechanicIndex];c.phase='mechanic';c.deadline=c.clock+(c.final?38:30);c.revision=(c.revision||0)+1;
  if(c.mechanic==='charge-pillars')prepareBehemothPillars(c);
@@ -71,6 +74,7 @@ export function restartMechanic(s,c,message='Mécanique ratée · recommencez !'
  c.failures=(c.failures||0)+1;startMechanic(s,c);s.pickupNotice={name:message,life:2.5};
 }
 export function tickMechanic(s,c,dt){
+ if(c.redesigned)return tickRaidMechanic(s,c,dt);
  if(c.phase==='combat'){
   if(c.clock>=c.vulnerableUntil){c.mechanicIndex=0;restartMechanic(s,c,'La barrière se reforme · refaites les mécaniques !');}return;
  }
@@ -125,6 +129,7 @@ export function mechanicBeam(s,c,cast){
 }
 export function mechanicWallHit(s,c){if(c.phase==='mechanic'&&c.mechanic==='charge-wall')finishMechanic(s,c);}
 export function drawMechanic(ctx,s,c,ox,oy){
+ if(c.redesigned)return drawRaidMechanics(ctx,s,c,ox,oy);
  drawBehemothPillars(ctx,c,ox,oy);
  ctx.save();ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
  const disk=(p,r,color,label,active=true)=>{ctx.fillStyle=color;ctx.globalAlpha=active?.22:.10;ctx.beginPath();ctx.arc(p.x+ox,p.y+oy,r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.85;ctx.lineWidth=active?7:4;ctx.strokeStyle='#0a1022';ctx.stroke();ctx.globalAlpha=active?1:.75;ctx.lineWidth=active?3:1.5;ctx.strokeStyle=active?'#fff0b5':color;ctx.stroke();ctx.lineWidth=4;ctx.strokeStyle='#0a1022';ctx.strokeText(label,p.x+ox,p.y+oy);ctx.fillStyle=color;ctx.fillText(label,p.x+ox,p.y+oy);ctx.globalAlpha=1;};

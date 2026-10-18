@@ -3,7 +3,7 @@ import {weaponTuning} from './weapon-upgrades.js';
 import {weaponInterval} from './attack-timing.js';
 import {applyKnockback} from './knockback.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-export function nearestEnemy(s,max=Infinity){return s.enemies.filter(e=>!e.dying&&e.hp>0&&!(e.spawnProtection>0)&&distance(e,s)<=max).sort((a,b)=>distance(a,s)-distance(b,s))[0];}
+export function nearestEnemy(s,max=Infinity){return s.enemies.filter(e=>!e.dying&&e.hp>0&&(!e.aimable||e.aimable())&&!(e.spawnProtection>0)&&distance(e,s)<=max).sort((a,b)=>distance(a,s)-distance(b,s))[0];}
 export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){
  if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
  if(e.receiveDamage){damage=e.receiveDamage(damage);if(damage<=0)return false;}else e.hp-=damage;e.hit=.18;applyKnockback(s,e);s.effects.push({kind:'spark',x:e.x,y:e.y,color,life:.25,maxLife:.25});

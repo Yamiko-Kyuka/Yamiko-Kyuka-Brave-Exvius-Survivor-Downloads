@@ -1,3 +1,4 @@
+import {drawRaidArena} from './raid-art.js';
 import {TILE,SIZE,ORIGIN} from './terrain.js';
 /** Matching ground and architecture are drawn from the fixed collision plan. */
 const banks={midgar:['#a99b74','#353c43','#0a111a'],zanarkand:['#b9c4c5','#6b8c9b','#163846'],'crystal-tower':['#b5c4dc','#6f8bae','#243b5d'],'dark-world':['#927d9b','#4b3b55','#171322']};
@@ -9,6 +10,7 @@ export class MapArt {
   this.promises.set(stage.id,promise);return promise;
  }
  draw(ctx,s,ox,oy,w,h){
+  if(s.crystalEncounter?.redesigned){drawRaidArena(ctx,s,s.crystalEncounter,ox,oy,w,h);return;}
   const image=this.images.get(s.stage.id),terrain=s.terrain;if(!image||!terrain)return;
   const fw=image.naturalWidth/3,fh=image.naturalHeight/2,halfW=w/(2*s.zoom),halfH=h/(2*s.zoom),minX=Math.floor((s.x-halfW-ORIGIN)/TILE)-1,maxX=Math.ceil((s.x+halfW-ORIGIN)/TILE)+1,minY=Math.floor((s.y-halfH-ORIGIN)/TILE)-1,maxY=Math.ceil((s.y+halfH-ORIGIN)/TILE)+1;
   const patch=(art,x,y,width,height)=>ctx.drawImage(image,art%3*fw,Math.floor(art/3)*fh,fw,fh,x+ox,y+oy,width,height);
