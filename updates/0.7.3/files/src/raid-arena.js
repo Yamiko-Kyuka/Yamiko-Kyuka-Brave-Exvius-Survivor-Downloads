@@ -1,10 +1,11 @@
 import {Terrain,ORIGIN,TILE} from './terrain.js';
-const sizes={gantry:[20,16],kennel:[20,18],twins:[20,18]};
+const sizes={reactor:[20,18],gantry:[20,16],kennel:[20,18],twins:[20,18]};
 export function createRaidArena(stage,profile){
  const old=profile.final?16:12,[rx,ry]=profile.room||[10,7],cx=rx+old/2,cy=ry+old/2;
  const [w,h]=sizes[profile.shape]||[profile.final?22:18,profile.final?22:18],x=cx-w/2,y=cy-h/2;
  const area=(name,shape,ax,ay,aw,ah)=>({name,shape,x:ax,y:ay,w:aw,h:ah,style:1});
  let areas=[area(profile.arena,'rect',x,y,w,h)];
+ if(profile.shape==='reactor')areas=[area('Plateforme du réacteur','rect',cx-7,cy-6,14,12),area('Passerelle centrale','rect',cx-3,cy-9,6,18),area('Traverses métalliques','rect',cx-10,cy-2,20,4)];
  if(['specimen','procession','observatory','twins','void-crown','sun'].includes(profile.shape))areas=[area(profile.arena,'ellipse',x,y,w,h)];
  if(profile.shape==='sun')areas.push(area('Allée des priants','rect',cx-3,y,6,h));
  if(profile.shape==='throne')areas=[area(profile.arena,'ellipse',x,y,w,h),area('Estrade impériale','rect',cx-4,y,8,5)];

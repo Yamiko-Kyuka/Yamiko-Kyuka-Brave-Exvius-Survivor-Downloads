@@ -28,6 +28,12 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
+VERSION 0.7.3 — SCORPION GARDIEN
+Combat adapté à la vidéo fournie de FFVII Remake : générateur arrière,
+laser caudal arrêté par les débris métalliques puis pattes d’auto-réparation.
+Chaque difficulté ajoute une attaque. La passerelle et le réacteur mako ont
+une identité propre, avec des annonces lisibles et des débris qui s’effondrent.
+
 VERSION 0.7.2 — FLUIDITÉ, NOTES ET IDENTITÉ
 Les héros se déplacent 40 % plus vite de base. Les boss enchaînent leurs attaques
 avec 25 % d’intervalle en moins ; leurs annonces restent lisibles.

@@ -85,7 +85,7 @@ export function drawEnemyAttacks(ctx,s,ox,oy){
    const progress=Math.min(1,p.age/p.detonateAt);ctx.shadowBlur=0;ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.arc(0,0,p.radius+3,-Math.PI/2,-Math.PI/2+progress*Math.PI*2);ctx.stroke();
    if(!p.detonated){const height=100*(1-progress);ctx.globalAlpha=1;ctx.shadowBlur=9;ctx.beginPath();ctx.arc(0,-height,12,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe1b8';ctx.beginPath();ctx.arc(0,-height,5,0,Math.PI*2);ctx.fill();}
   }
-  else if(p.kind==='bullet'){ctx.rotate(p.angle);ctx.fillRect(-12,-3,24,6);ctx.fillStyle='#fff5d6';ctx.fillRect(7,-2,5,4);}
+  else if((p.kind==='bullet'||p.kind==='scorpion-round')){ctx.rotate(p.angle);ctx.fillRect(-12,-3,24,6);ctx.fillStyle='#fff5d6';ctx.fillRect(7,-2,5,4);}
   else if(p.kind==='quake'){ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.stroke();}
   else if(p.kind==='meteor'){ctx.beginPath();ctx.arc(0,0,45,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe4b6';ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.fill();}
   else if(p.kind==='lightning'||p.kind==='spark-bolt'){ctx.rotate(p.angle);ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-15,-5);ctx.lineTo(-4,5);ctx.lineTo(4,-5);ctx.lineTo(15,5);ctx.stroke();}

@@ -1,3 +1,4 @@
+import {beginScorpionMechanic,tickScorpionMechanic,scorpionCoverProps} from './scorpion-encounter.js';
 import {recordBossMechanic} from './boss-rating.js';
 import {AnimationPlayer} from './animation.js';
 import {Terrain,ORIGIN,TILE,moveEntity} from './terrain.js';
@@ -7,7 +8,7 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const point=(c,x,y)=>({x:c.center.x+x,y:c.center.y+y});
 export function restoreRaidTerrain(s,c){
  const solid=(c.raidObjects||[]).filter(o=>o.solid&&!o.done).map(o=>({...o.prop}));
- s.terrain=new Terrain(s.stage,{...c.plan,props:[...c.plan.props,...solid]});
+ s.terrain=new Terrain(s.stage,{...c.plan,props:[...c.plan.props,...solid,...scorpionCoverProps(c)]});
  if(!s.terrain.walkable(s.x,s.y,s.radius||14))Object.assign(s,s.terrain.nearestFloor(s.x,s.y,s.radius||14));
 }
 function positions(c,n,kind){
@@ -34,6 +35,7 @@ export function startRaidMechanic(s,c){
  c.phase='mechanic';c.revision=(c.revision||0)+1;c.progress=0;c.carried=false;c.firstKillAt=null;c.mechanicMeteor=null;c.raidSummons=[];c.absorbed=0;c.soulsReleased=false;c.lastHeroHp=s.hp;c.charge=null;c.casts=[];c.followups=[];c.reflections=[];c.raidHazards=[];c.raidEffects??=[];c.objectiveShot=0;
  c.deadline=c.clock+c.rules.deadline;c.attackAt=c.clock+3;c.nextObjectiveCast=c.clock+2.5;
  const spec=c.activeMechanic,kind=spec.kind,n=spec.count||c.rules.objectives;
+ if(kind==='scorpion'){beginScorpionMechanic(s,c);s.enemies.push(...c.raidObjects);c.boss.fakeDeath=false;restoreRaidTerrain(s,c);return;}
  if(kind==='ram'&&c.ramInventory?.some(o=>!o.done))c.raidObjects=c.ramInventory;
  else{c.raidObjects=positions(c,n,kind).map((p,i)=>object(s,c,p,i,spec));if(kind==='ram')c.ramInventory=c.raidObjects;}
  c.targets=c.raidObjects;
@@ -44,7 +46,7 @@ export function startRaidMechanic(s,c){
  c.hint=spec.name;
 }
 export function finishRaidMechanic(s,c){
- recordBossMechanic(c);
+ recordBossMechanic(c);if(c.kind==='scorpion')c.scorpionLasers=[];
  s.enemies=s.enemies.filter(e=>!e.mechanicTarget&&!e.raidSummon);s.hostileProjectiles=[];c.mechanicMeteor=null;c.carried=false;c.raidSource=null;c.casts=[];c.charge=null;c.boss.fakeDeath=false;
  c.mechanicIndex++;
  if(c.mechanicIndex<c.profile.mechanics.length){startRaidMechanic(s,c);return;}
@@ -89,6 +91,7 @@ export function tickRaidMechanic(s,c,dt){
  const kind=c.activeMechanic.kind,objects=c.raidObjects;
  if(c.rules.carryFragile&&s.hp<c.lastHeroHp)c.carried=false;c.lastHeroHp=s.hp;
  let done=false;
+ if(kind==='scorpion')done=tickScorpionMechanic(s,c);
  if(['hold','souls'].includes(kind)){
   for(const o of objects)if(!o.done){o.active=true;o.hold=dist(s,o)<62?o.hold+dt:Math.max(0,o.hold-dt*1.4);if(o.hold>=c.rules.hold){o.done=true;o.active=false;c.raidEffects.push({x:o.x,y:o.y,born:c.clock});}}
   if(objects.every(o=>o.done)){if(kind==='souls'){if(!c.soulsReleased)releaseSouls(s,c);done=tickSouls(s,c,dt);}else done=true;}

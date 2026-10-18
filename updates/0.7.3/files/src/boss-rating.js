@@ -11,7 +11,7 @@ export const bossRanks=[
  {id:'SSS',threshold:97,multiplier:3,color:'#fff0ac'}
 ];
 const clamp=n=>Math.max(0,Math.min(1,n));
-const mechanicPar={ram:14,break:10,ordered:16,'meteor-core':25,thermal:18,souls:28,shelter:20,carry:18,procession:18,channel:12};
+const mechanicPar={scorpion:28,ram:14,break:10,ordered:16,'meteor-core':25,thermal:18,souls:28,shelter:20,carry:18,procession:18,channel:12};
 export function beginBossRating(s,c){
  const count=c.profile?.mechanics?.length||1,segments=c.boss.segmentCount||2;
  c.rating={seconds:0,mechanicSeconds:0,damageTaken:0,maxHp:Math.max(1,s.maxHp||s.hp||1),solved:0,required:c.scripted?count*segments:1};

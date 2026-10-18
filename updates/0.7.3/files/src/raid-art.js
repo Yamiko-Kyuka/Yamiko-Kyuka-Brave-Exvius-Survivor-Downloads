@@ -1,6 +1,7 @@
+import {drawScorpionObject,drawScorpionArenaDetails} from './scorpion-art.js';
 import {TILE,SIZE,ORIGIN} from './terrain.js';
 export const raidPalettes={
- mako:{floor:'#243644',edge:'#77989b',metal:'#40535e',light:'#79f1c4',dark:'#101e2b'},steel:{floor:'#293847',edge:'#a6acaa',metal:'#52626b',light:'#edc07e',dark:'#141c29'},bio:{floor:'#243b49',edge:'#739da4',metal:'#466370',light:'#9ef2dd',dark:'#0c1c2d'},
+ mako:{floor:'#273831',edge:'#87978b',metal:'#4d6258',light:'#85e7ad',dark:'#091b16'},steel:{floor:'#293847',edge:'#a6acaa',metal:'#52626b',light:'#edc07e',dark:'#141c29'},bio:{floor:'#243b49',edge:'#739da4',metal:'#466370',light:'#9ef2dd',dark:'#0c1c2d'},
  ruin:{floor:'#34464d',edge:'#a1b3ad',metal:'#657b82',light:'#c4ddb2',dark:'#102b36'},water:{floor:'#304751',edge:'#a6bec0',metal:'#69838c',light:'#a8dff1',dark:'#142838'},sunset:{floor:'#3d4249',edge:'#beac89',metal:'#7a7778',light:'#ffbd7e',dark:'#221f33'},
  crypt:{floor:'#2c3a4b',edge:'#9bb1b0',metal:'#536c7d',light:'#b6e397',dark:'#111d30'},astral:{floor:'#303d57',edge:'#9cb3d1',metal:'#63799f',light:'#c7b9ff',dark:'#151f3a'},imperial:{floor:'#383a52',edge:'#c6b387',metal:'#746986',light:'#ffe1a0',dark:'#201d35'},
  void:{floor:'#302b43',edge:'#ab9ab5',metal:'#665c78',light:'#e6b0ec',dark:'#151225'},frostfire:{floor:'#2d324a',edge:'#9aa8c2',metal:'#626d8e',light:'#b7ddfc',dark:'#191b32'},abyss:{floor:'#282e40',edge:'#9ca5ba',metal:'#5e6986',light:'#caf3b1',dark:'#111326'}
@@ -13,6 +14,7 @@ function star(ctx,x,y,r,color){poly(ctx,[[x,y-r],[x+r*.3,y-r*.3],[x+r,y],[x+r*.3
 function crystal(ctx,x,y,r,color){poly(ctx,[[x,y-r*1.7],[x+r*.65,y-r*.5],[x+r*.45,y+r*.45],[x,y+r],[x-r*.45,y+r*.45],[x-r*.65,y-r*.5]],color,'#091225',2);line(ctx,[[x,y-r*1.7],[x,y+r]],'#f1fbff99',2);line(ctx,[[x-r*.65,y-r*.5],[x+r*.65,y-r*.5]],'#effbff77');}
 function pedestal(ctx,x,y,r,p){oval(ctx,x+8,y+10,r+12,(r+12)*.42,'#050c1c77');poly(ctx,[[x-r,y-10],[x+r,y-10],[x+r,y+8],[x,y+22],[x-r,y+8]],p.dark,p.edge);poly(ctx,[[x-r,y-10],[x,y-24],[x+r,y-10],[x,y+5]],p.metal,p.edge);}
 export function drawRaidObject(ctx,obj,p,clock,{active=false,done=false,hp=1,hold=0}={}){
+ if(drawScorpionObject(ctx,obj,clock,{active,done,hp,hold}))return;
  const x=obj.x,y=obj.y,kind=obj.art||'prism',col=done?'#7da692':active?'#ffe5a5':obj.color||p.light;
  ctx.save();ctx.imageSmoothingEnabled=false;
  if(active){const g=ctx.createRadialGradient(x,y-18,5,x,y-18,86);g.addColorStop(0,col+'44');g.addColorStop(1,col+'00');ctx.fillStyle=g;ctx.fillRect(x-86,y-104,172,172);}
@@ -58,7 +60,7 @@ export function drawRaidObject(ctx,obj,p,clock,{active=false,done=false,hp=1,hol
  ctx.restore();
 }
 function surroundings(ctx,c,p,x,y,half){
- const mist=ctx.createRadialGradient(x,y,half*.35,x,y,half+150);mist.addColorStop(0,p.light+'18');mist.addColorStop(.78,p.light+'0d');mist.addColorStop(1,p.dark);ctx.fillStyle=mist;ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height);
+ const mist=ctx.createRadialGradient(x,y,half*.35,x,y,half+150);mist.addColorStop(0,p.light+(c.kind==='scorpion'?'08':'18'));if(c.kind!=='scorpion')mist.addColorStop(.78,p.light+'0d');mist.addColorStop(1,p.dark);ctx.fillStyle=mist;ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height);
  const industrial=['mako','steel','bio'].includes(c.profile.theme),ruins=['ruin','water','sunset'].includes(c.profile.theme),voided=['void','abyss','frostfire'].includes(c.profile.theme);
  if(industrial){
   for(const side of [-1,1]){const px=x+side*(half+44);line(ctx,[[px,y-half-40],[px,y+half+48]],'#101c28',45);line(ctx,[[px,y-half-40],[px,y+half+48]],p.metal,28);line(ctx,[[px-6,y-half-40],[px-6,y+half+48]],p.edge+'77',4);for(let k=-4;k<=4;k++){ctx.fillStyle=p.dark;ctx.fillRect(px-23,y+k*105-9,46,18);ctx.fillStyle=p.light+'55';ctx.fillRect(px-12,y+k*105-4,24,4);}}
@@ -74,6 +76,7 @@ function surroundings(ctx,c,p,x,y,half){
 }
 function floorIdentity(ctx,c,p,x,y,half){
  const color=p.edge+'19';
+ if(c.profile.shape==='reactor'){for(const sign of [-1,1]){for(let d=398;d<half-20;d+=18)line(ctx,[[x-170,y+sign*d],[x+170,y+sign*d]],'#8c9e9424',2);for(const xx of [-182,182])line(ctx,[[x+xx,y+sign*390],[x+xx,y+sign*(half-16)]],'#b9c49e55',4);for(let d=465;d<half-20;d+=18)line(ctx,[[x+sign*d,y-110],[x+sign*d,y+110]],'#8c9e9424',2);}}
  if(c.profile.shape==='throne'){ctx.fillStyle='#9b6d9120';ctx.fillRect(x-87,y-half+60,174,half+95);line(ctx,[[x-90,y-half+60],[x-90,y+95],[x+90,y+95],[x+90,y-half+60]],p.light+'30',3);for(const sign of [-1,1])poly(ctx,[[x,y-40],[x+sign*100,y+40],[x+sign*190,y-60],[x+sign*90,y-25]],color);}
  if(c.profile.shape==='gantry'){for(const dy of [-165,165]){for(let xx=-half+150;xx<half-130;xx+=30){line(ctx,[[x+xx,y+dy-18],[x+xx,y+dy+18]],p.edge+'2e',5);}line(ctx,[[x-half+120,y+dy-25],[x+half-120,y+dy-25]],p.edge+'33',4);}}
  if(['specimen','procession','void-crown'].includes(c.profile.shape))for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(105,0);ctx.bezierCurveTo(190,-80,300,-100,390,0);ctx.bezierCurveTo(300,100,190,80,105,0);ctx.stroke();ctx.restore();}
@@ -115,6 +118,7 @@ function backdrop(c,terrain){
 export function drawRaidArena(ctx,s,c,ox,oy,w,h){
  const p=raidPalettes[c.profile.theme];ctx.fillStyle=p.dark;ctx.fillRect(s.x-w/(2*s.zoom)+ox,s.y-h/(2*s.zoom)+oy,w/s.zoom,h/s.zoom);
  const image=backdrop(c,c.raidBaseTerrain||s.terrain);ctx.drawImage(image.canvas,image.x+ox,image.y+oy);
+ drawScorpionArenaDetails(ctx,c,ox,oy);
  const half=c.arenaHalf,x=c.center.x+ox,y=c.center.y+oy;
  ctx.save();ctx.globalAlpha=.25;
  for(let i=0;i<20;i++){const a=i*2.399,rr=half+65+(i%3)*15,px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr-15*Math.sin(c.clock*.5+i);star(ctx,px,py,i%3+2,p.light);}

@@ -1,12 +1,12 @@
 {
-  "version": "0.7.2",
-  "filename": "Brave-Exvius-Survivor-v0.7.2-Windows.zip",
+  "version": "0.7.3",
+  "filename": "Brave-Exvius-Survivor-v0.7.3-Windows.zip",
   "publishedDate": "2026-10-18",
-  "sha256": "2df31aa38f9d3da2d57617928b1cfabaac326225fc13fb1e45041310d84d0525",
-  "bytes": 66483529,
-  "downloadUrl": "downloads/Brave-Exvius-Survivor-v0.7.2-Windows.zip",
+  "sha256": "65397695416084ac97b26ff96815b7a9a09ecc4b28c39742318d4b61f0280845",
+  "bytes": 66490474,
+  "downloadUrl": "downloads/Brave-Exvius-Survivor-v0.7.3-Windows.zip",
   "launcherUpdateUrl": "downloads/Brave-Exvius-Survivor-Launcher-Update.zip",
-  "launcherUpdateSha256": "43b7e93765dba00a4b2a8e83ec4faf04ffa299d3a9e0a9de840850f9d87ed23b",
-  "updateManifestUrl": "updates/0.7.2/manifest.json",
-  "updateManifestSha256": "827943d52a59a93648185df3c45be224d4c9d6925e6f328175c7b7d4a6125994"
+  "launcherUpdateSha256": "996e4a862dc88c640bcedff6f240f5096fb922f16ab0d20d6d156bf15eac8e31",
+  "updateManifestUrl": "updates/0.7.3/manifest.json",
+  "updateManifestSha256": "27d87861e9b1823f1c715c598288e6b704db50c63f0a1ca5c20c498443ef0f26"
 }

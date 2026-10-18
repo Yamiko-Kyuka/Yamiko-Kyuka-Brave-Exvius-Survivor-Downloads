@@ -3,14 +3,14 @@ export const raidDifficulties=['normal','crystal','light','aeon','primal','trans
 const attack=(id,name,type,description,extra={})=>({id,name,type,description,...extra});
 const A=attack;
 export const raidDesigns={
- scorpion:{arena:'Station des trois échangeurs',shape:'reactor',theme:'mako',mechanics:['coolant-circuit'],objects:'vannes en cuivre, échangeurs vitrés et conduites mako',attacks:[
- A('tail-sight','Visée caudale','beam','La queue verrouille une ligne lumineuse avant de tirer. Quittez la ligne après son verrouillage.'),
- A('pressure-front','Front de vapeur','fan','Des jets de vapeur partent en éventail ; traversez les intervalles.'),
- A('vent-cross','Purge croisée','cross','Deux conduites opposées déchargent en croix. Les quartiers entre les conduites restent ouverts.'),
- A('arc-coils','Bobines à arc','ring','Une couronne électrique laisse une ouverture lumineuse : rejoignez-la avant la décharge.'),
- A('tail-sweep','Balayage de la queue','cone','Le projecteur annonce un large cône ; contournez le flanc du Scorpion.'),
- A('double-sight','Double verrouillage','double-beam','Deux tirs successifs mémorisent des positions différentes ; changez de direction entre les visées.'),
- A('reactor-heart','Cœur du réacteur','donut','Une décharge frappe la couronne extérieure. Rapprochez-vous du noyau sans toucher le boss.') ]},
+ scorpion:{arena:'Passerelle du réacteur mako',shape:'reactor',theme:'mako',mechanics:['scorpion-protocol'],objects:'générateur de champ arrière, débris de blindage, servos des pattes et cuves mako',attacks:[
+ A('tail-laser','Laser caudal','scorpion-tail','La queue accumule une charge bleue puis projette un large laser. Les débris métalliques interceptent réellement le tir et s’effondrent ensuite.'),
+ A('mark99-cannons','Canons Mark 99','scorpion-cannons','Trois rafales successives partent des canons frontaux ; les intervalles entre les tirs restent praticables.'),
+ A('em-field','Champ électromagnétique','scorpion-emp','Une couronne électrique se charge autour du châssis ; sortez de son rayon avant la décharge.'),
+ A('stinger-salvo','Salve de dards','scorpion-stingers','Trois missiles frappent des positions annoncées au sol, en décalé ; ils ne laissent aucun dégât permanent.'),
+ A('scorpion-strikes','Frappes du Scorpion','scorpion-strike','Les pinces annoncent une frappe frontale rapprochée ; contournez le flanc libre.'),
+ A('double-tail-laser','Double laser caudal','scorpion-double-tail','Deux lasers sont chargés séparément, avec un délai pour changer d’abri après le premier tir.'),
+ A('overkill','Surcharge du Scorpion','scorpion-overkill','Une salve de canons en trois directions est suivie d’une décharge électromagnétique annoncée.') ]},
  'air-buster':{arena:'Pont roulant du secteur cinq',shape:'gantry',theme:'steel',mechanics:['magnet-crane'],objects:'batteries, ponts roulants et aimants suspendus',attacks:[
  A('machinegun','Mitrailleuse de poitrine','fan','Une salve frontale laisse des intervalles entre les balles.'),A('big-bomber','Big Bomber','meteors','Des bombes signalent leur point de chute puis explosent ; les cratères disparaissent.'),
  A('rail-cannon','Canon de rail','beam','Le rail rouge dessine un couloir de tir avant la décharge.'),A('wing-batteries','Batteries latérales','sides','Les deux nacelles tirent des lignes parallèles ; restez entre les lignes.'),A('magnetic-wheel','Roue magnétique','ring','Des charges gravitent en couronne, avec une brèche praticable.'),A('bombing-run','Passe de bombardement','march','Les bombes frappent une bande après l’autre ; déplacez-vous derrière la dernière explosion.'),A('buster-overdrive','Surpuissance Buster','nova','Un tir axial est suivi d’une onde annulaire ; sortez de la ligne puis revenez près du centre.') ]},
@@ -46,6 +46,7 @@ export const raidDesigns={
  A('void-fan','Éventail de particules','fan','Des particules sont projetées en cône ouvert.'),A('wandering-stars','Étoiles errantes','meteors','Les étoiles tombent sur des points verrouillés, puis les marques s’éteignent.'),A('event-horizon','Horizon des événements','ring','L’horizon garde une brèche à traverser avant sa fermeture.'),A('dark-helix','Hélice du néant','spiral','Deux chaînes de particules dessinent une spirale décalée.'),A('zero-world','Monde zéro','nova','Un rayon de particules est suivi d’une onde annulaire : deux esquives distinctes.') ]}
 };
 export const raidMechanics={
+ 'scorpion-protocol':{name:'Blindage et auto-réparation',kind:'scorpion',art:'scorpion-generator',verb:'Fracturez les points faibles',description:'Sur le premier segment, contournez le Scorpion pour atteindre son générateur de champ arrière. Sur le dernier segment, détruisez les deux servos de pattes avant leur resynchronisation pour interrompre l’auto-réparation. Sa protection réduit les dégâts de 90 % ; un point faible détruit ouvre une fenêtre de dégâts normaux. Le laser caudal peut être intercepté par les vrais débris de la passerelle.'},
  'coolant-circuit':{name:'Circuit de refroidissement',kind:'hold',art:'valve',verb:'Ouvrez les vannes',description:'Maintenez votre position près de chaque vanne en cuivre jusqu’à son ouverture. Les conduites s’illuminent et refroidissent la carapace ; toutes les vannes ouvertes suppriment sa barrière.'},
  'magnet-crane':{name:'Le poids de l’acier',kind:'carry',art:'crane',verb:'Alimentez les aimants',description:'Prenez une batterie au chargeur central, puis portez-la sous chacun des deux aimants suspendus. Les deux ponts roulants s’enclenchent et arrachent le blindage du robot.',count:2},
  'specimen-purge':{name:'Purge des spécimens',kind:'break',art:'pod',verb:'Détruisez les cocons',description:'Détruisez les cocons vivants reliés à Jenova. Leurs membranes éclatent et leurs tentacules s’éteignent ; le dernier cocon détruit coupe la régénération de la barrière.'},
