@@ -2,31 +2,58 @@ import {weapons,equipmentEffects} from './model.js';
 import {weaponTuning} from './weapon-upgrades.js';
 import {weaponInterval} from './attack-timing.js';
 import {applyKnockback} from './knockback.js';
+import {hitStats,MULTI_HIT_DAMAGE,MULTI_HIT_DELAY} from './hit-stats.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function nearestEnemy(s,max=Infinity){return s.enemies.filter(e=>!e.dying&&e.hp>0&&(!e.aimable||e.aimable())&&!(e.spawnProtection>0)&&distance(e,s)<=max).sort((a,b)=>distance(a,s)-distance(b,s))[0];}
-export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){
+// Raw application also serves scripted mechanics and fixed-damage consumables.
+function applyDamage(s,e,damage,color='#ffe6b0',style='physical'){
  if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
  if(e.receiveDamage){damage=e.receiveDamage(damage);if(damage<=0)return false;}else e.hp-=damage;e.hit=.18;applyKnockback(s,e);s.effects.push({kind:'spark',x:e.x,y:e.y,color,life:.25,maxLife:.25});
  const numbers=s.damageNumbers??=[];const lane=(e.damageSequence||0)%3-1;e.damageSequence=(e.damageSequence||0)+1;
  const x=e.x+lane*12;let y=e.y-48,steps=0;
- const previous=numbers.filter(n=>n.target===e);while(steps<7&&previous.some(n=>Math.abs(n.y-y)<20&&Math.abs(n.x-x)<36)){y-=22;steps++;}
+ const previous=numbers.filter(n=>n.target===e),spacing=style==='multihit'?39:22;while(steps<7&&previous.some(n=>Math.abs(n.y-y)<(n.style==='multihit'?39:spacing)&&Math.abs(n.x-x)<48)){y-=spacing;steps++;}
  numbers.push({target:e,x,y,amount:Math.max(1,Math.round(damage)),life:.9,maxLife:.9,drift:lane*10,style});
- if(numbers.length>240)numbers.shift();return true;
+ if(numbers.length>240)numbers.shift();return damage;
+}
+export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){return applyDamage(s,e,damage,color,style)>0;}
+function hitFlash(s,e,kind,color){if(s.effects.length<220)s.effects.push({kind,x:e.x,y:e.y-30,color,life:kind==='critical-impact'?.30:.20,maxLife:kind==='critical-impact'?.30:.20});}
+export function dealAttackDamage(s,e,damage,color='#ffe6b0',style='physical'){
+ if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
+ const stats=hitStats(s,equipmentEffects(s)),random=s.combatRandom||Math.random,critical=random()<stats.critRate;
+ const amount=applyDamage(s,e,damage*(critical?stats.critDamage:1),critical?'#ffdc6c':color,critical?'critical':style);
+ if(!(amount>0))return false;
+ if(critical)hitFlash(s,e,'critical-impact','#ffda66');
+ if(e.hp>0&&random()<stats.multiHitRate){s.multiHitQueue??=[];s.multiHitQueue.push({target:e,damage:amount*MULTI_HIT_DAMAGE,chance:stats.multiHitRate,delay:MULTI_HIT_DELAY});}
+ return true;
+}
+/** One repeat per chain per tick; work is bounded even with many concurrent chains. */
+export function tickMultiHits(s,dt){
+ if(!s.multiHitQueue?.length)return;
+ if(s.ending||s.over){s.multiHitQueue=[];return;}
+ const pending=s.multiHitQueue;s.multiHitQueue=[];let budget=128;
+ for(const echo of pending){
+  const e=echo.target;if(!s.enemies.includes(e)||e.hp<=0||e.dying)continue;
+  echo.delay-=dt;if(echo.delay>0||budget<=0){s.multiHitQueue.push(echo);continue;}budget--;
+  const amount=applyDamage(s,e,echo.damage,'#7abfff','multihit');if(!(amount>0))continue;
+  hitFlash(s,e,'multihit-impact','#d8edff');
+  if(e.hp>0&&(s.combatRandom||Math.random)()<echo.chance)s.multiHitQueue.push({...echo,delay:MULTI_HIT_DELAY});
+ }
 }
 function hit(s,e,damage,color){
- if(!dealDamage(s,e,damage,color,'physical'))return false;
+ if(!dealAttackDamage(s,e,damage,color,'physical'))return false;
  const mods=equipmentEffects(s);
  if(mods.slow){e.baseSpeed??=e.speed;e.slowFactor=Math.min(e.slowFactor||1,1-mods.slow);e.speed=e.baseSpeed*e.slowFactor;e.slowTime=1.5;}
- if(mods.splash){for(const other of s.enemies)if(other!==e&&distance(other,e)<48)dealDamage(s,other,damage*mods.splash,'#ffb079');s.effects.push({kind:'explosion',x:e.x,y:e.y,radius:48,color:'#ffac72',life:.2,maxLife:.2});}
+ if(mods.splash){for(const other of s.enemies)if(other!==e&&distance(other,e)<48)dealAttackDamage(s,other,damage*mods.splash,'#ffb079');s.effects.push({kind:'explosion',x:e.x,y:e.y,radius:48,color:'#ffac72',life:.2,maxLife:.2});}
  return true;
 }
 export function tickDamageNumbers(s,dt){for(const n of s.damageNumbers||[]){n.life-=dt;n.y-=dt*42;n.x+=dt*n.drift;}s.damageNumbers=(s.damageNumbers||[]).filter(n=>n.life>0);}
 export function drawDamageNumbers(ctx,s,ox,oy){
  ctx.save();ctx.textAlign='center';ctx.textBaseline='bottom';ctx.lineJoin='round';ctx.strokeStyle='#080d20';ctx.lineWidth=3;
- for(const n of s.damageNumbers||[]){const age=n.maxLife-n.life,size=n.style==='limit'?23:18,pop=1+.18*Math.max(0,1-age/.12);
+ for(const n of s.damageNumbers||[]){const age=n.maxLife-n.life,size=n.style==='limit'?23:n.style==='critical'?22:18,pop=1+(n.style==='critical'?.30:.18)*Math.max(0,1-age/.12);
   ctx.globalAlpha=Math.min(1,n.life/.25);ctx.font=`bold ${Math.round(size*pop)}px Arial, sans-serif`;
-  ctx.fillStyle=n.style==='limit'?'#ffdc73':n.style==='magic'?'#b2eeff':'#fff1c7';
+  ctx.fillStyle=n.style==='critical'?'#ffdc63':n.style==='multihit'?'#79bfff':n.style==='limit'?'#ffdc73':n.style==='magic'?'#b2eeff':'#fff1c7';
   const text=String(n.amount),x=Math.round(n.x+ox),y=Math.round(n.y+oy);ctx.strokeText(text,x,y);ctx.fillText(text,x,y);
+  if(n.style==='multihit'){ctx.font='bold 13px Arial, sans-serif';ctx.strokeText('MHIT!!!',x,y-23);ctx.fillText('MHIT!!!',x,y-23);}
  }ctx.restore();
 }
 export function fireWeapon(s,equipped){
@@ -124,4 +151,4 @@ export function drawHitAura(ctx,enemy,x,y){
  ctx.save();ctx.globalAlpha=.65*fade;
  const gradient=ctx.createRadialGradient(x,y-size*.45,0,x,y-size*.45,radius);gradient.addColorStop(0,'#ff303066');gradient.addColorStop(.6,'#ff3030bb');gradient.addColorStop(1,'#ff303000');ctx.fillStyle=gradient;ctx.beginPath();ctx.ellipse(x,y-size*.45,radius,radius*.9,0,0,Math.PI*2);ctx.fill();ctx.restore();
 }
-export function drawCombat(ctx,s,ox,oy,effects=true){for(const p of s.projectiles){const x=p.x+ox,y=p.y+oy;ctx.save();ctx.translate(x,y);ctx.strokeStyle=ctx.fillStyle=p.color;ctx.lineWidth=3;if(p.kind==='meteor'){ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.stroke();ctx.fillRect(-5,-120*(1-p.age/.9),10,18);}else if(p.kind==='wave'){ctx.rotate(p.angle);ctx.beginPath();ctx.arc(-12,0,p.radius*1.15,-1.2,1.2);ctx.stroke();ctx.beginPath();ctx.arc(-20,0,p.radius*.92,-1.2,1.2);ctx.stroke();}else if(['shot','arrow','ice','boomerang','orbit'].includes(p.kind)){ctx.rotate(p.kind==='boomerang'?p.age*14:p.angle||0);const size=p.radius/(p.kind==='orbit'?20:9);ctx.scale(size,size);ctx.fillRect(-14,-3,28,6);ctx.fillStyle='#fff4dc';ctx.fillRect(7,-2,7,4);if(['orbit','boomerang'].includes(p.kind))ctx.fillRect(-6,-9,4,18);}else{ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.fill();if(effects){ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,p.radius+7,0,Math.PI*2);ctx.fill();}}ctx.restore();}for(const f of s.effects){ctx.save();ctx.translate(f.x+ox,f.y+oy);ctx.fillStyle=ctx.strokeStyle=f.color||'#ffe6b0';ctx.globalAlpha=f.life/(f.maxLife||.3);ctx.lineWidth=4;if(f.kind==='dash'){ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(f.tx-f.x,f.ty-f.y);ctx.stroke();}else if(f.kind==='slash'){ctx.rotate(f.angle);ctx.beginPath();ctx.arc(0,0,f.radius*(.55+.45*(1-f.life/f.maxLife)),-1.1,1.1);ctx.stroke();}else if(f.kind==='holy'){ctx.rotate(f.angle||0);const r=f.radius*(.25+.75*(1-f.life/f.maxLife));ctx.beginPath();ctx.arc(0,0,r,-.85,.85);ctx.stroke();ctx.fillRect(r-3,-18,6,36);ctx.fillRect(r-12,-3,24,6);}else if(['burst','explosion'].includes(f.kind)){ctx.beginPath();ctx.arc(0,0,(f.radius||90)*(1-f.life/f.maxLife),0,Math.PI*2);ctx.stroke();}else if(f.kind==='beam'){ctx.rotate(f.angle);ctx.fillRect(0,-(f.width||25)*.4,f.length,(f.width||25)*.8);ctx.fillStyle='white';ctx.fillRect(0,-2,f.length,4);}else if(f.kind==='thunder'){ctx.beginPath();ctx.moveTo(0,0);const dx=f.tx-f.x,dy=f.ty-f.y;for(let i=1;i<6;i++)ctx.lineTo(dx*i/6+(i%2?9:-9),dy*i/6);ctx.lineTo(dx,dy);ctx.stroke();}else if(effects){ctx.fillRect(-2,-8,4,16);ctx.fillRect(-8,-2,16,4);}ctx.restore();}}
+export function drawCombat(ctx,s,ox,oy,effects=true){for(const p of s.projectiles){const x=p.x+ox,y=p.y+oy;ctx.save();ctx.translate(x,y);ctx.strokeStyle=ctx.fillStyle=p.color;ctx.lineWidth=3;if(p.kind==='meteor'){ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.stroke();ctx.fillRect(-5,-120*(1-p.age/.9),10,18);}else if(p.kind==='wave'){ctx.rotate(p.angle);ctx.beginPath();ctx.arc(-12,0,p.radius*1.15,-1.2,1.2);ctx.stroke();ctx.beginPath();ctx.arc(-20,0,p.radius*.92,-1.2,1.2);ctx.stroke();}else if(['shot','arrow','ice','boomerang','orbit'].includes(p.kind)){ctx.rotate(p.kind==='boomerang'?p.age*14:p.angle||0);const size=p.radius/(p.kind==='orbit'?20:9);ctx.scale(size,size);ctx.fillRect(-14,-3,28,6);ctx.fillStyle='#fff4dc';ctx.fillRect(7,-2,7,4);if(['orbit','boomerang'].includes(p.kind))ctx.fillRect(-6,-9,4,18);}else{ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.fill();if(effects){ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,p.radius+7,0,Math.PI*2);ctx.fill();}}ctx.restore();}for(const f of s.effects){ctx.save();ctx.translate(f.x+ox,f.y+oy);ctx.fillStyle=ctx.strokeStyle=f.color||'#ffe6b0';ctx.globalAlpha=f.life/(f.maxLife||.3);ctx.lineWidth=4;if(f.kind==='critical-impact'||f.kind==='multihit-impact'){const age=1-f.life/f.maxLife,r=8+age*22,arms=f.kind==='critical-impact'?8:4;ctx.lineWidth=f.kind==='critical-impact'?2.5:1.7;for(let i=0;i<arms;i++){const a=i*Math.PI*2/arms+age*.3;ctx.beginPath();ctx.moveTo(Math.cos(a)*r*.35,Math.sin(a)*r*.35);ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);ctx.stroke();}if(f.kind==='critical-impact'){ctx.beginPath();ctx.arc(0,0,r*.65,0,Math.PI*2);ctx.stroke();}}else if(f.kind==='dash'){ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(f.tx-f.x,f.ty-f.y);ctx.stroke();}else if(f.kind==='slash'){ctx.rotate(f.angle);ctx.beginPath();ctx.arc(0,0,f.radius*(.55+.45*(1-f.life/f.maxLife)),-1.1,1.1);ctx.stroke();}else if(f.kind==='holy'){ctx.rotate(f.angle||0);const r=f.radius*(.25+.75*(1-f.life/f.maxLife));ctx.beginPath();ctx.arc(0,0,r,-.85,.85);ctx.stroke();ctx.fillRect(r-3,-18,6,36);ctx.fillRect(r-12,-3,24,6);}else if(['burst','explosion'].includes(f.kind)){ctx.beginPath();ctx.arc(0,0,(f.radius||90)*(1-f.life/f.maxLife),0,Math.PI*2);ctx.stroke();}else if(f.kind==='beam'){ctx.rotate(f.angle);ctx.fillRect(0,-(f.width||25)*.4,f.length,(f.width||25)*.8);ctx.fillStyle='white';ctx.fillRect(0,-2,f.length,4);}else if(f.kind==='thunder'){ctx.beginPath();ctx.moveTo(0,0);const dx=f.tx-f.x,dy=f.ty-f.y;for(let i=1;i<6;i++)ctx.lineTo(dx*i/6+(i%2?9:-9),dy*i/6);ctx.lineTo(dx,dy);ctx.stroke();}else if(effects){ctx.fillRect(-2,-8,4,16);ctx.fillRect(-8,-2,16,4);}ctx.restore();}}

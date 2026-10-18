@@ -28,6 +28,13 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
+VERSION 0.7.1 — CRITIQUES, MULTI-HITS ET BARRES DU HÉROS
+Critique de base : 5 %, pour 200 % des dégâts. Multi-hit : 1 %, chaque écho
+ajoute 20 % du coup initial et peut déclencher un autre écho. Trois bonus
+permanents de 50 rangs et trois équipements de support trouvés en partie.
+Critiques dorés ; MHIT!!! bleu et éclats argentés. Niveau, PV et XP fixes
+au-dessus du modèle, avec deux barres de même taille.
+
 VERSION 0.7.0 — LES ARÈNES
 Les douze combats disposent de nouvelles arènes et de dispositifs visuels thématiques.
 Les six difficultés ajoutent des attaques et modifient les contraintes de chaque rituel.
@@ -117,7 +124,7 @@ Les succès de boss permettent de récupérer gratuitement les autres héros.
 Les trois sauvegardes sont dans userdata/progression-slots.json, indépendantes du port du navigateur.
 L’ancien fichier userdata/progression.json reste conservé après migration.
 Chaque personnage possède son arme de départ et ses animations propres.
-Les 38 armes et les 19 power-ups possèdent leurs icônes distinctes.
+Les 38 armes et les 22 power-ups possèdent leurs icônes distinctes.
 Les dégâts apparaissent au-dessus des ennemis pour les armes et leurs effets.
 Les animations de repos et de déplacement gardent leur cadence ralentie.
 La barre de vie est visible au-dessus du héros et suit le zoom de la caméra.

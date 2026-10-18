@@ -1,3 +1,4 @@
+import {hitStats,HIT_POWERUP_STEPS} from './hit-stats.js';
 import {normalizeAudioSettings} from './audio-settings.js';
 import {normalizeCosmetics} from './gacha.js';
 import {normalizeBossWins,heroChallengeProgress,creditBossVictory} from './hero-achievements.js';
@@ -91,11 +92,14 @@ export const powerups=Object.fromEntries([
  ['luck','Trèfle du destin','Favorise les raretés élevées.','luck','#a2eaa1'],
  ['stride','Sandales d’Hermès','+5 % de vitesse de déplacement.','speed','#8bdbd6'],
  ['knockback','Materia Choc','+20 % de recul sur les monstres ordinaires. Boss et élites immunisés.','knockback','#e8c98b'],
+ ['critRate','Materia Précision','+4 points de chance critique.','critRate','#ffd46a'],
+ ['critDamage','Gantelet de fureur','+20 points de dégâts critiques.','critDamage','#ffbf63'],
+ ['multiHit','Materia Écho','+3 points de chance de multi-hit ; chaque écho ajoute 20 % du coup initial et peut se répéter.','multiHit','#79bfff'],
  ['phoenix','Auto-Phénix','Vous relève une fois par expédition à 50 % de vie, avec 3 s de protection.','phoenix','#ffc590'],
  ['stasis','Stase de Shiva','Gèle les hordes pendant 3 s toutes les 30 s de jeu actif.','stasis','#b2ebff'],
  ['aegis','Égide d’Alexandre','Annule un coup reçu ; le bouclier se reforme après 25 s.','aegis','#fff2c0']
 ].map(([id,name,detail,effect,color])=>[id,{id,name,detail,effect,color,icon:'/assets/ui/powerups/'+id+'.svg',maxLevel:['phoenix','stasis','aegis'].includes(id)?1:5,legendaryOnly:['phoenix','stasis','aegis'].includes(id)}]));
-export function equipmentEffects(s){const levels=Object.fromEntries((s.powerups||[]).map(p=>[p.id,p.potency??p.level]));return {damage:1+.15*(levels.force||0),melee:1+.08*(levels.multishot||0),cooldown:Math.max(.6,1-.08*(levels.haste||0))*((s.hasteTimer||0)>0?.65:1),range:1+.12*(levels.reach||0),extraProjectiles:(levels.multishot||0)+(s.bonusProjectiles||0),pierce:levels.pierce||0,slow:Math.min(.7,.18*(levels.frost||0)),splash:.12*(levels.blast||0),leech:levels.leech||0,health:1+.10*(levels.vitality||0),defense:.03*(levels.guard||0),regeneration:.3*(levels.regen||0),experience:1+.08*(levels.wisdom||0),gils:1+.08*(levels.fortune||0),luck:.08*(levels.luck||0),speed:1+.05*(levels.stride||0),knockback:1+(s.knockbackBonus||0)+.2*(levels.knockback||0)};}
+export function equipmentEffects(s){const levels=Object.fromEntries((s.powerups||[]).map(p=>[p.id,p.potency??p.level]));return {critRate:HIT_POWERUP_STEPS.critRate*(levels.critRate||0),critDamage:HIT_POWERUP_STEPS.critDamage*(levels.critDamage||0),multiHitRate:HIT_POWERUP_STEPS.multiHit*(levels.multiHit||0),damage:1+.15*(levels.force||0),melee:1+.08*(levels.multishot||0),cooldown:Math.max(.6,1-.08*(levels.haste||0))*((s.hasteTimer||0)>0?.65:1),range:1+.12*(levels.reach||0),extraProjectiles:(levels.multishot||0)+(s.bonusProjectiles||0),pierce:levels.pierce||0,slow:Math.min(.7,.18*(levels.frost||0)),splash:.12*(levels.blast||0),leech:levels.leech||0,health:1+.10*(levels.vitality||0),defense:.03*(levels.guard||0),regeneration:.3*(levels.regen||0),experience:1+.08*(levels.wisdom||0),gils:1+.08*(levels.fortune||0),luck:.08*(levels.luck||0),speed:1+.05*(levels.stride||0),knockback:1+(s.knockbackBonus||0)+.2*(levels.knockback||0)};}
 // Only claimed hero rewards unlock weapons, even when a challenge has been completed.
 export function ownedWeaponIds(ownedHeroes=starters){
  const owned=new Set([...starters,...(Array.isArray(ownedHeroes)?ownedHeroes:[])]);
@@ -113,7 +117,7 @@ export function levelChoices(s,random=Math.random){
   for(let i=result.length-1;i>0;i--){const j=Math.min(i,Math.max(0,Math.floor(random()*(i+1))));[result[i],result[j]]=[result[j],result[i]];}
   return result;
  };
- const equipped=s.powerups||[],passives=Object.values(powerups).filter(p=>{const own=equipped.find(x=>x.id===p.id);return !p.legendaryOnly&&!(p.id==='luck'&&(s.luck||0)+equipmentEffects(s).luck>=1)&&!(p.id==='guard'&&(s.defense||0)+equipmentEffects(s).defense>=.5)&&(own?own.level<p.maxLevel&&!(p.id==='haste'&&(own.potency??own.level)>=5)&&!(p.id==='frost'&&(own.potency??own.level)>=.7/.18):equipped.length<6);});
+ const equipped=s.powerups||[],passives=Object.values(powerups).filter(p=>{const own=equipped.find(x=>x.id===p.id);return !p.legendaryOnly&&!(p.id==='critRate'&&hitStats(s,equipmentEffects(s)).critRate>=1)&&!(p.id==='multiHit'&&hitStats(s,equipmentEffects(s)).multiHitRate>=.95)&&!(p.id==='luck'&&(s.luck||0)+equipmentEffects(s).luck>=1)&&!(p.id==='guard'&&(s.defense||0)+equipmentEffects(s).defense>=.5)&&(own?own.level<p.maxLevel&&!(p.id==='haste'&&(own.potency??own.level)>=5)&&!(p.id==='frost'&&(own.potency??own.level)>=.7/.18):equipped.length<6);});
  const passiveChoices=passives.map(p=>{const level=(equipped.find(x=>x.id===p.id)?.level||0)+1;return {...p,type:'powerup',detail:`${level===1?'Nouveau power-up':'Power-up niveau '+level} · ${p.detail}`};});
  // One shared pool: no fixed category, priority weapon or reserved passive slot.
  const choices=shuffle([...improvements,...newWeapons,...passiveChoices]).slice(0,5);
@@ -185,6 +189,9 @@ export function choicePreview(state,choice){
   if(branch==='zones')return [row(definition.kind==='thunder'?'Cibles en chaîne':'Zones par attaque',(definition.kind==='thunder'?3:1)+a.zones,(definition.kind==='thunder'?3:1)+b.zones)];
  }
  const id=choice.id,rows={
+  critRate:()=>[row('Chance critique',percent(hitStats(state,before).critRate),percent(hitStats(next,after).critRate))],
+  critDamage:()=>[row('Dégâts critiques',percent(hitStats(state,before).critDamage),percent(hitStats(next,after).critDamage))],
+  multiHit:()=>[row('Chance de multi-hit',percent(hitStats(state,before).multiHitRate),percent(hitStats(next,after).multiHitRate)),row('Dégâts par écho','20 %','20 %')],
   force:()=>[row('Bonus de dégâts',percent(before.damage-1),percent(after.damage-1))],
   haste:()=>[row('Réduction de recharge',percent(1-before.cooldown),percent(1-after.cooldown))],
   reach:()=>[row('Bonus de portée',percent(before.range-1),percent(after.range-1))],

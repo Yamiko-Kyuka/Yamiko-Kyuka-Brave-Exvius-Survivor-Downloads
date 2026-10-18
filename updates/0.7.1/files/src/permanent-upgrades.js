@@ -14,7 +14,10 @@ export const permanentUpgrades=[
  {id:'rerolls',name:'Nouvelle destinée',detail:'+1 relance des choix de niveau par expédition et par rang',step:1,baseCost:500,maxLevel:3,icon:'/assets/ui/boosts/rate.svg'},
  {id:'banishes',name:'Sceau d’exclusion',detail:'+1 choix exclu pour toute l’expédition par rang',step:1,baseCost:500,maxLevel:3,icon:'/assets/ui/powerups/frost.svg'},
  {id:'luck',name:'Chance',detail:'Favorise les raretés élevées ; gain progressif après le rang 5',step:.10,baseCost:600,icon:'/assets/ui/pickups/level.svg'},
- {id:'knockback',name:'Impact des cristaux',detail:'Recul accru à chaque rang, progressif après le rang 5 ; boss et élites immunisés',step:.15,baseCost:250,icon:'/assets/ui/powerups/knockback.svg'}
+ {id:'knockback',name:'Impact des cristaux',detail:'Recul accru à chaque rang, progressif après le rang 5 ; boss et élites immunisés',step:.15,baseCost:250,icon:'/assets/ui/powerups/knockback.svg'},
+ {id:'critRate',name:'Précision critique',detail:'+1 point de chance critique par rang ; base 5 %, plafond 100 %',step:.01,baseCost:500,icon:'/assets/ui/powerups/critRate.svg'},
+ {id:'critDamage',name:'Fureur critique',detail:'+5 points de dégâts critiques par rang ; base 200 %',step:.05,baseCost:700,icon:'/assets/ui/powerups/critDamage.svg'},
+ {id:'multiHit',name:'Écho des cristaux',detail:'+1 point de chance de multi-hit par rang ; chaque écho ajoute 20 % du coup initial et peut se répéter, plafond 95 %',step:.01,baseCost:2000,icon:'/assets/ui/powerups/multiHit.svg'}
 ].map(upgrade=>({...upgrade,maxLevel:(upgrade.maxLevel||5)*10,baseCost:upgrade.baseCost*10}));
 
 export function normalizePermanentUpgrades(raw){
@@ -33,7 +36,7 @@ export function purchasePermanentUpgrade(save,id){
 }
 export function permanentBonuses(save){
  const levels=normalizePermanentUpgrades(save.permanentUpgrades);
- return {health:1+levels.vitality*.10,damage:1+levels.might*.05,cooldown:levels.haste<=5?1-levels.haste*.04:.8*Math.pow(.98,levels.haste-5),speed:1+levels.stride*.04,range:1+levels.reach*.05,experience:1+levels.wisdom*.05,magnet:1+levels.magnet*.15,defense:levels.guard<=5?levels.guard*.04:.2+.3*(1-Math.exp(-(levels.guard-5)/30)),regen:levels.regen*.5,gils:1+levels.fortune*.05,projectiles:levels.quantity,rerolls:levels.rerolls,banishes:levels.banishes,luck:levels.luck<=5?levels.luck*.10:.5+.5*(1-Math.pow(.95,levels.luck-5)),knockback:levels.knockback<=5?levels.knockback*.15:.75+.75*(1-Math.exp(-(levels.knockback-5)/35))};
+ return {critRate:levels.critRate*.01,critDamage:levels.critDamage*.05,multiHit:levels.multiHit*.01,health:1+levels.vitality*.10,damage:1+levels.might*.05,cooldown:levels.haste<=5?1-levels.haste*.04:.8*Math.pow(.98,levels.haste-5),speed:1+levels.stride*.04,range:1+levels.reach*.05,experience:1+levels.wisdom*.05,magnet:1+levels.magnet*.15,defense:levels.guard<=5?levels.guard*.04:.2+.3*(1-Math.exp(-(levels.guard-5)/30)),regen:levels.regen*.5,gils:1+levels.fortune*.05,projectiles:levels.quantity,rerolls:levels.rerolls,banishes:levels.banishes,luck:levels.luck<=5?levels.luck*.10:.5+.5*(1-Math.pow(.95,levels.luck-5)),knockback:levels.knockback<=5?levels.knockback*.15:.75+.75*(1-Math.exp(-(levels.knockback-5)/35))};
 }
 export function permanentHeroStats(hero,save){
  const b=permanentBonuses(save);
@@ -41,7 +44,7 @@ export function permanentHeroStats(hero,save){
 }
 export function applyPermanentUpgrades(state,save){
  const stats=permanentHeroStats(state,save),b=permanentBonuses(save);
- Object.assign(state,{maxHp:stats.hp,hp:stats.hp,damage:stats.damage,speed:stats.speed,range:stats.range,cooldown:stats.cooldown,experienceMultiplier:b.experience,gemAttractionRadius:125*b.magnet,defense:b.defense,regeneration:b.regen,gilsMultiplier:b.gils,bonusProjectiles:b.projectiles,rerollsRemaining:b.rerolls,banishesRemaining:b.banishes,luck:b.luck,knockbackBonus:b.knockback,banishedChoices:[]});
+ Object.assign(state,{maxHp:stats.hp,hp:stats.hp,damage:stats.damage,speed:stats.speed,range:stats.range,cooldown:stats.cooldown,experienceMultiplier:b.experience,gemAttractionRadius:125*b.magnet,defense:b.defense,regeneration:b.regen,gilsMultiplier:b.gils,bonusProjectiles:b.projectiles,rerollsRemaining:b.rerolls,banishesRemaining:b.banishes,luck:b.luck,knockbackBonus:b.knockback,critRateBonus:b.critRate,critDamageBonus:b.critDamage,multiHitBonus:b.multiHit,banishedChoices:[]});
 }
 export function mitigatedDamage(state,damage){
  if(state.aegisShield){state.aegisShield=false;state.aegisCooldown=25;state.pickupNotice={name:'Égide d’Alexandre · coup absorbé !',life:2};return 0;}

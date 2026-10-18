@@ -339,3 +339,10 @@ body.permanent-shop .permanent-card button{font-size:10px;line-height:1.1;paddin
 @media(max-width:650px){#enter.title-play{min-height:60px;padding:14px 22px;gap:14px;font-size:21px;letter-spacing:4px}}
 @media(prefers-reduced-motion:reduce){#enter.title-play,#enter.title-play::after{transition:none}#enter.title-play:hover{transform:none}#enter.title-play::after{display:none}}
 .option-row output{display:inline-block;min-width:48px;margin-left:8px;color:#ffe2a3;font-size:12px;font-variant-numeric:tabular-nums;text-align:right}.bonus-code{margin-top:18px;border:1px solid #adbdde33;padding:12px}.bonus-code summary{cursor:pointer;color:#dcc68b}.bonus-code input{display:block;width:100%;margin:8px 0;padding:10px;border:1px solid #8fa6cb;background:#0d1630;color:#fff;letter-spacing:2px}.bonus-code p{font-size:12px}.bonus-code button{font-size:12px}
+
+/* Eighteen permanent bonuses remain visible in one screen. */
+body.permanent-shop .permanent-grid{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}
+@media(max-width:899px){body.permanent-shop .permanent-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr))}}
+@media(max-height:700px) and (min-width:600px) and (max-width:899px){body.permanent-shop .permanent-grid{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}}
+.hit-stats-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}.hit-stats-summary span{padding:15px 8px;border:1px solid #dfbf6f77;background:#18233c;color:#cbd5eb;font-size:12px;text-align:center}.hit-stats-summary strong{display:block;color:#ffda75;font-size:23px;margin-top:8px}.hit-stats-summary span:last-child{border-color:#83bcff88}.hit-stats-summary span:last-child strong{color:#8fc5ff}
+@media(max-width:480px){.hit-stats-summary{gap:6px}.hit-stats-summary span{font-size:10px;padding:10px 4px}.hit-stats-summary strong{font-size:18px}}
