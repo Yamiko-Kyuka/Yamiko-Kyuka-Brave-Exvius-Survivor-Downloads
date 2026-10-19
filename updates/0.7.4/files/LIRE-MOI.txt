@@ -1,0 +1,214 @@
+BRAVE EXVIUS SURVIVOR — INSTALLATEUR WINDOWS COMPLET
+
+1. Décompressez tout le ZIP dans un dossier où vous pouvez écrire.
+2. Double-cliquez Brave-Exvius-Survivor.exe.
+3. Le lanceur affiche l’image du jeu et une jauge. Le moteur officiel et les
+   1 226 ressources originales (environ 4,7 Go) sont téléchargés en arrière-plan.
+4. Lorsque l’installation est vérifiée, cliquez sur JOUER. Gardez le lanceur
+   ouvert pendant la partie ; le jeu s’ouvre dans sa propre fenêtre Windows.
+   Aucun onglet ou barre d’adresse. Le moteur graphique WebView2 est installé
+   automatiquement depuis Microsoft s’il n’est pas déjà présent sur Windows.
+
+Aucune console à garder ouverte. Reprise automatique après les coupures, y compris des fichiers partiels.
+Le bouton RÉESSAYER reprend après une erreur. VOIR L’ERREUR affiche un message
+copiable directement, sans avoir à chercher le fichier de log.
+Fermer le lanceur pendant l’installation arrête le téléchargement ; les fichiers
+complets et partiels sont réutilisés au prochain lancement. Installer-et-Jouer.bat et Jouer-Windows.bat ouvrent aussi
+le nouveau lanceur pour compatibilité avec les installations précédentes.
+Les détails techniques éventuels sont dans userdata/launcher.log.
+
+Connexion Internet nécessaire à la première installation. En cas d’interruption,
+relancez le même fichier : les téléchargements déjà validés sont réutilisés.
+Aucun Python ou Node à installer manuellement. Windows 10/11 x64 avec le .NET Framework fourni par Windows.
+Node et les ressources sont vérifiés par SHA-256 ; WebView2 par signature Microsoft ; TLS reste actif.
+
+CONTENU COMPLET
+Les 938 personnages et leurs ensembles d’animations sont inclus dans le catalogue.
+Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
+très grandes planches sont générés localement au moment où ils sont utilisés.
+Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
+
+VERSION 0.7.4 — PRESSION ET LISIBILITÉ
+Scorpion : attaque dès la première seconde, rotation variée, cadence renforcée,
+laser guidé continu de trois secondes, quatre abris, cycle proche de dix secondes,
+bobines et blindages de servos selon difficulté.
+Monstres ordinaires : PV de base x10, puis multiplicateurs de difficulté et de zone.
+Hitboxes invisibles ajustées au sprite complet. Aura de résistance à la place
+ de la bulle. Bruitages de boss ; musique de victoire dès la mort du boss final.
+Bonus au sol dix fois plus rares ; nouvel Aimant d’XP attirant les cristaux présents.
+Ramassage d’XP : notes douces et courtes, regroupées pendant les ramassages massifs.
+Aucune nouvelle musique de boss : fichiers du joueur attendus.
+
+VERSION 0.7.3 — SCORPION GARDIEN
+Combat adapté à la vidéo fournie de FFVII Remake : générateur arrière,
+laser caudal arrêté par les débris métalliques puis pattes d’auto-réparation.
+Chaque difficulté ajoute une attaque. La passerelle et le réacteur mako ont
+une identité propre, avec des annonces lisibles et des débris qui s’effondrent.
+
+VERSION 0.7.2 — FLUIDITÉ, NOTES ET IDENTITÉ
+Les héros se déplacent 40 % plus vite de base. Les boss enchaînent leurs attaques
+avec 25 % d’intervalle en moins ; leurs annonces restent lisibles.
+Leurs barrières réduisent les dégâts de 90 % au lieu de les annuler.
+Après chaque victoire : note D à SSS, bonus d’XP/gils de x1 à x3, animation de
+3 secondes, puis récapitulatif des notes à la fin de la partie.
+Chaque arme possède un bruitage court. Les options permettent de régler les
+effets visuels des armes du joueur de 1 % à 100 %, sans atténuer les dangers.
+Les menus utilisent Cinzel et la boutique s’appelle Boutique d’améliorations.
+
+VERSION 0.7.1 — CRITIQUES, MULTI-HITS ET BARRES DU HÉROS
+Critique de base : 5 %, pour 200 % des dégâts. Multi-hit : 1 %, chaque écho
+ajoute 20 % du coup initial et peut déclencher un autre écho. Trois bonus
+permanents de 50 rangs et trois équipements de support trouvés en partie.
+Critiques dorés ; MHIT!!! bleu et éclats argentés. Niveau, PV et XP fixes
+au-dessus du modèle, avec deux barres de même taille.
+
+VERSION 0.7.0 — LES ARÈNES
+Les douze combats disposent de nouvelles arènes et de dispositifs visuels thématiques.
+Les six difficultés ajoutent des attaques et modifient les contraintes de chaque rituel.
+Le dossier illustré est livré séparément afin de préserver la découverte du jeu.
+
+LE FESTIVAL DES MOGS
+Comptoir festif, machine de cristal et d’or, lanternes et hôte Mog animé.
+Le Mog tourne la molette, récupère la capsule, l’apporte et l’ouvre.
+Le skin apparaît dans un pop-up aux effets de sa rareté, du blanc au doré.
+Passer la scène ou recharger conserve le tirage et son éventuel remboursement.
+
+DOUBLONS DU GACHA
+Un doublon rembourse immédiatement 10 000 gils sur les 20 000 gils du tirage.
+La collection garde une seule copie ; les probabilités ne changent pas avec les achats.
+
+HÉROS, GACHA ET BOSS
+Un défi réussi débloque immédiatement le héros, avec un pop-up et sa Limit Break native.
+Le jeu reste en pause pendant la présentation ; plusieurs héros défilent séparément.
+Les récompenses et choix de niveau en attente sont conservés.
+Les récompenses déjà prêtes dans Succès affichent la même présentation.
+
+GACHA ET APPARENCES
+Le Gacha se débloque après les quatre zones en Élu des Éons ou supérieur.
+20 000 gils donnent une capsule et une apparence parmi 424 formes
+ou costumes natifs. Les 38 apparences classiques sont gratuites.
+Taux initiaux : Normal 50 %, Magique 27 %, Rare 15 %, Épique 6 %, Légendaire 2 %.
+Les taux par apparence et les formes possédées sont visibles dans la collection.
+Sous le modèle du héros, choisissez une apparence acquise. Ses animations changent,
+mais les statistiques et l’arme de base restent les mêmes. Un skin ne débloque pas son héros.
+
+BOSS ET DIFFICULTÉS
+Les boss de 2, 4 et 6 minutes gagnent des patterns et davantage de PV par difficulté.
+Les quatre boss finaux possèdent trois vrais segments de vie distincts.
+Les dégâts excédentaires ne sautent plus les transitions de mécanique.
+
+HÉROS ET SUCCÈS
+La sélection ne présente que vos héros débloqués.
+35 défis de boss, de difficultés et de victoires multiples remplacent les achats de héros.
+Les héros se débloquent gratuitement dès que leur défi est accompli.
+Une difficulté supérieure compte également ; les héros déjà acquis sont conservés.
+
+PERSONNAGES DISPONIBLES
+Retrait de Caius Ballad et Gaius van Baelsar des fiches proposées en jeu.
+Les 38 héros disponibles conservent leurs armes et leurs cadences.
+
+SAUVEGARDES ET BOUTIQUE
+Trois sauvegardes indépendantes, sélectionnables au lancement et depuis le menu.
+Suppression avec confirmation ; la progression existante rejoint le premier emplacement.
+Boutique : grandes icônes centrées et résumé court du prochain bonus juste dessous.
+Les quinze achats tiennent dans la fenêtre sans défilement.
+
+PROGRESSION, COMBAT ET EXPLORATION
+Cartes débloquées dans l’ordre Midgar → Zanarkand → Tour de cristal → Monde des ténèbres.
+Six difficultés progressives par carte ; gagner un palier débloque le suivant.
+Mode Turbo ×1,5 débloqué séparément pour chaque carte et difficulté gagnée.
+Les trois combats de boss restent à vitesse normale, même en Turbo.
+Arènes agrandies ; Béhémoth vulnérable après collision avec un des trois piliers.
+Les flaques automatiques sous le joueur ont été supprimées des arènes.
+Clic gauche : alterner visée manuelle et cible automatique la plus proche.
+Clic droit : dash vers le curseur. Cadences différentes pour les 38 armes.
+Recul sur les monstres ordinaires, Materia Choc et achat permanent Impact des cristaux.
+Prix des achats permanents multipliés par dix. Quinze achats visibles sans défilement.
+Rangs multipliés par dix : 50 en général, 20 projectiles, 30 relances et exclusions.
+Les gains de recharge, protection, chance et recul deviennent progressifs après le rang 5.
+Cristaux d’XP facettés et scintillants ; petites pièces dorées sur les éliminations.
+Quatre objectifs facultatifs dispersés par carte ; Roi Mog très rare à poursuivre.
+Musique du menu dès l’écran titre dans la fenêtre dédiée, avec vos options de volume.
+Les sauvegardes, héros recrutés et achats précédents sont conservés.
+
+COMBATS EN ARÈNE
+Boss scénarisés à 2 et 4 minutes ; boss final à 6 minutes dans une arène plus grande.
+Chaque boss impose une mécanique de vulnérabilité, répétée entre les segments de vie.
+Les boss finaux enchaînent trois mécaniques ; la limite de temps réduit l’espace disponible.
+Sprite exact FFBE du Dragon Zombie (Dracozombie 3120810) et animations natives.
+Squelettes du Dragon Zombie ralentis de 50 %.
+Cadence des vagues renforcée progressivement, avec un facteur propre à la difficulté.
+Hitbox visibles au sol : petit cercle turquoise pour le joueur, grands anneaux rouges pour les boss.
+Le joueur ne peut plus traverser les corps des boss, même en dash.
+Tour de Cristal : rencontre du Dragon Zombie à 2 minutes, timer suspendu.
+Deux segments de PV progressifs, fausse mort et 12 squelettes à intercepter.
+Rayon de poison annoncé, sans flaques automatiques ; limite niv. 1 débloquée après victoire (touche R, recharge 60 s).
+Sprites de sélection agrandis de 50 %, bandeaux informatifs supprimés.
+Les gils sont affichés en grand au centre en bas des menus ; Retour reste accessible.
+Accueil > menu > personnage > niveau et difficulté > expédition.
+Cloud, Warrior of Light et Lightning sont recrutés dès le départ.
+Les succès de boss permettent de récupérer gratuitement les autres héros.
+Les trois sauvegardes sont dans userdata/progression-slots.json, indépendantes du port du navigateur.
+L’ancien fichier userdata/progression.json reste conservé après migration.
+Chaque personnage possède son arme de départ et ses animations propres.
+Les 38 armes et les 22 power-ups possèdent leurs icônes distinctes.
+Les dégâts apparaissent au-dessus des ennemis pour les armes et leurs effets.
+Les animations de repos et de déplacement gardent leur cadence ralentie.
+La barre de vie est visible au-dessus du héros et suit le zoom de la caméra.
+À chaque niveau, choisissez une arme (6 maximum) ou un power-up (6 emplacements supplémentaires).
+Chaque power-up modifie les armes : dégâts, recharge, portée, projectiles, perforation,
+ralentissement, explosion ou vol de vie.
+Quatre niveaux : Midgar, Zanarkand, la Tour de Cristal et le Monde des Ténèbres.
+Bestiaire propre à chaque zone ; élites plus grandes avec attaques spéciales annoncées.
+Musiques de combat par zone, avec volume réglable.
+Les quatre zones utilisent les MP3 fournis et les bouclent ; Midgar joue le thème de combat FF VII.
+Les MP3 fournis des menus et des quatre zones sont inclus et tournent en boucle.
+La fanfare de victoire joue une fois ; les sons de boutons et de niveau sont préchargés,
+sans silence initial ni boucle. Les options indiquent le morceau de la zone.
+Les monstres touchés ont une aura rouge. Les projectiles et rayons ne traversent
+les ennemis qu’avec Transpercer. Chaque arme a ses choix de dégâts, amplitude,
+cadence et salves ou zones multiples, jusqu’au niveau 8.
+Les MP3 de zone sont ceux fournis par l’utilisateur.
+Chaque carte possède des arènes, des corridors et des obstacles solides.
+Consommables rares : Potion, Méga-bombe, Sablier de Shiva, Plume de célérité.
+Les boss laissent toujours un cristal donnant un niveau et un choix d’équipement.
+Après 6 minutes : Jenova, Jecht, l’Empereur de FF II ou Cloud of Darkness.
+La victoire est obtenue après la mort du superboss et son choix de niveau.
+Menus agrandis de 45 %, accueil et lanceur en pixel art.
+Plans fixes : réacteur et maintenance, place avec ponts, nef et chapelles, îlots du néant.
+Décors et collisions utilisent le même plan ; les aperçus montrent le niveau complet.
+Les cartes avec zones infranchissables en rouge sont dans
+assets/maps/guide/cartes-obstacles.png (guide visuel à ouvrir hors du jeu).
+La cadence et toute l’animation d’attaque sont synchronisées avec la recharge réelle.
+Le héros est orienté vers le curseur, y compris pendant ses propres animations d’attaque.
+Jenova est maintenant visible ; tous les superboss apparaissent dans le champ de la caméra.
+Leurs PV s’adaptent à l’équipement, avec une protection d’arrivée de 2 secondes.
+Trois difficultés, succès et bestiaire persistants.
+Les animations du personnage sont sélectionnées automatiquement.
+Les personnages sans animations disponibles sont retirés de la sélection et des boutiques.
+
+MISES À JOUR DEPUIS LE LANCEUR
+Le lanceur vérifie les versions publiées sur le site GitHub Pages. Cliquez sur
+METTRE À JOUR lorsqu’une nouvelle version est disponible. Seuls les fichiers
+modifiés sont téléchargés ; les coupures se reprennent. Le lanceur redémarre
+après installation. La sauvegarde, les sprites et le runtime sont conservés.
+Si l’installation échoue, les fichiers précédents sont restaurés. Si nécessaire,
+Brave-Exvius-Survivor-Updater.exe peut également restaurer une mise à jour
+interrompue puis relancer le jeu. Une partie en cours bloque la mise à jour.
+
+ANCIEN LANCEUR OU INSTALLATION MANUELLE
+Décompressez ce ZIP dans le dossier de votre précédente installation et remplacez
+les fichiers de l’application. Conservez assets/originals, assets/animation-tiles,
+runtime/win-x64 et userdata. Les ressources déjà téléchargées seront réutilisées.
+ZQSD / WASD / flèches : déplacement. Curseur : viser. Attaques automatiques.
+Clic droit : dash vers le viseur. Molette : zoom / dézoom (50 % à 250 %).
+C : forme. P ou Échap : pause. R : limite niv. 1 après avoir vaincu le Dragon Zombie.
+Le lanceur ouvre la progression normale. Le mode développeur est optionnel.
+Les cadrages de certaines variantes restent à vérifier visuellement.
+
+Sources et empreintes : assets/download-report.json, runtime/manifest.json.
+Les ressources sont disponibles sur le GitHub public du jeu. Les téléchargements
+ne dépendent plus de l’accès direct à The Spriters Resource, qui peut refuser
+certains utilisateurs avec HTTP 403. Seule la portion nécessaire de chaque pack
+est téléchargée ; chaque archive originale conserve sa taille et son SHA-256.
+Les bibliothèques et leurs licences sont dans tools/vendor/.
