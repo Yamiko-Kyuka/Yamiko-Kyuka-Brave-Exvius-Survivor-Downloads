@@ -28,6 +28,12 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
+VERSION 0.7.5 — ARÈNE D’ENTRAÎNEMENT
+Mode accessible depuis le titre et le menu, sans limite de temps ni récompense.
+Changez de héros recruté, d’armes débloquées et de power-ups pendant le test.
+Niveaux et raretés réglables ; mannequin permanent, dégâts réels et DPS glissant.
+La sauvegarde et la progression ne sont pas modifiées par les essais.
+
 VERSION 0.7.4 — PRESSION ET LISIBILITÉ
 Scorpion : attaque dès la première seconde, rotation variée, cadence renforcée,
 laser guidé continu de trois secondes, quatre abris, cycle proche de dix secondes,

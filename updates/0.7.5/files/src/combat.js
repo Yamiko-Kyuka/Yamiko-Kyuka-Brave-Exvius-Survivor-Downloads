@@ -15,7 +15,7 @@ function applyDamage(s,e,damage,color='#ffe6b0',style='physical'){
  const x=e.x+lane*12;let y=e.y-48,steps=0;
  const previous=numbers.filter(n=>n.target===e),spacing=style==='multihit'?39:22;while(steps<7&&previous.some(n=>Math.abs(n.y-y)<(n.style==='multihit'?39:spacing)&&Math.abs(n.x-x)<48)){y-=spacing;steps++;}
  numbers.push({target:e,x,y,amount:Math.max(1,Math.round(damage)),life:.9,maxLife:.9,drift:lane*10,style});
- if(numbers.length>240)numbers.shift();return damage;
+ if(numbers.length>240)numbers.shift();s.onDamageDealt?.({target:e,amount:damage,style});return damage;
 }
 export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){return applyDamage(s,e,damage,color,style)>0;}
 function hitFlash(s,e,kind,color){if(s.effects.length<220)s.effects.push({playerEffect:true,kind,x:e.x,y:e.y-30,color,life:kind==='critical-impact'?.30:.20,maxLife:kind==='critical-impact'?.30:.20});}
