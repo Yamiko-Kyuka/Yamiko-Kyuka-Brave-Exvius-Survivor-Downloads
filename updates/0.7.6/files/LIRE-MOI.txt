@@ -28,6 +28,14 @@ Les images sont téléchargées puis lues depuis leurs archives. Les morceaux de
 très grandes planches sont générés localement au moment où ils sont utilisés.
 Ce petit ZIP n’est pas la version limitée aux poses d’attente de la version 0.1.
 
+VERSION 0.7.6 — PROGRESSION ET COMBATS
+PV des monstres ordinaires : multiplicateur progressif de x2 à x10 selon difficulté,
+avec croissance continue pendant la partie. Cadences des tirs et armes lourdes clarifiées.
+Air Buster : canons alternés, bombes décalées, Tankbuster large et mains latérales.
+Jenova : tentacules pivotants, cellules décalées, hélice et enchaînements variés.
+Lisibilité automatique optionnelle des seuls effets du joueur ; densité des vagues plus régulière.
+Bilan de dégâts et DPS moyen par arme en fin de partie. Prix et XP inchangés.
+
 VERSION 0.7.5 — ARÈNE D’ENTRAÎNEMENT
 Mode accessible depuis le titre et le menu, sans limite de temps ni récompense.
 Changez de héros recruté, d’armes débloquées et de power-ups pendant le test.

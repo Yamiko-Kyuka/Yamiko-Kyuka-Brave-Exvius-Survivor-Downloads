@@ -49,7 +49,7 @@ export function tickEnemyAttacks(s,dt){
    if(p.age>=p.detonateAt&&!p.detonated){p.detonated=true;if(Math.hypot(s.x-p.x,s.y-p.y)<p.radius+playerRadius(s))hurt(s,p.damage);s.effects??=[];s.effects.push({kind:'explosion',x:p.x,y:p.y,radius:p.radius,color:p.color,life:.3,maxLife:.3});}
   }else if(p.kind==='beam'){
    if(s.terrain){const end=s.terrain.trace(p.x,p.y,p.x+Math.cos(p.angle)*p.length,p.y+Math.sin(p.angle)*p.length);p.length=Math.hypot(end.x-p.x,end.y-p.y);}const dx=s.x-p.x,dy=s.y-p.y,along=dx*Math.cos(p.angle)+dy*Math.sin(p.angle),across=Math.abs(-dx*Math.sin(p.angle)+dy*Math.cos(p.angle));
-   if(!p.hit&&along>0&&along<p.length&&across<18+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
+   if(!p.hit&&along>0&&along<p.length&&across<(p.width||36)/2+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
   }else if(p.kind==='meteor'){
    if(!p.hit&&Math.hypot(s.x-p.x,s.y-p.y)<p.radius+playerRadius(s)&&hurt(s,p.damage))p.hit=true;
   }else if(p.kind==='quake'){
@@ -80,7 +80,7 @@ export function drawEnemyAttacks(ctx,s,ox,oy){
  }
  for(const p of s.hostileProjectiles){
   ctx.save();ctx.translate(p.x+ox,p.y+oy);ctx.fillStyle=ctx.strokeStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=8;
-  if(p.kind==='beam'){ctx.rotate(p.angle);ctx.globalAlpha=Math.min(1,p.life/.12);ctx.fillRect(0,-18,p.length,36);ctx.fillStyle='#eaffef';ctx.fillRect(0,-4,p.length,8);}
+  if(p.kind==='beam'){ctx.rotate(p.angle);ctx.globalAlpha=Math.min(1,p.life/.12);ctx.fillRect(0,-(p.width||36)/2,p.length,p.width||36);ctx.fillStyle='#eaffef';ctx.fillRect(0,-4,p.length,8);}
   else if(p.kind==='hell-globe'){
    const progress=Math.min(1,p.age/p.detonateAt);ctx.shadowBlur=0;ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(0,0,p.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.arc(0,0,p.radius+3,-Math.PI/2,-Math.PI/2+progress*Math.PI*2);ctx.stroke();
    if(!p.detonated){const height=100*(1-progress);ctx.globalAlpha=1;ctx.shadowBlur=9;ctx.beginPath();ctx.arc(0,-height,12,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe1b8';ctx.beginPath();ctx.arc(0,-height,5,0,Math.PI*2);ctx.fill();}

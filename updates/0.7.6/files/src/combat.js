@@ -8,25 +8,26 @@ import {hitStats,MULTI_HIT_DAMAGE,MULTI_HIT_DELAY} from './hit-stats.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function nearestEnemy(s,max=Infinity){return s.enemies.filter(e=>!e.dying&&e.hp>0&&(!e.aimable||e.aimable())&&!(e.spawnProtection>0)&&enemyDistance(e,s)<=max).sort((a,b)=>enemyDistance(a,s)-enemyDistance(b,s))[0];}
 // Raw application also serves scripted mechanics and fixed-damage consumables.
-function applyDamage(s,e,damage,color='#ffe6b0',style='physical'){
+function applyDamage(s,e,damage,color='#ffe6b0',style='physical',weaponId=null){
  if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
+ const healthBefore=e.hp;
  if(e.receiveDamage){damage=e.receiveDamage(damage);if(damage<=0)return false;}else e.hp-=damage;e.hit=.18;applyKnockback(s,e);s.effects.push({playerEffect:true,kind:'spark',x:e.x,y:e.y,color,life:.25,maxLife:.25});
  const numbers=s.damageNumbers??=[];const lane=(e.damageSequence||0)%3-1;e.damageSequence=(e.damageSequence||0)+1;
  const x=e.x+lane*12;let y=e.y-48,steps=0;
  const previous=numbers.filter(n=>n.target===e),spacing=style==='multihit'?39:22;while(steps<7&&previous.some(n=>Math.abs(n.y-y)<(n.style==='multihit'?39:spacing)&&Math.abs(n.x-x)<48)){y-=spacing;steps++;}
  numbers.push({target:e,x,y,amount:Math.max(1,Math.round(damage)),life:.9,maxLife:.9,drift:lane*10,style});
- if(numbers.length>240)numbers.shift();s.onDamageDealt?.({target:e,amount:damage,style});return damage;
+ if(numbers.length>240)numbers.shift();s.onDamageDealt?.({target:e,amount:Math.min(healthBefore,damage),style,weaponId});return damage;
 }
 export function dealDamage(s,e,damage,color='#ffe6b0',style='physical'){return applyDamage(s,e,damage,color,style)>0;}
 function hitFlash(s,e,kind,color){if(s.effects.length<220)s.effects.push({playerEffect:true,kind,x:e.x,y:e.y-30,color,life:kind==='critical-impact'?.30:.20,maxLife:kind==='critical-impact'?.30:.20});}
-export function dealAttackDamage(s,e,damage,color='#ffe6b0',style='physical'){
+export function dealAttackDamage(s,e,damage,color='#ffe6b0',style='physical',weaponId=null){
  if(e.dying||e.hp<=0||e.spawnProtection>0||!Number.isFinite(damage)||damage<=0)return false;
  const stats=hitStats(s,equipmentEffects(s)),random=s.combatRandom||Math.random,critical=random()<stats.critRate;
  const attackDamage=damage*(critical?stats.critDamage:1);
- const amount=applyDamage(s,e,attackDamage,critical?'#ffdc6c':color,critical?'critical':style);
+ const amount=applyDamage(s,e,attackDamage,critical?'#ffdc6c':color,critical?'critical':style,weaponId);
  if(!(amount>0))return false;
  if(critical)hitFlash(s,e,'critical-impact','#ffda66');
- if(e.hp>0&&random()<stats.multiHitRate){s.multiHitQueue??=[];s.multiHitQueue.push({target:e,damage:attackDamage*MULTI_HIT_DAMAGE,chance:stats.multiHitRate,delay:MULTI_HIT_DELAY});}
+ if(e.hp>0&&random()<stats.multiHitRate){s.multiHitQueue??=[];s.multiHitQueue.push({target:e,damage:attackDamage*MULTI_HIT_DAMAGE,chance:stats.multiHitRate,weaponId,delay:MULTI_HIT_DELAY});}
  return true;
 }
 /** One repeat per chain per tick; work is bounded even with many concurrent chains. */
@@ -37,16 +38,16 @@ export function tickMultiHits(s,dt){
  for(const echo of pending){
   const e=echo.target;if(!s.enemies.includes(e)||e.hp<=0||e.dying)continue;
   echo.delay-=dt;if(echo.delay>0||budget<=0){s.multiHitQueue.push(echo);continue;}budget--;
-  const amount=applyDamage(s,e,echo.damage,'#7abfff','multihit');if(!(amount>0))continue;
+  const amount=applyDamage(s,e,echo.damage,'#7abfff','multihit',echo.weaponId);if(!(amount>0))continue;
   hitFlash(s,e,'multihit-impact','#d8edff');
   if(e.hp>0&&(s.combatRandom||Math.random)()<echo.chance)s.multiHitQueue.push({...echo,delay:MULTI_HIT_DELAY});
  }
 }
-function hit(s,e,damage,color){
- if(!dealAttackDamage(s,e,damage,color,'physical'))return false;
+function hit(s,e,damage,color,weaponId){
+ if(!dealAttackDamage(s,e,damage,color,'physical',weaponId))return false;
  const mods=equipmentEffects(s);
  if(mods.slow){e.baseSpeed??=e.speed;e.slowFactor=Math.min(e.slowFactor||1,1-mods.slow);e.speed=e.baseSpeed*e.slowFactor;e.slowTime=1.5;}
- if(mods.splash){for(const other of s.enemies)if(other!==e&&enemyDistance(other,e)<48)dealAttackDamage(s,other,damage*mods.splash,'#ffb079');s.effects.push({playerEffect:true,kind:'explosion',x:e.x,y:e.y,radius:48,color:'#ffac72',life:.2,maxLife:.2});}
+ if(mods.splash){for(const other of s.enemies)if(other!==e&&enemyDistance(other,e)<48)dealAttackDamage(s,other,damage*mods.splash,'#ffb079','physical',weaponId);s.effects.push({playerEffect:true,kind:'explosion',x:e.x,y:e.y,radius:48,color:'#ffac72',life:.2,maxLife:.2});}
  return true;
 }
 export function tickDamageNumbers(s,dt){for(const n of s.damageNumbers||[]){n.life-=dt;n.y-=dt*42;n.x+=dt*n.drift;}s.damageNumbers=(s.damageNumbers||[]).filter(n=>n.life>0);}
@@ -64,14 +65,14 @@ export function fireWeapon(s,equipped){
  const mods=equipmentEffects(s),tuning=weaponTuning(w,equipped),damage=w.damage*(s.damage/s.baseDamage)*tuning.damage*mods.damage*(['slash','burst','holy'].includes(w.kind)?mods.melee:1),range=w.range*(s.range/s.baseRange)*mods.range,aimed=Boolean(s.aim?.active),target=aimed?s.aim:nearestEnemy(s,range+120);
  if(!target)return false;
  s.onWeaponFire?.(w);
- const angle=Math.atan2(target.y-s.y,target.x-s.x),base={playerEffect:true,color:w.color,damage,range,kind:w.kind,x:s.x,y:s.y,age:0,life:1.2,hits:new Set(),aimed,pierce:mods.pierce};
+ const angle=Math.atan2(target.y-s.y,target.x-s.x),base={playerEffect:true,color:w.color,damage,range,kind:w.kind,weaponId:w.id,x:s.x,y:s.y,age:0,life:1.2,hits:new Set(),aimed,pierce:mods.pierce};
  if(['slash','burst','holy'].includes(w.kind)){
   const count=1+tuning.zones,hitEnemies=new Set(),radius=(w.kind==='holy'?range*.85:range)*tuning.area;
   for(let i=0;i<count;i++){
    const a=angle+(i-(count-1)/2)*1.1,x=s.x+(w.kind==='burst'&&i?Math.cos(a)*radius*.8:0),y=s.y+(w.kind==='burst'&&i?Math.sin(a)*radius*.8:0);
    s.effects.push({...base,x,y,angle:a,radius,life:.32,maxLife:.32});
    for(const enemy of s.enemies){const point=closestEnemyPoint(enemy,{x,y}),ea=Math.atan2(point.y-y,point.x-x),diff=Math.abs(Math.atan2(Math.sin(ea-a),Math.cos(ea-a)));
-    if(!hitEnemies.has(enemy)&&(!s.terrain||s.terrain.lineClear(x,y,point.x,point.y))&&enemyDistance(enemy,{x,y})<radius&&(enemyDistance(enemy,{x,y})===0||w.kind==='burst'||diff<(w.kind==='holy'?.85:1.1))){hit(s,enemy,damage,w.color);hitEnemies.add(enemy);}
+    if(!hitEnemies.has(enemy)&&(!s.terrain||s.terrain.lineClear(x,y,point.x,point.y))&&enemyDistance(enemy,{x,y})<radius&&(enemyDistance(enemy,{x,y})===0||w.kind==='burst'||diff<(w.kind==='holy'?.85:1.1))){hit(s,enemy,damage,w.color,w.id);hitEnemies.add(enemy);}
    }
   }return true;
  }
@@ -80,7 +81,7 @@ export function fireWeapon(s,equipped){
   for(let i=0;i<3+tuning.zones+mods.extraProjectiles&&remaining.length;i++){
    const reachable=remaining.filter(e=>!s.terrain||s.terrain.lineClear(last.x,last.y,e.x,e.y));if(!reachable.length)break;
    reachable.sort((a,b)=>distance(a,i===0?target:last)-distance(b,i===0?target:last));const enemy=reachable[0];remaining.splice(remaining.indexOf(enemy),1);
-   s.effects.push({playerEffect:true,kind:'thunder',x:last.x,y:last.y,tx:enemy.x,ty:enemy.y,color:w.color,life:.32,maxLife:.32});hit(s,enemy,damage,w.color);last=enemy;
+   s.effects.push({playerEffect:true,kind:'thunder',x:last.x,y:last.y,tx:enemy.x,ty:enemy.y,color:w.color,life:.32,maxLife:.32});hit(s,enemy,damage,w.color,w.id);last=enemy;
   }return true;
  }
  if(w.kind==='beam'){
@@ -89,7 +90,7 @@ export function fireWeapon(s,equipped){
    const a=angle+(i-(count-1)/2)*.14,end=s.terrain?.trace(s.x,s.y,s.x+Math.cos(a)*range*1.5,s.y+Math.sin(a)*range*1.5),length=end?distance(s,end):range*1.5,tx=s.x+Math.cos(a)*length,ty=s.y+Math.sin(a)*length;
    const collisions=segmentEnemies(s,s.x,s.y,tx,ty,width);let shownLength=length;
    for(const [index,collision]of collisions.entries()){
-    hit(s,collision.enemy,damage,w.color);
+    hit(s,collision.enemy,damage,w.color,w.id);
     if(index>=mods.pierce){shownLength=length*collision.t;break;}
    }
    s.effects.push({...base,angle:a,length:shownLength,width,life:.4,maxLife:.4});
@@ -122,7 +123,7 @@ export function tickProjectiles(s,dt){
  for(const p of s.projectiles){
   const moveDt=Math.min(dt,Math.max(0,p.life));p.life-=dt;p.age+=moveDt;
   if(p.kind==='meteor'){
-   if(p.life<=0){for(const e of s.enemies)if(enemyDistance(e,p)<p.radius)hit(s,e,p.damage,p.color);s.effects.push({...p,kind:'explosion',life:.45,maxLife:.45});}continue;
+   if(p.life<=0){for(const e of s.enemies)if(enemyDistance(e,p)<p.radius)hit(s,e,p.damage,p.color,p.weaponId);s.effects.push({...p,kind:'explosion',life:.45,maxLife:.45});}continue;
   }
   const x=p.x,y=p.y;
   if(p.kind==='orbit'){
@@ -134,11 +135,11 @@ export function tickProjectiles(s,dt){
   }
   const tx=p.x,ty=p.y,collisions=segmentEnemies(s,x,y,tx,ty,p.radius,p.hits);
   for(const {enemy:e,t}of collisions){
-   hit(s,e,p.damage,p.color);p.hits.add(e);
+   hit(s,e,p.damage,p.color,p.weaponId);p.hits.add(e);
    if(p.kind==='ice'&&e.hp>0){e.baseSpeed??=e.speed;e.speed=Math.min(e.speed,25);e.slowFactor=e.speed/e.baseSpeed;e.slowTime=2.5;}
    if(p.kind==='fire'){
     const ix=x+(tx-x)*t,iy=y+(ty-y)*t;
-    for(const other of s.enemies)if(other!==e&&enemyDistance(other,{x:ix,y:iy})<p.splashRadius)hit(s,other,p.damage*.5,p.color);
+    for(const other of s.enemies)if(other!==e&&enemyDistance(other,{x:ix,y:iy})<p.splashRadius)hit(s,other,p.damage*.5,p.color,p.weaponId);
     s.effects.push({...p,x:ix,y:iy,kind:'explosion',radius:p.splashRadius,life:.3,maxLife:.3});
    }
    if(p.hits.size>(p.pierce||0)){p.life=0;p.x=x+(tx-x)*t;p.y=y+(ty-y)*t;break;}

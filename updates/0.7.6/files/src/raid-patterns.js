@@ -1,3 +1,5 @@
+import {TILE,ORIGIN} from './terrain.js';
+import {scheduleMidgarPattern,nextMidgarPattern,midgarPatternInterval,drawMidgarDevice} from './midgar-patterns.js';
 import {bossCastSound} from './boss-audio.js';
 import {scheduleScorpionAttack,fireScorpionCast,tickScorpionAttacks,tickScorpionTargeting,nextScorpionAttack,tickScorpionLaserCycle} from './scorpion-encounter.js';
 import {drawScorpionCast,drawScorpionLasers} from './scorpion-art.js';
@@ -10,6 +12,7 @@ export function scheduleRaidAttack(s,c,spec,options={}){
  const angle=options.angle??Math.atan2(s.y-c.boss.y,s.x-c.boss.x),base={...spec,x:c.boss.x,y:c.boss.y,tx:s.x,ty:s.y,angle,born:c.clock,windup:c.rules.windup,revision:c.revision,color:raidPalettes[c.profile.theme].light,...options};
  const add=(type,extra={})=>{const cast={...base,type,...extra};c.casts.push(cast);return cast;};
  if(scheduleScorpionAttack(s,c,spec,base,add)){}
+ else if(scheduleMidgarPattern(s,c,spec,base,add)){}
  else if(spec.type==='meteors'){for(let i=0;i<3+(c.rules.rank>=4?1:0);i++){const a=i*2.4;add('meteor',{tx:s.x+(i?Math.cos(a)*95:0),ty:s.y+(i?Math.sin(a)*95:0),radius:48,windup:base.windup+.25});}}
  else if(spec.type==='cross'){for(let i=0;i<4;i++)add('beam',{angle:angle+i*Math.PI/2});}
  else if(spec.type==='sides'){for(const n of [-1,1])for(const offset of [-72,72])add('beam',{x:c.center.x+n*(c.arenaHalf-72),y:c.center.y+offset,angle:n<0?0:Math.PI});}
@@ -29,7 +32,7 @@ function fire(s,c,a){
  if(fireScorpionCast(s,c,a))return;
  const color=a.element==='fire'?'#ffae82':a.element==='ice'?'#a1e9ff':a.color,base={owner:c.boss,x:a.x,y:a.y,damage:c.final?26:19,age:0,color,radius:9,life:4};
  if(a.type==='beam'){
-  raidBeamHit(s,c,a);s.hostileProjectiles.push({...base,kind:'beam',angle:a.angle,length:a.blockedLength??c.arenaHalf*3,life:.3});
+  raidBeamHit(s,c,a);s.hostileProjectiles.push({...base,kind:'beam',angle:a.angle,length:a.blockedLength??c.arenaHalf*3,width:a.width||36,life:.3});
  }else if(a.type==='fan'){
   const count=a.shots||5+Math.floor(c.rules.rank/2);for(let i=0;i<count;i++){const angle=a.angle+(i-(count-1)/2)*.22;s.hostileProjectiles.push({...base,kind:a.projectileKind||(a.element==='ice'?'ice':'bomb'),radius:a.projectileRadius||base.radius,angle,vx:Math.cos(angle)*(a.projectileSpeed||185),vy:Math.sin(angle)*(a.projectileSpeed||185)});}
  }else if(a.type==='ring'){
@@ -58,7 +61,7 @@ export function tickRaidPatterns(s,c,dt){
  // Astrolabe targeting is a deliberate placement sequence; attacks resume during exposure/combat.
  const placement=c.phase==='mechanic'&&c.activeMechanic?.kind==='meteor-core'&&c.mechanicMeteor;
  if(c.clock>=c.attackAt&&!placement){
-  const specs=c.profile.attackSpecs,spec=c.kind==='scorpion'?nextScorpionAttack(s,c):specs[c.patternStep++%specs.length];if(c.kind!=='scorpion')c.attackAt=c.clock+(6.4-c.rules.rank*.3)*.75;
+  const specs=c.profile.attackSpecs,spec=c.kind==='scorpion'?nextScorpionAttack(s,c):['air-buster','jenova'].includes(c.kind)?nextMidgarPattern(c):specs[c.patternStep++%specs.length];if(c.kind!=='scorpion')c.attackAt=c.clock+(['air-buster','jenova'].includes(c.kind)?midgarPatternInterval(c):(6.4-c.rules.rank*.3)*.75);
   if(spec&&!(ram&&spec.type.includes('charge')))scheduleRaidAttack(s,c,spec);
  }
  tickScorpionTargeting(s,c);
@@ -79,7 +82,7 @@ function paint(ctx,c,a,ox,oy,active=false){
  const ratio=Math.max(0,Math.min(1,(c.clock-a.born)/a.windup)),x=a.x+ox,y=a.y+oy,col=active?'#ffdbb0':'#f3b47e';
  ctx.save();ctx.translate(x,y);ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=3;
  if(a.type==='beam'||a.type==='charge'){
-  ctx.rotate(a.angle);const length=a.type==='charge'?390:c.arenaHalf*3,width=a.type==='charge'?c.boss.radius*2:30;
+  ctx.rotate(a.angle);const length=a.type==='charge'?390:c.arenaHalf*3,width=a.type==='charge'?c.boss.radius*2:(a.width||36);
   ctx.globalAlpha=.11+ratio*.12;ctx.fillRect(0,-width/2,length,width);ctx.globalAlpha=.95;line(ctx,[[0,-width/2],[length,-width/2]],col,2);line(ctx,[[0,width/2],[length,width/2]],col,2);
   for(let d=70;d<length;d+=100){line(ctx,[[d-13,-8],[d,0],[d-13,8]],'#ffe5b5',2);}line(ctx,[[0,-width/2],[length*ratio,-width/2]],'#fff0d0',5);
  }else if(a.type==='meteor'){
@@ -93,11 +96,13 @@ function paint(ctx,c,a,ox,oy,active=false){
   ctx.rotate(a.angle);ctx.globalAlpha=.8;for(let i=2;i<13;i++){const angle=i*Math.PI*2/14;line(ctx,[[Math.cos(angle)*80,Math.sin(angle)*80],[Math.cos(angle)*125,Math.sin(angle)*125]],col,3);}ctx.strokeStyle='#a8e9d4';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,130,-.4,.4);ctx.stroke();
  }else if(a.type==='quake'){ctx.globalAlpha=.8;ctx.beginPath();ctx.arc(0,0,220*ratio,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(0,0,220,0,Math.PI*2);ctx.stroke();}
  else{ctx.rotate(a.angle);for(let i=-2;i<=2;i++){const angle=i*.22;line(ctx,[[Math.cos(angle)*80,Math.sin(angle)*80],[Math.cos(angle)*145,Math.sin(angle)*145]],col,3);}}
- ctx.restore();
+ ctx.restore();drawMidgarDevice(ctx,c,a,ox,oy,active);
 }
 export function drawRaidPatterns(ctx,s,c,ox,oy){
+ ctx.save();if(c.plan?.areas?.length){ctx.beginPath();for(const area of c.plan.areas)ctx.rect(ORIGIN+area.x*TILE+ox,ORIGIN+area.y*TILE+oy,area.w*TILE,area.h*TILE);for(const path of c.plan.paths||[])ctx.rect(ORIGIN+path[0]*TILE+ox,ORIGIN+path[1]*TILE+oy,path[2]*TILE,path[3]*TILE);ctx.clip();}
  drawScorpionLasers(ctx,c,ox,oy);
  for(const a of c.casts)paint(ctx,c,a,ox,oy);for(const a of c.raidHazards||[])paint(ctx,c,a,ox,oy,true);
  for(const r of c.reflections||[]){ctx.save();ctx.globalAlpha=1-(c.clock-r.born)/.5;line(ctx,[[r.x+ox,r.y+oy],[r.tx+ox,r.ty+oy]],'#caffee',6);ctx.restore();}
  const m=c.mechanicMeteor;if(m){paint(ctx,c,{...m,type:'meteor',tx:m.x,ty:m.y,x:m.x,y:m.y,windup:m.duration},ox,oy);}
+ ctx.restore();
 }

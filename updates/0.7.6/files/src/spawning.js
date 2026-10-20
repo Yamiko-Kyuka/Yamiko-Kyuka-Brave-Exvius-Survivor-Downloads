@@ -1,6 +1,7 @@
 import {playerRadius} from './hitboxes.js';
 export const PORTAL_DURATION=.9;
-export function roamingHealth(s,profile,elite=false){return (28+s.time*.22)*s.difficulty.hp*profile.hp*(elite?6:10); }
+export const ordinaryHealthMultipliers={normal:2,crystal:3,light:4.5,aeon:6,primal:8,transcendence:10};
+export function roamingHealth(s,profile,elite=false){return (28+s.time*.22)*s.difficulty.hp*profile.hp*(elite?6:(ordinaryHealthMultipliers[s.difficulty.id]??2)); }
 export function spawnDensity(time){return 1.5+1.5*Math.max(0,Math.min(1,time/90));}
 export function spawnInterval(s){return Math.max(.2,1-s.time/400)/s.stage.rate/spawnDensity(s.time)/(s.difficulty?.density||1);}
 export function monsterSize(profile,elite=false){const ordinary=(profile.size||40)*1.5;return elite?Math.max(84,ordinary*1.5):ordinary;}

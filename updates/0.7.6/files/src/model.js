@@ -17,7 +17,7 @@ export const heroes=roster.map(([id,name,series,weapon,kind,color,hp,speed,damag
 // Weapon tuning keeps long blades, heavy swings and fast daggers distinct.
 for(const h of heroes){if(h.id==='sephiroth')h.range=245;if(h.id==='asset-129583')h.range=450;if(h.id==='asset-87021')h.range=300;if(h.id==='asset-105336')h.range=175;}
 const weaponDescriptions={slash:'Arc de lame face aux ennemis',holy:'Onde de lumière sacrée',shot:'Tir précis vers une cible',arrow:'Projectile rapide dirigé',fire:'Boule de feu explosive',ice:'Éclat de glace qui ralentit',burst:'Onde de choc circulaire',wave:'Vague d’eau dirigée',thunder:'Éclairs en chaîne',orb:'Sphère qui poursuit sa cible',beam:'Rayon dirigé vers les ennemis',meteor:'Météore avec explosion différée',boomerang:'Lame qui revient vers vous',orbit:'Lames tournant autour du héros'};
-const baseWeaponCadence={slash:1.15,holy:1.35,burst:1.43,gun:.73,orb:1.55,orbit:1.91,meteor:2.31,beam:2.07,thunder:1.67,ice:1.23,boomerang:1.37};
+const baseWeaponCadence={slash:1.15,holy:1.35,burst:1.43,shot:.73,arrow:.85,fire:1.53,wave:1.65,orb:1.55,orbit:1.91,meteor:2.31,beam:2.07,thunder:1.67,ice:1.23,boomerang:1.37};
 // Keep each existing weapon's cadence when unavailable roster entries are removed.
 export const weapons=Object.fromEntries(heroes.map(h=>{const i=roster.findIndex(([id])=>id===h.id);return [h.weaponId,{id:h.weaponId,name:h.weapon,kind:h.kind,description:weaponDescriptions[h.kind],color:h.color,damage:h.damage,range:h.range,cooldown:Number(((baseWeaponCadence[h.kind]||1.21)+((i*7)%13)*.019+i*.001).toFixed(3)),upgrades:weaponUpgradeOptions(h.kind),icon:`/assets/ui/weapons/${h.weaponId}.svg`}];}));
 export const stages=[
